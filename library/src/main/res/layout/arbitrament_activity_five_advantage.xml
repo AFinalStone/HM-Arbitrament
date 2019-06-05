@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="20dp">
+
+    <com.hm.iou.uikit.HMTopBarView
+        android:id="@+id/TopBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uikit_topbar_height"
+        app:bottomDividerIsShow="false"
+        app:rightText="仲裁须知"
+        app:titleBackground="@color/transparent" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/arbitrament_ic_five_advantage_01" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="235dp"
+        android:layout_marginTop="-30dp"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/arbitrament_ic_five_advantage_02" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:adjustViewBounds="true"
+        android:src="@mipmap/arbitrament_ic_five_advantage_03" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/UikitHMButton.Large.Black"
+        android:layout_height="48dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginStart="38dp"
+        android:text="申请仲裁"
+        android:textColor="@color/white"
+        android:textSize="@dimen/uikit_main_title_text_size" />
+</LinearLayout>

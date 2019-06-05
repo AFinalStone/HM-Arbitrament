@@ -1,2 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hm.arbitrament" />
+    package="com.hm.arbitrament">
+
+
+    <application>
+
+        <activity android:name=".business.apply.view.ApplyActivity" />
+        <activity android:name=".business.apply.view.FiveAdvantageActivity" />
+        <activity android:name=".business.apply.view.SelectValidEvidenceActivity" />
+        <activity android:name=".business.apply.view.SelectValidEvidenceDetailActivity" />
+        <activity android:name=".business.pdf.PDFLoadActivity" />
+    </application>
+</manifest>
