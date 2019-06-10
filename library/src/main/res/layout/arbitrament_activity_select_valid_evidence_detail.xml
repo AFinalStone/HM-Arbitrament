@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ViewStub
+        android:id="@+id/viewStub_detail_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/arbitrament_layout_select_valid_evidence_detail_image" />
+
+    <ViewStub
+        android:id="@+id/viewStub_detail_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/arbitrament_layout_select_valid_evidence_detail_pdf" />
+
+    <View style="@style/UikitDivider.Horizontal" />
+
+    <com.hm.iou.uikit.HMBottomBarView
+        android:id="@+id/BottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:bottomBackText="有效凭证"
+        app:bottomTitleIcon="@mipmap/uikit_icon_check_default"
+        app:bottomTitleIconWidth="38dp" />
 </LinearLayout>

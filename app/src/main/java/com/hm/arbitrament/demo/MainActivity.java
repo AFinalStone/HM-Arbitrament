@@ -16,7 +16,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_five_advantage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, FiveAdvantageActivity.class));
+                Intent intent = new Intent(MainActivity.this, FiveAdvantageActivity.class);
+                intent.putExtra(FiveAdvantageActivity.EXTRA_KEY_IOU_ID,"123456");
+                startActivity(intent);
             }
         });
     }

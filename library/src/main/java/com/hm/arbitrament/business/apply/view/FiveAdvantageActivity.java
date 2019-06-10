@@ -2,6 +2,7 @@ package com.hm.arbitrament.business.apply.view;
 
 import android.os.Bundle;
 
+import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
 import com.hm.iou.base.BaseActivity;
@@ -18,9 +19,14 @@ import butterknife.OnClick;
  */
 public class FiveAdvantageActivity<T extends MvpActivityPresenter> extends BaseActivity<T> {
 
+    public static final String EXTRA_KEY_IOU_ID = "iou_id";
+
+    private String mIouId;
+
 
     @BindView(R2.id.TopBar)
     HMTopBarView mTopBar;
+
 
     @Override
     protected int getLayoutId() {
@@ -34,10 +40,15 @@ public class FiveAdvantageActivity<T extends MvpActivityPresenter> extends BaseA
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+
+        mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
+        if (bundle != null) {
+            mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
+        }
         mTopBar.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
             public void onClickTextMenu() {
-
+                NavigationHelper.toNeedKnowByArbitrament(mContext);
             }
 
             @Override
@@ -47,7 +58,14 @@ public class FiveAdvantageActivity<T extends MvpActivityPresenter> extends BaseA
         });
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(EXTRA_KEY_IOU_ID, mIouId);
+    }
+
     @OnClick(R2.id.btn_ok)
     public void onClick() {
+        NavigationHelper.toSelectValidEvidenceActivity(mContext, mIouId);
     }
 }

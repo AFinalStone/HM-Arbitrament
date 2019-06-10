@@ -1,0 +1,747 @@
+{
+  "login": [
+    {
+      "url": "hmiou://m.54jietiao.com/login/guide",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.guide.view.GuideActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/selecttype",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.guide.view.GuideActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/inputmobile",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.login.view.InputMobileActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/mobilelogin?mobile=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.login.view.MobileLoginActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/register_by_mobile?mobile=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.register.view.RegisterByMobileActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/register_by_wx_chat?mobile=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.register.view.RegisterByWXChatActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/bindemail",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.email.BindEmailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/find_by_input_mobile",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.password.view.FindByInputMobileActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/find_by_email?mobile=*&tip_email=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.password.view.FindByEmailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/find_by_sms?mobile=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.password.view.FindBySMSActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/find_by_face?mobile=*&name=",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.password.view.FindByFaceActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/reset_login_psd?mobile=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.password.view.ResetLoginPsdActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/login/customer_service",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.TucaoActivity"
+    }
+  ],
+  "city": [
+    {
+      "url": "hmiou://m.54jietiao.com/city/index",
+      "iclass": "",
+      "aclass": "com.hm.iou.cityselect.CitySelectActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/city/select_location?origin_location_info=",
+      "iclass": "",
+      "aclass": "com.hm.iou.locationselect.view.LocationSelectActivity"
+    }
+  ],
+  "facecheck": [
+    {
+      "url": "hmiou://m.54jietiao.com/facecheck/scan_face?is_return_video=*&is_return_encrypted=*",
+      "iclass": "",
+      "aclass": "com.linkface.liveness.ui.LivenessActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/facecheck/authentication?trace_type=",
+      "iclass": "",
+      "aclass": "com.hm.iou.facecheck.authen.business.view.AuthenticationActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/facecheck/facecheckfailed?face_check_remainder_number=",
+      "iclass": "",
+      "aclass": "com.hm.iou.facecheck.authen.business.view.FaceCheckFailedActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/facecheck/facecheckfindloginpsd?mobile=*&name=",
+      "iclass": "",
+      "aclass": "com.hm.iou.loginmodule.business.password.view.FindByFaceActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/facecheck/facecheckfindsignpsd",
+      "iclass": "",
+      "aclass": "com.hm.iou.signature.business.view.FindSignPsdActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/facecheck/notadult?no_adult_desc=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.facecheck.authen.business.view.NotAdultActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/facecheck/upload_face_check_data?image_path=&face_check_sn=&video_path=&list_image_path",
+      "iclass": "",
+      "aclass": "com.hm.iou.facecheck.authen.business.view.UploadFaceCheckDataActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/facecheck/idcard_ocr?front_url=*&back_url=*&name=*&id_num=*&sex=*&sn_front=*&sn_back=*&validity=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.facecheck.authen.business.view.IDCardOcrActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/facecheck/checkLiveness",
+      "iclass": "",
+      "aclass": "com.hm.iou.facecheck.authen.business.view.CheckFaceCheckInfoActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/facecheck/update_idcard",
+      "iclass": "",
+      "aclass": "com.hm.iou.facecheck.authen.business.view.CanUpdateIDCardActivity"
+    }
+  ],
+  "main": [
+    {
+      "url": "hmiou://m.54jietiao.com/main/index?url=*&tab_type=",
+      "iclass": "",
+      "aclass": "com.hm.iou.hmreceipt.main.business.IndexActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/main/index_add",
+      "iclass": "",
+      "aclass": "com.hm.iou.hmreceipt.main.business.IndexAddActivity"
+    }
+  ],
+  "news": [
+    {
+      "url": "hmiou://m.54jietiao.com/news/index",
+      "iclass": "",
+      "aclass": "com.hm.iou.news.business.index.NewsIndexFragment"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/news/detail?news_id=*&url=*&showtitle=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.news.business.detail.NewsDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/news/favorite",
+      "iclass": "",
+      "aclass": "com.hm.iou.news.business.list.view.NewsFavoriteActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/news/contribute",
+      "iclass": "",
+      "aclass": "com.hm.iou.news.business.contribute.view.ContributeActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/news/contribute_index",
+      "iclass": "",
+      "aclass": "com.hm.iou.news.business.contribute.view.ContributeIndexActivity"
+    }
+  ],
+  "person": [
+    {
+      "url": "hmiou://m.54jietiao.com/person/index",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.PersonalCenterFragment"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/modify_nickname_sex",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.ModifyNicknameAndSexActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/modify_pwd",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.ModifyPasswordActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/unbind_weixin",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.UnbindWeixinActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/change_mobile",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.ChangeMobileVerifyActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/change_mobile_complete?pwd=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.ChangeMobileCompleteActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/change_email",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.ChangeEmailVerifyActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/change_email_complete?sn=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.ChangeEmailCompleteActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/about",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.AboutUsActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/terminate_service",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.TerminateServiceActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/close_account",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.CloseAccountActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/my_profile",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.ProfileActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/user_avatar",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.UserHeaderDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/my_income",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.MyIncomeActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/cloud_space",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.CloudSpaceActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/helper_center",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.TucaoActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/about_email",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.AboutEmailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/authentication_info",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.AuthenticationInfoActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/person/user_bind_bank_info",
+      "iclass": "",
+      "aclass": "com.hm.iou.userinfo.business.view.UserBankCardInfoActivity"
+    }
+  ],
+  "message": [
+    {
+      "url": "hmiou://m.54jietiao.com/message/contract_msg",
+      "iclass": "",
+      "aclass": "com.hm.iou.msg.business.contractmsg.view.ContractMsgActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/message/remind_back_msg",
+      "iclass": "",
+      "aclass": "com.hm.iou.msg.business.remindback.view.RemindBackMsgActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/message/similarity_contract",
+      "iclass": "",
+      "aclass": "com.hm.iou.msg.business.similarity.view.SimilarityContractMsgActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/message/hm_msg",
+      "iclass": "",
+      "aclass": "com.hm.iou.msg.business.hmmsg.view.HmMsgListActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/message/alipay_msg",
+      "iclass": "",
+      "aclass": "com.hm.iou.msg.business.alipay.list.view.AliPayMsgActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/message/alipay_result?email_id=*&type=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.msg.business.alipay.detail.AliPayMsgDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/message/friend_list",
+      "iclass": "",
+      "aclass": "com.hm.iou.msg.business.friendlist.view.FriendListActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/message/new_friend_list",
+      "iclass": "",
+      "aclass": "com.hm.iou.msg.business.apply.view.ApplyNewFriendListActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/message/firend_detail?userId=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.msg.business.friend.view.FriendDetailActivity"
+    }
+  ],
+  "webview": [
+    {
+      "url": "hmiou://m.54jietiao.com/webview/index?title=*&url=*&showtitle=*&showdivider=*&showtitlebar=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.base.webview.BaseWebviewActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/webview/fullscreen?title=*&url=*&showtitle=*&showdivider=*&showtitlebar=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.base.webview.FullScreenWebViewActivity"
+    }
+  ],
+  "calculator": [
+    {
+      "url": "hmiou://m.54jietiao.com/calculator/index",
+      "iclass": "",
+      "aclass": "com.hm.iou.calculator.business.view.CalculatorMainActivity"
+    }
+  ],
+  "homedialog": [
+    {
+      "url": "hmiou://m.54jietiao.com/homedialog?dialog_type=*&dialog_title=&dialog_content=&dialog_sub_content=&dialog_file_down_url=&dialog_id=&dialog_ad_image_ur=&dialog_ad_link_url=&notice_id=&notice_push_time=",
+      "iclass": "",
+      "aclass": "com.hm.iou.homedialog.business.HomeDialogActivity"
+    }
+  ],
+  "qrcode": [
+    {
+      "url": "hmiou://m.54jietiao.com/qrcode/index?show_type=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.qrcode.business.view.QRCodeActivity"
+    }
+  ],
+  "iou": [
+    {
+      "url": "hmiou://m.54jietiao.com/iou/loading?loading_failed_url=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.loading.LoginLoadingActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/finished_list?iou_type=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.finishediou.view.FinishedIouActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/history_list?iou_type=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.history.view.HistoryIouActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/fun_detail?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detail.view.FunDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/agency_detail?iou_id=*&show_create=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detailv2.agency.AgencyDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/card_detail?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detailv2.card.CardDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/zf_contract_detail?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detailv2.zfcontract.ZfContractDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/fd_contract_detail?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detailv2.fdcontract.FdContractDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/paper_borrow_detail?iou_id=*&show_create=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detailv2.paperborrow.PaperBorrowDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/paper_receive_detail?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detailv2.paperreceive.PaperReceiveDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/elec_borrow_detail?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detail.view.ElecBorrowDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/elec_borrow_detail_v2?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detail.v2.ElecBorrowDetailV2Activity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/draftlist",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.draft.view.DraftListActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/cache_refresh?iou_id=*&url=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.loading.CacheRefreshActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/elec_borrow_create_succ?iou_id=*&from_type=",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.result.view.ElecBorrowCreateSuccActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/elec_receive_create_succ?iou_id=*&from_type=",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.result.view.ElecReceiptCreateSuccActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/elec_receive_detail?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detail.view.ElecReceiptDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/protect_right",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.ProtectRightActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/contract_pdf_detail?iou_id=*&contract_id=*&pdf_url=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detail.pdf.BasePdfActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/contract_pdf_sign?iou_id=*&contract_id=*&pdf_url=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detail.v2.PdfContractSignActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/contract_pdf_include?contract_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detail.v2.PdfContractViewActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou/contract_evidence_pdf_detail?pdf_url=*&evidence_name=*&evidence_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.jietiao.business.detailv2.elec.evidence.pdf.EvidencePdfActivity"
+    }
+  ],
+  "iou_create": [
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/select_type?select_type=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.type.SelectTypeActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/elec_borrow_create_prepare",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.elecborrow.view.CreatePrepareActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/elec_borrow_create_or_modic_receipt?iou_id=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.elecborrow.view.CreateOrModicActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/elec_borrow_create_or_modic_receipt_ex?iou_id=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.elecborrow.view.CreateOrModicExActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/elec_borrow_pay_by_create_pdf?iou_id=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.elecborrow.view.PayByCreatePDFActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/elec_borrow_create_pdf?iou_id=*&signature_id=*&is_from_draft=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.elecborrow.view.CreatePDFActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/elec_receive_create_or_modic_receipt?iou_id=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.elecreceive.view.CreateOrModicActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/elec_receive_create_pdf?iou_id=*&signature_id=*&is_from_draft=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.elecreceive.view.CreatePDFActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/paper_borrow_create_or_modic_receipt?iou_id=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.paperborrow.view.CreateOrModicActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/paper_receive_create_or_modic_receipt?iou_id=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.paperreceive.view.CreateOrModicActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/agency_create_or_modic_receipt?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.agency.view.CreateOrModifyActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/fdcontract_create_or_modic_receipt?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.fdcontract.view.CreateOrModicActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/zfcontract_create_or_modic_receipt?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.zfcontract.view.CreateOrModicActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/card_create_or_modic_receipt?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.card.view.CreateOrModifyActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/fun_borrow_prepare",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.funborrow.PrepareDataActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/fun_borrow_template",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.funborrow.template.TemplateActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/fun_borrow_create?template_id=*&illustration_id=*&illustration_url=*&borrower_name=*&lender_name=*&borrow_thing=*&borrow_purpose=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.funborrow.create.CreateActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/fun_borrow_create_success?fun_borrow_pic_uri=*&fun_borrow_pic_url=*&template_id=*&illustration_id=*&illustration_url=*&borrower_name=*&lender_name=*&borrow_thing=*&borrow_purpose=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.funborrow.createsuccess.CreateSuccessActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/fun_borrow_select_illustration?template_id=&illustration_id=&illustration_url=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.funborrow.illustration.view.illustrationListActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/fun_borrow_modify?iou_id=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.funborrow.modify.ModifyActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/debt_list",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.debtbook.list.view.DebtBookListActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/debt_text?debt_book_id=*?debt_book_type=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.debtbook.text.view.DebTextListActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/debt_edit?debt_book_id=&debt_book_type=",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.debtbook.edit.view.DebtEditActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/debt_detail_screen_shot?debt_book_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.debtbook.screen.view.DebtScreenShotActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/create_or_sign_pdfv2?iou_id=*&sign_id=*&sign_pwd=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.elecborrow.view.CreatePdfV2Activity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/contract_sign?iou_id=*&contract_id=*&seal_id=*&pwd=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.sign.SignContractActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/elec_borrow_pdf_create?iou_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.elecborrow.view.PdfConfirmActivity"
+    }
+  ],
+  "iou_search": [
+    {
+      "url": "hmiou://m.54jietiao.com/iou_search/search",
+      "iclass": "",
+      "aclass": "com.hm.iou.search.business.search.view.SearchActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_search/get_elec_borrow?justiceId=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.search.business.elecborrow.view.GetElecBorrowActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_search/get_elec_receive?justiceId=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.search.business.elecreceive.view.GetElecReceiveActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_search/include?iou_kind_type=*&iouId=&justId=&loanerName=&senderName=&detail_url=",
+      "iclass": "",
+      "aclass": "com.hm.iou.search.business.include.IncludeActivity"
+    }
+  ],
+  "signature": [
+    {
+      "url": "hmiou://m.54jietiao.com/signature/check_sign_psd?url=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.signature.business.view.CheckSignPsdActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/signature/check_sign_psd_v2?title=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.signature.business.view.CheckSignPsdV2Activity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/signature/check_sign_psd_from_bottom?url=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.signature.business.view.CheckSignPsdFromBottomActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/signature/set_sign_psd?user_name=*&user_id_card=*&ocr_id_card_front_sn=*&ocr_id_card_back_sn=* &face_check_sn=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.signature.business.view.SetSignPsdActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/signature/reset_sign_psd?user_name=*&user_id_card=*&face_check_sn=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.signature.business.view.ResetSignPsdActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/signature/set_handler_signature?url=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.signature.business.view.SetHandlerSignatureActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/signature/signature_list",
+      "iclass": "",
+      "aclass": "com.hm.iou.signature.business.view.SignatureListActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/signature/signature_list_select",
+      "iclass": "",
+      "aclass": "com.hm.iou.signature.business.view.SignatureListSelectActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/signature/find_signature_psd",
+      "iclass": "",
+      "aclass": "com.hm.iou.signature.business.view.FindSignPsdActivity"
+    }
+  ],
+  "template": [
+    {
+      "url": "hmiou://m.54jietiao.com/template/select_type",
+      "iclass": "",
+      "aclass": "com.hm.iou.template.business.TemplateIndexActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/template/paper_borrow?show_include=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.template.business.borrow.PaperBorrowTemplateActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/template/paper_receive?show_include=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.template.business.receive.PaperReceiveTemplateActivity"
+    }
+  ],
+  "pay": [
+    {
+      "url": "hmiou://m.54jietiao.com/pay/select_pay_type?time_card_num=*&time_card_money=*&time_card_unit_price=*&package_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.type.SelectPayTypeActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/pay_vip?time_card_pay_money=*&time_card_name=*&package_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.type.PayVipActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/time_card_recharge",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.timecard.view.TimeCardRechargeActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/history",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.history.view.HistoryActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/lock_sign_list",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.locksign.view.LockSignListActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/expend_time_card_num?trace_type=*&verify_sign_only=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.expend.view.ExpendActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/user_bind_bank?source=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.bindbank.view.BindBankActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/update_bind_bank?source=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.bindbank.view.RealBindBankActivity"
+    }
+  ],
+  "select_pic": [
+    {
+      "url": "hmiou://m.54jietiao.com/select_pic/index?enable_select_max_num=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.selectpic.business.view.SelectPicIndexActivity"
+    }
+  ],
+  "environment_switch": [
+    {
+      "url": "hmiou://m.54jietiao.com/environment_switch/index",
+      "iclass": "",
+      "aclass": "com.hm.iou.environmentswitch.business.view.EnvironmentSwitchActivity"
+    }
+  ],
+  "game_credit_life": [
+    {
+      "url": "hmiou://m.54jietiao.com/game_credit_life/index",
+      "iclass": "",
+      "aclass": "com.hm.iou.game.business.launch.IndexActivity"
+    }
+  ]
+}

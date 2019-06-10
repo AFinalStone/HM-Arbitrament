@@ -1,4 +1,4 @@
-package com.hm.arbitrament.business.test;
+package com.hm.arbitrament.business.index;
 
 import com.hm.iou.base.mvp.BaseContract;
 
