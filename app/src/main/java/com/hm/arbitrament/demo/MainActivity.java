@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.hm.arbitrament.business.apply.view.CollectionProveActivity;
 import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
 import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.router.Router;
@@ -54,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
                         .withString("just_id", "190227170537000385")
                         .withString("is_borrower", "0")
                         .navigation(MainActivity.this);
+            }
+        });
+        findViewById(R.id.btn_collection_prove).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CollectionProveActivity.class);
+                startActivity(intent);
             }
         });
     }

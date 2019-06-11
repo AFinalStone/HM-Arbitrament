@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,6 +19,7 @@ import com.hm.arbitrament.business.apply.presenter.SelectValidEvidencePresenter;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
+import com.hm.iou.uikit.dialog.HMAlertDialog;
 
 import java.util.HashSet;
 import java.util.List;
@@ -47,6 +49,7 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
     Button mBtnOk;
 
     EvidenceAdapter mAdapter;
+    private HMAlertDialog mExitDialog;
 
     @Override
     protected int getLayoutId() {
@@ -112,6 +115,31 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
     }
 
     @Override
+    public void onBackPressed() {
+        if (mExitDialog == null) {
+            mExitDialog = new HMAlertDialog.Builder(mContext)
+                    .setTitle("放弃仲裁")
+                    .setMessage("是否要放弃仲裁申请？")
+                    .setMessageGravity(Gravity.CENTER)
+                    .setPositiveButton("取消")
+                    .setNegativeButton("放弃")
+                    .setOnClickListener(new HMAlertDialog.OnClickListener() {
+                        @Override
+                        public void onPosClick() {
+
+                        }
+
+                        @Override
+                        public void onNegClick() {
+                            finish();
+                        }
+                    })
+                    .create();
+        }
+        mExitDialog.show();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQ_SELECT_EVIDENCE_DETAIL == requestCode) {
@@ -131,7 +159,7 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
 
     @OnClick(R2.id.btn_ok)
     public void onClick() {
-        NavigationHelper.toInputApplyInfo(mContext);
+        NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId);
     }
 
     @Override

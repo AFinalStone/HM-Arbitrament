@@ -15,14 +15,21 @@
         android:text="登陆" />
 
     <Button
+        android:id="@+id/btn_index"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="仲裁模块的前置页面" />
+
+    <Button
         android:id="@+id/btn_five_advantage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="5个优势" />
 
+
     <Button
-        android:id="@+id/btn_index"
+        android:id="@+id/btn_collection_prove"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="仲裁模块的前置页面" />
+        android:text="催收证明" />
 </LinearLayout>

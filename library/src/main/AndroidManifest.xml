@@ -14,5 +14,6 @@
         <activity android:name=".business.apply.view.SelectValidEvidenceDetailActivity" />
         <activity android:name=".business.pdf.PDFLoadActivity" />
         <activity android:name=".business.pay.view.PayActivity" />
+        <activity android:name=".business.apply.view.CollectionProveActivity" />
     </application>
 </manifest>

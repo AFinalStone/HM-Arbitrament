@@ -1,8 +1,10 @@
 package com.hm.arbitrament.api;
 
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
+import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
+import com.hm.arbitrament.bean.req.GetArbitramentInputApplyDataReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentStatusReqBean;
 import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailReqBean;
 import com.hm.iou.network.HttpReqManager;
@@ -64,6 +66,20 @@ public class ArbitramentApi {
         data.setIouId(iouId);
         data.setJusticeId(justiceId);
         return getService().checkArbitramentApplyStatus(data).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取仲裁申请页面的预填充数据
+     *
+     * @param iouId
+     * @param justiceId
+     * @return
+     */
+    public static Flowable<BaseResponse<GetArbitramentInputApplyDataResBean>> getArbitramentInputApplyData(String iouId, String justiceId) {
+        GetArbitramentInputApplyDataReqBean data = new GetArbitramentInputApplyDataReqBean();
+        data.setIouId(iouId);
+        data.setJusticeId(justiceId);
+        return getService().getArbitramentInputApplyData(data).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }

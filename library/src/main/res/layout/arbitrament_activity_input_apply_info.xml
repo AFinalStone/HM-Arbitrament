@@ -121,6 +121,41 @@
                     android:layout_marginRight="10dip" />
 
                 <LinearLayout
+                    android:id="@+id/ll_arbitrament_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ArbitramentInputName"
+                        android:text="仲裁金额" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/uikit_auth_v_flag"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_arbitrament_money"
+                        style="@style/ArbitramentInputContent" />
+
+                    <ImageView
+                        android:id="@+id/iv_arbitrament_money"
+                        style="@style/ArbitramentInputArrow" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view_divider_arbitrament_money"
+                    style="@style/UikitDivider.Horizontal"
+                    android:layout_marginRight="10dip" />
+
+                <LinearLayout
+                    android:id="@+id/ll_collection_prove"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:gravity="center_vertical"
@@ -131,11 +166,11 @@
                         android:text="催收证明" />
 
                     <TextView
-                        android:id="@+id/tv_evidence"
+                        android:id="@+id/tv_collection_prove"
                         style="@style/ArbitramentInputContent" />
 
                     <ImageView
-                        android:id="@+id/iv_evidence"
+                        android:id="@+id/iv_collection_prove"
                         style="@style/ArbitramentInputArrow" />
 
                 </LinearLayout>

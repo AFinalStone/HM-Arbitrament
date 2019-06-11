@@ -60,8 +60,10 @@ public class NavigationHelper {
      *
      * @param context
      */
-    public static void toInputApplyInfo(Context context) {
+    public static void toInputApplyInfo(Context context, String iouId, String justId) {
         Intent intent = new Intent(context, InputApplyInfoActivity.class);
+        intent.putExtra(InputApplyInfoActivity.EXTRA_KEY_IOU_ID, iouId);
+        intent.putExtra(InputApplyInfoActivity.EXTRA_KEY_JUST_ID, justId);
         context.startActivity(intent);
     }
 
