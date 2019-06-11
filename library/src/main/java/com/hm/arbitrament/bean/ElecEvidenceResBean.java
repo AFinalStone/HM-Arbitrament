@@ -11,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class ElecEvidenceRes implements Parcelable {
+public class ElecEvidenceResBean implements Parcelable {
 
 
     /**
@@ -39,22 +39,22 @@ public class ElecEvidenceRes implements Parcelable {
         dest.writeString(this.url);
     }
 
-    protected ElecEvidenceRes(Parcel in) {
+    protected ElecEvidenceResBean(Parcel in) {
         this.exEvidenceId = in.readString();
         this.fileType = in.readInt();
         this.name = in.readString();
         this.url = in.readString();
     }
 
-    public static final Parcelable.Creator<ElecEvidenceRes> CREATOR = new Parcelable.Creator<ElecEvidenceRes>() {
+    public static final Parcelable.Creator<ElecEvidenceResBean> CREATOR = new Parcelable.Creator<ElecEvidenceResBean>() {
         @Override
-        public ElecEvidenceRes createFromParcel(Parcel source) {
-            return new ElecEvidenceRes(source);
+        public ElecEvidenceResBean createFromParcel(Parcel source) {
+            return new ElecEvidenceResBean(source);
         }
 
         @Override
-        public ElecEvidenceRes[] newArray(int size) {
-            return new ElecEvidenceRes[size];
+        public ElecEvidenceResBean[] newArray(int size) {
+            return new ElecEvidenceResBean[size];
         }
     };
 }

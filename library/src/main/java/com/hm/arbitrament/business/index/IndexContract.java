@@ -11,6 +11,13 @@ public class IndexContract {
 
     public interface View extends BaseContract.BaseView {
 
+        /**
+         * 显示提示弹窗
+         *
+         * @param title
+         * @param msg
+         */
+        void showDialog(String title, String msg);
     }
 
     public interface Presenter extends BaseContract.BasePresenter {
@@ -19,7 +26,9 @@ public class IndexContract {
          * 查询仲裁状况
          *
          * @param iouId
+         * @param justId
+         * @param isBorrower
          */
-        void getArbitramentStatus(String iouId);
+        void getArbitramentStatus(String iouId, String justId, boolean isBorrower);
     }
 }

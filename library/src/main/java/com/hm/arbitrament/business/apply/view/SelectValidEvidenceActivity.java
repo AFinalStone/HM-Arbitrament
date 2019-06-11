@@ -12,8 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
-import com.hm.arbitrament.bean.ElecEvidenceRes;
-import com.hm.arbitrament.bean.IOUExtResult;
+import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.business.apply.SelectValidEvidenceContract;
 import com.hm.arbitrament.business.apply.presenter.SelectValidEvidencePresenter;
 import com.hm.iou.base.BaseActivity;
@@ -31,9 +30,9 @@ import butterknife.OnClick;
  */
 public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidencePresenter> implements SelectValidEvidenceContract.View {
 
+    public static final int REQ_SELECT_EVIDENCE_DETAIL = 100;
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUST_ID = "just_id";
-    public static final int REQ_SELECT_EVIDENCE_DETAIL = 100;
 
     private String mIouId;
     private String mJustId;
@@ -83,7 +82,7 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                ElecEvidenceRes item = mAdapter.getItem(position);
+                ElecEvidenceResBean item = mAdapter.getItem(position);
                 if (item == null) {
                     return;
                 }
@@ -116,11 +115,11 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQ_SELECT_EVIDENCE_DETAIL == requestCode) {
-            ElecEvidenceRes item = data.getParcelableExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_ITEM);
+            ElecEvidenceResBean item = data.getParcelableExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_ITEM);
             if (item == null) {
                 return;
             }
-            HashSet<ElecEvidenceRes> selectObjects = mAdapter.getSelectObjects();
+            HashSet<ElecEvidenceResBean> selectObjects = mAdapter.getSelectObjects();
             if (RESULT_OK == resultCode) {
                 selectObjects.add(item);
             } else {
@@ -165,20 +164,20 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
     }
 
     @Override
-    public void showEvidenceList(List<ElecEvidenceRes> listEvidence) {
+    public void showEvidenceList(List<ElecEvidenceResBean> listEvidence) {
         mAdapter.setNewData(listEvidence);
     }
 
-    public static class EvidenceAdapter extends BaseQuickAdapter<ElecEvidenceRes, BaseViewHolder> {
+    public static class EvidenceAdapter extends BaseQuickAdapter<ElecEvidenceResBean, BaseViewHolder> {
 
-        private HashSet<ElecEvidenceRes> mSelectObject = new HashSet();
+        private HashSet<ElecEvidenceResBean> mSelectObject = new HashSet();
 
         public EvidenceAdapter() {
             super(R.layout.arbitrament_item_select_valid_evidence);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, ElecEvidenceRes item) {
+        protected void convert(BaseViewHolder helper, ElecEvidenceResBean item) {
             helper.setText(R.id.tv_name, item.getName());
             helper.setText(R.id.tv_time, item.getName());
             if (mSelectObject.contains(item)) {
@@ -190,7 +189,7 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
             helper.addOnClickListener(R.id.iv_arrow);
         }
 
-        public void addOrRemoveCheck(ElecEvidenceRes position) {
+        public void addOrRemoveCheck(ElecEvidenceResBean position) {
             if (mSelectObject.contains(position)) {
                 mSelectObject.remove(position);
             } else {
@@ -199,7 +198,7 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
             notifyDataSetChanged();
         }
 
-        public HashSet<ElecEvidenceRes> getSelectObjects() {
+        public HashSet<ElecEvidenceResBean> getSelectObjects() {
             return mSelectObject;
         }
     }

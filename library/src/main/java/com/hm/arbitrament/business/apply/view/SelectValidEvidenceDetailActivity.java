@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
-import com.hm.arbitrament.bean.IOUExtResult;
+import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.tools.ImageLoader;
@@ -45,7 +45,7 @@ public class SelectValidEvidenceDetailActivity<T extends MvpActivityPresenter> e
     @BindView(R2.id.bottomBar)
     HMBottomBarView mBottomBar;
 
-    private IOUExtResult.ExtEvidence mItem;
+    private ElecEvidenceResBean mItem;
     private boolean mIsSelect;
 
     @Override

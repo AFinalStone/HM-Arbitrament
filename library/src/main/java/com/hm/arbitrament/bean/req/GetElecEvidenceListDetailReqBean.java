@@ -7,7 +7,7 @@ import lombok.Data;
  * @time 2019/6/10 11:27 AM
  */
 @Data
-public class GetElecEvidenceListDetailBean {
+public class GetElecEvidenceListDetailReqBean {
 
     private String iouId;
     private String justiceId;

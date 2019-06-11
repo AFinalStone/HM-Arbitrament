@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import com.hm.arbitrament.bean.ElecEvidenceRes;
-import com.hm.arbitrament.bean.IOUExtResult;
+import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.business.apply.view.ArbitramentServerAgreementActivity;
+import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
 import com.hm.arbitrament.business.apply.view.InputApplyInfoActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceDetailActivity;
@@ -44,6 +44,18 @@ public class NavigationHelper {
     }
 
     /**
+     * 进入申请仲裁的5大优点
+     *
+     * @param context
+     */
+    public static void toFiveAdvantage(Context context, String iouId, String justId) {
+        Intent intent = new Intent(context, FiveAdvantageActivity.class);
+        intent.putExtra(FiveAdvantageActivity.EXTRA_KEY_IOU_ID, iouId);
+        intent.putExtra(FiveAdvantageActivity.EXTRA_KEY_JUST_ID, justId);
+        context.startActivity(intent);
+    }
+
+    /**
      * 输入申请信息
      *
      * @param context
@@ -58,9 +70,10 @@ public class NavigationHelper {
      *
      * @param context
      */
-    public static void toSelectValidEvidenceActivity(Context context, String iouId) {
+    public static void toSelectValidEvidenceActivity(Context context, String iouId, String justId) {
         Intent intent = new Intent(context, SelectValidEvidenceActivity.class);
         intent.putExtra(SelectValidEvidenceActivity.EXTRA_KEY_IOU_ID, iouId);
+        intent.putExtra(SelectValidEvidenceActivity.EXTRA_KEY_JUST_ID, justId);
         context.startActivity(intent);
     }
 
@@ -69,7 +82,7 @@ public class NavigationHelper {
      *
      * @param activity
      */
-    public static void toSelectValidEvidenceDetailActivity(Activity activity, int requestCode, ElecEvidenceRes item, boolean isSelect) {
+    public static void toSelectValidEvidenceDetailActivity(Activity activity, int requestCode, ElecEvidenceResBean item, boolean isSelect) {
         Intent intent = new Intent(activity, SelectValidEvidenceDetailActivity.class);
         intent.putExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_ITEM, item);
         intent.putExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_IS_SELECT, isSelect);
@@ -97,6 +110,58 @@ public class NavigationHelper {
     public static void toArbitramentServerAgreement(Activity activity) {
         Intent intent = new Intent(activity, ArbitramentServerAgreementActivity.class);
         activity.startActivity(intent);
+    }
+
+    /**
+     * 等待付款去生成仲裁申请书
+     *
+     * @param activity
+     */
+    public static void toWaitPayToMakeArbitramentApplyBook(Context activity) {
+//        Intent intent = new Intent(activity, Wai.class);
+//        activity.startActivity(intent);
+    }
+
+    /**
+     * 等待生成仲裁申请书
+     *
+     * @param activity
+     */
+    public static void toWaitMakeArbitramentApplyBook(Context activity) {
+//        Intent intent = new Intent(activity, Wai.class);
+//        activity.startActivity(intent);
+    }
+
+    /**
+     * 仲裁申请书详情页面
+     *
+     * @param activity
+     */
+    public static void toArbitramentApplyBookDetail(Context activity) {
+//        Intent intent = new Intent(activity, Wai.class);
+//        activity.startActivity(intent);
+    }
+
+    /**
+     * 提交初审失败
+     *
+     * @param activity
+     * @param isCanReTry 允许重试
+     */
+    public static void toSubmitFirstTrialFailed(Context activity, boolean isCanReTry) {
+//        Intent intent = new Intent(activity, Wai.class);
+//        activity.startActivity(intent);
+    }
+
+    /**
+     * 提交仲裁审核进度失败
+     *
+     * @param activity
+     * @param isCanReTry 允许重试
+     */
+    public static void toSubmitProgressFailed(Context activity, boolean isCanReTry) {
+//        Intent intent = new Intent(activity, Wai.class);
+//        activity.startActivity(intent);
     }
 
     /**

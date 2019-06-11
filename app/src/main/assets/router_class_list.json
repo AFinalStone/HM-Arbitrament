@@ -743,5 +743,12 @@
       "iclass": "",
       "aclass": "com.hm.iou.game.business.launch.IndexActivity"
     }
+  ],
+  "arbitrament": [
+    {
+      "url": "hmiou://m.54jietiao.com/arbitrament/index",
+      "iclass": "",
+      "aclass": "com.hm.arbitrament.business.index.IndexActivity"
+    }
   ]
 }

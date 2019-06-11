@@ -1,6 +1,6 @@
 package com.hm.arbitrament.business.apply;
 
-import com.hm.arbitrament.bean.ElecEvidenceRes;
+import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.iou.base.mvp.BaseContract;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class SelectValidEvidenceContract {
         /**
          * 显示凭证列表
          */
-        void showEvidenceList(List<ElecEvidenceRes> listEvidence);
+        void showEvidenceList(List<ElecEvidenceResBean> listEvidence);
     }
 
     public interface Presenter extends BaseContract.BasePresenter {

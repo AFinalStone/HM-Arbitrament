@@ -1,8 +1,10 @@
 package com.hm.arbitrament.api;
 
-import com.hm.arbitrament.bean.ElecEvidenceRes;
-import com.hm.arbitrament.bean.IOUExtResult;
-import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailBean;
+import com.hm.arbitrament.bean.ElecEvidenceResBean;
+import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
+import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
+import com.hm.arbitrament.bean.req.GetArbitramentStatusReqBean;
+import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailReqBean;
 import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.sharedata.model.BaseResponse;
 
@@ -22,17 +24,19 @@ public class ArbitramentApi {
         return HttpReqManager.getInstance().getService(ArbitramentServer.class);
     }
 
+
     /**
-     * 获取有效凭证列表
+     * 查询仲裁状态
      *
+     * @param iouId
      * @return
      */
-    public static Flowable<BaseResponse<IOUExtResult>> getElecExDetails(String iouId) {
-        return getService().getElecExDetails(iouId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+    public static Flowable<BaseResponse<GetArbitramentStatusResBean>> getArbitramentStatus(String iouId, String justId) {
+        GetArbitramentStatusReqBean req = new GetArbitramentStatusReqBean();
+        req.setIouId(iouId);
+        req.setJusticeId(justId);
+        return getService().getArbitramentStatus(req).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
-
 
     /**
      * 获取有效凭证列表
@@ -41,20 +45,25 @@ public class ArbitramentApi {
      * @param justiceId
      * @return
      */
-    public static Flowable<BaseResponse<List<ElecEvidenceRes>>> getElecEvidenceList(String iouId, String justiceId) {
-        GetElecEvidenceListDetailBean data = new GetElecEvidenceListDetailBean();
+    public static Flowable<BaseResponse<List<ElecEvidenceResBean>>> getElecEvidenceList(String iouId, String justiceId) {
+        GetElecEvidenceListDetailReqBean data = new GetElecEvidenceListDetailReqBean();
         data.setIouId(iouId);
         data.setJusticeId(justiceId);
         return getService().getElecEvidenceList(data).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
-     * 查询仲裁状态
+     * 校验仲裁申请状态
      *
      * @param iouId
+     * @param justiceId
      * @return
      */
-    public static Flowable<BaseResponse<Integer>> getArbitramentStatus(String iouId) {
-        return getService().getArbitramentStatus(iouId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    public static Flowable<BaseResponse<List<ElecEvidenceResBean>>> checkArbitramentApplyStatus(String iouId, String justiceId) {
+        CheckArbitramentApplyStatusReqBean data = new CheckArbitramentApplyStatusReqBean();
+        data.setIouId(iouId);
+        data.setJusticeId(justiceId);
+        return getService().checkArbitramentApplyStatus(data).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
 }
