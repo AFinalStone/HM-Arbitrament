@@ -24,7 +24,7 @@ public class FiveAdvantageActivity<T extends MvpActivityPresenter> extends BaseA
     private String mIouId;
 
 
-    @BindView(R2.id.TopBar)
+    @BindView(R2.id.topBar)
     HMTopBarView mTopBar;
 
 

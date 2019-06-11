@@ -1,0 +1,240 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/uikit_background">
+
+    <com.hm.iou.uikit.HMTopBarView
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uikit_topbar_height"
+        app:backIconIsShow="false"
+        app:bottomDividerIsShow="false"
+        app:titleBackground="@color/transparent"
+        app:titleText="仲裁申请" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomBar"
+        android:layout_below="@id/topBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="35dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/uikit_bg_card_form"
+                android:orientation="vertical"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip">
+
+                <LinearLayout
+                    android:id="@+id/ll_evidence_link"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ArbitramentInputName"
+                        android:text="证据链" />
+
+                    <TextView
+                        style="@style/ArbitramentInputContent"
+                        android:text="条管家提供" />
+
+                    <ImageView
+                        style="@style/ArbitramentGrayWarnIconStyle"
+                        android:paddingRight="15dip" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/UikitDivider.Horizontal"
+                    android:layout_marginRight="10dip" />
+
+                <LinearLayout
+                    android:id="@+id/ll_total_back_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ArbitramentInputName"
+                        android:text="合计应还" />
+
+                    <TextView
+                        style="@style/ArbitramentInputContent"
+                        android:text="¥500000" />
+
+                    <ImageView
+                        style="@style/ArbitramentGrayWarnIconStyle"
+                        android:paddingRight="15dip" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/UikitDivider.Horizontal"
+                    android:layout_marginRight="10dip" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ArbitramentInputName"
+                        android:text="实际归还" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@mipmap/uikit_auth_v_flag"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_real_back_money"
+                        style="@style/ArbitramentInputContent" />
+
+                    <ImageView
+                        android:id="@+id/iv_real_back_money"
+                        style="@style/ArbitramentInputArrow" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/UikitDivider.Horizontal"
+                    android:layout_marginRight="10dip" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ArbitramentInputName"
+                        android:text="催收证明" />
+
+                    <TextView
+                        android:id="@+id/tv_evidence"
+                        style="@style/ArbitramentInputContent" />
+
+                    <ImageView
+                        android:id="@+id/iv_evidence"
+                        style="@style/ArbitramentInputArrow" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/UikitDivider.Horizontal"
+                    android:layout_marginRight="10dip" />
+
+                <LinearLayout
+                    android:id="@+id/ll_purpose_interest_rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ArbitramentInputName"
+                        android:text="利息意向" />
+
+                    <TextView
+                        android:id="@+id/tv_purpose_interest_rate"
+                        style="@style/ArbitramentInputContent"
+                        android:text="年利率24%" />
+
+                    <ImageView
+                        style="@style/ArbitramentGrayWarnIconStyle"
+                        android:paddingRight="15dip" />
+                </LinearLayout>
+
+                <View
+                    style="@style/UikitDivider.Horizontal"
+                    android:layout_marginRight="10dip" />
+
+                <LinearLayout
+                    android:id="@+id/ll_out_time_interest"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ArbitramentInputName"
+                        android:text="逾期利息" />
+
+                    <TextView
+                        android:id="@+id/tv_out_time_interest"
+                        style="@style/ArbitramentInputContent"
+                        android:text="未还金额的万分之8" />
+
+                    <ImageView
+                        style="@style/ArbitramentGrayWarnIconStyle"
+                        android:paddingRight="15dip" />
+                </LinearLayout>
+
+                <View
+                    style="@style/UikitDivider.Horizontal"
+                    android:layout_marginRight="10dip" />
+
+                <LinearLayout
+                    android:id="@+id/ll_arbitrament_cost"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ArbitramentInputName"
+                        android:text="仲裁费用" />
+
+                    <TextView
+                        android:id="@+id/tv_arbitrament_cost"
+                        style="@style/ArbitramentInputContent"
+                        tools:text="$10000" />
+
+                    <ImageView
+                        style="@style/ArbitramentGrayWarnIconStyle"
+                        android:paddingRight="15dip" />
+                </LinearLayout>
+
+                <View
+                    style="@style/UikitDivider.Horizontal"
+                    android:layout_marginRight="10dip" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/UikitTextView.Auxiliary.Small"
+                android:layout_width="match_parent"
+                android:text="*以上仲裁资料请真实填写，避免影响仲裁结果" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <com.hm.iou.uikit.HMBottomBarView
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        app:bottomTitleText="下一步" />
+
+</RelativeLayout>

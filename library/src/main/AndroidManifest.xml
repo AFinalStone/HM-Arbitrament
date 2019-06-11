@@ -4,10 +4,15 @@
 
     <application>
 
-        <activity android:name=".business.apply.view.ApplyActivity" />
+        <activity
+            android:name=".business.index.IndexActivity"
+            android:theme="@style/UikitTranslucentThemeActivity" />
+        <activity android:name=".business.apply.view.ArbitramentServerAgreementActivity" />
+        <activity android:name=".business.apply.view.InputApplyInfoActivity" />
         <activity android:name=".business.apply.view.FiveAdvantageActivity" />
         <activity android:name=".business.apply.view.SelectValidEvidenceActivity" />
         <activity android:name=".business.apply.view.SelectValidEvidenceDetailActivity" />
         <activity android:name=".business.pdf.PDFLoadActivity" />
+        <activity android:name=".business.pay.view.PayActivity" />
     </application>
 </manifest>

@@ -12,12 +12,11 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
-import com.hm.arbitrament.api.ArbitramentApi;
+import com.hm.arbitrament.bean.ElecEvidenceRes;
 import com.hm.arbitrament.bean.IOUExtResult;
+import com.hm.arbitrament.business.apply.SelectValidEvidenceContract;
+import com.hm.arbitrament.business.apply.presenter.SelectValidEvidencePresenter;
 import com.hm.iou.base.BaseActivity;
-import com.hm.iou.base.mvp.MvpActivityPresenter;
-import com.hm.iou.base.utils.CommSubscriber;
-import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
 
@@ -26,21 +25,20 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.disposables.Disposable;
 
 /**
  * 有效凭证
- *
- * @param <T>
  */
-public class SelectValidEvidenceActivity<T extends MvpActivityPresenter> extends BaseActivity<T> {
+public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidencePresenter> implements SelectValidEvidenceContract.View {
 
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
+    public static final String EXTRA_KEY_JUST_ID = "just_id";
     public static final int REQ_SELECT_EVIDENCE_DETAIL = 100;
 
     private String mIouId;
+    private String mJustId;
 
-    @BindView(R2.id.TopBar)
+    @BindView(R2.id.topBar)
     HMTopBarView mTopBar;
     @BindView(R2.id.init_loading)
     HMLoadingView mInitLoading;
@@ -50,7 +48,6 @@ public class SelectValidEvidenceActivity<T extends MvpActivityPresenter> extends
     Button mBtnOk;
 
     EvidenceAdapter mAdapter;
-    private Disposable mDisposable;
 
     @Override
     protected int getLayoutId() {
@@ -58,22 +55,35 @@ public class SelectValidEvidenceActivity<T extends MvpActivityPresenter> extends
     }
 
     @Override
-    protected T initPresenter() {
-        return null;
+    protected SelectValidEvidencePresenter initPresenter() {
+        return new SelectValidEvidencePresenter(this, this);
     }
 
     @Override
     protected void initEventAndData(Bundle bundle) {
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
+        mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
         if (bundle != null) {
             mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
+            mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
         }
+        mTopBar.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
+            @Override
+            public void onClickTextMenu() {
+                NavigationHelper.toUploadEvidence(mContext);
+            }
+
+            @Override
+            public void onClickImageMenu() {
+
+            }
+        });
         mAdapter = new EvidenceAdapter();
         mRvEvidence.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                IOUExtResult.ExtEvidence item = mAdapter.getItem(position);
+                ElecEvidenceRes item = mAdapter.getItem(position);
                 if (item == null) {
                     return;
                 }
@@ -92,24 +102,25 @@ public class SelectValidEvidenceActivity<T extends MvpActivityPresenter> extends
         });
         mRvEvidence.setAdapter(mAdapter);
         mInitLoading.showDataLoading();
-        getEvidenceList();
+        mPresenter.getEvidenceList(mIouId, mJustId);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_IOU_ID, mIouId);
+        outState.putString(EXTRA_KEY_JUST_ID, mJustId);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQ_SELECT_EVIDENCE_DETAIL == requestCode) {
-            IOUExtResult.ExtEvidence item = data.getParcelableExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_ITEM);
+            ElecEvidenceRes item = data.getParcelableExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_ITEM);
             if (item == null) {
                 return;
             }
-            HashSet<IOUExtResult.ExtEvidence> selectObjects = mAdapter.getSelectObjects();
+            HashSet<ElecEvidenceRes> selectObjects = mAdapter.getSelectObjects();
             if (RESULT_OK == resultCode) {
                 selectObjects.add(item);
             } else {
@@ -119,69 +130,57 @@ public class SelectValidEvidenceActivity<T extends MvpActivityPresenter> extends
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mDisposable != null && !mDisposable.isDisposed()) {
-            mDisposable.dispose();
-        }
-    }
-
     @OnClick(R2.id.btn_ok)
     public void onClick() {
-        NavigationHelper.toNeedKnowByArbitrament(mContext);
+        NavigationHelper.toInputApplyInfo(mContext);
     }
 
-    private void showEvidenceList(IOUExtResult iouExtResult) {
-        if (iouExtResult == null) {
-            finish();
-            return;
-        }
-        List<IOUExtResult.ExtEvidence> list = iouExtResult.getExEvidenceList();
-        if (list == null || list.isEmpty()) {
-            mInitLoading.setVisibility(View.VISIBLE);
-            mInitLoading.showDataEmpty("数据为空");
-            return;
-        }
-        mAdapter.setNewData(list);
+    @Override
+    public void showInit() {
+        mInitLoading.setVisibility(View.VISIBLE);
+        mInitLoading.startLoadingAnim();
     }
 
-    private void getEvidenceList() {
-        mDisposable = ArbitramentApi.getElecExDetails(mIouId)
-                .map(RxUtil.<IOUExtResult>handleResponse())
-                .subscribeWith(new CommSubscriber<IOUExtResult>(this) {
-
-                    @Override
-                    public void handleResult(IOUExtResult iouExtResult) {
-                        mInitLoading.setVisibility(View.GONE);
-                        mInitLoading.stopLoadingAnim();
-                        showEvidenceList(iouExtResult);
-                    }
-
-                    @Override
-                    public void handleException(Throwable throwable, String s, String s1) {
-                        mInitLoading.showDataFail(s1, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                getEvidenceList();
-                            }
-                        });
-                    }
-                });
+    @Override
+    public void hideInit() {
+        mInitLoading.setVisibility(View.GONE);
+        mInitLoading.stopLoadingAnim();
     }
 
-    public static class EvidenceAdapter extends BaseQuickAdapter<IOUExtResult.ExtEvidence, BaseViewHolder> {
+    @Override
+    public void showInitFailed(String msg) {
+        mInitLoading.setVisibility(View.VISIBLE);
+        mInitLoading.showDataFail(msg, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.getEvidenceList(mIouId, mJustId);
+            }
+        });
+    }
 
-        private HashSet<IOUExtResult.ExtEvidence> mSelectObject = new HashSet();
+    @Override
+    public void showDataEmpty() {
+        mInitLoading.setVisibility(View.VISIBLE);
+        mInitLoading.showDataEmpty("");
+    }
+
+    @Override
+    public void showEvidenceList(List<ElecEvidenceRes> listEvidence) {
+        mAdapter.setNewData(listEvidence);
+    }
+
+    public static class EvidenceAdapter extends BaseQuickAdapter<ElecEvidenceRes, BaseViewHolder> {
+
+        private HashSet<ElecEvidenceRes> mSelectObject = new HashSet();
 
         public EvidenceAdapter() {
             super(R.layout.arbitrament_item_select_valid_evidence);
         }
 
         @Override
-        protected void convert(BaseViewHolder helper, IOUExtResult.ExtEvidence item) {
+        protected void convert(BaseViewHolder helper, ElecEvidenceRes item) {
             helper.setText(R.id.tv_name, item.getName());
-            helper.setText(R.id.tv_time, item.getContent());
+            helper.setText(R.id.tv_time, item.getName());
             if (mSelectObject.contains(item)) {
                 helper.setImageResource(R.id.iv_select, R.mipmap.uikit_icon_check_black);
             } else {
@@ -191,7 +190,7 @@ public class SelectValidEvidenceActivity<T extends MvpActivityPresenter> extends
             helper.addOnClickListener(R.id.iv_arrow);
         }
 
-        public void addOrRemoveCheck(IOUExtResult.ExtEvidence position) {
+        public void addOrRemoveCheck(ElecEvidenceRes position) {
             if (mSelectObject.contains(position)) {
                 mSelectObject.remove(position);
             } else {
@@ -200,7 +199,7 @@ public class SelectValidEvidenceActivity<T extends MvpActivityPresenter> extends
             notifyDataSetChanged();
         }
 
-        public HashSet<IOUExtResult.ExtEvidence> getSelectObjects() {
+        public HashSet<ElecEvidenceRes> getSelectObjects() {
             return mSelectObject;
         }
     }

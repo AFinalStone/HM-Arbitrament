@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ArbitramentInputContent" parent="UikitTextView">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:minHeight">52dip</item>
+        <item name="android:hint">（必填）</item>
+    </style>
+
+    <style name="ArbitramentInputEditContent" parent="UikitEditText">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:minHeight">52dip</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="ArbitramentInputName" parent="UikitTextView">
+        <item name="android:minHeight">52dip</item>
+        <item name="android:layout_width">80dip</item>
+        <item name="android:paddingLeft">2dip</item>
+    </style>
+
+    <style name="ArbitramentInputArrow">
+        <item name="android:layout_width">26dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:src">@mipmap/uikit_ic_arrow_right</item>
+    </style>
+
+    <style name="ArbitramentGrayWarnIconStyle">
+        <item name="android:layout_width">26dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:src">@mipmap/uikit_icon_warn_gray</item>
+    </style>
+
+</resources>

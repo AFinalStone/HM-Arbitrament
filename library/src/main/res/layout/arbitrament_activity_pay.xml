@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/uikit_background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="20dp">
+
+    <com.hm.iou.uikit.HMTopBarView
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uikit_topbar_height"
+        app:bottomDividerIsShow="false"
+        app:titleBackground="@color/transparent"
+        app:titleText="在线支付" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:srlEnableLoadMore="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:gravity="center">
+
+            <com.hm.iou.uikit.PullDownRefreshImageView
+                android:id="@+id/iv_refresh"
+                android:layout_width="40dip"
+                android:layout_height="40dip" />
+        </LinearLayout>
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_money_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/uikit_bg_card_form"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/uikit_bg_card_form"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="15dp">
+
+                    <TextView
+                        style="@style/UikitTextView"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="支付金额" />
+
+                    <TextView
+                        android:id="@+id/tv_total_pay_money"
+                        style="@style/UikitTextView"
+                        android:text="20元"
+                        android:textSize="@dimen/textFontSize_30" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_bottom_remark"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:gravity="center_vertical"
+                    tools:text="*仲裁成功以上费用由对方承担" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/UikitTextView"
+            android:text="还剩   "
+            android:textColor="@color/uikit_text_sub_content" />
+
+        <TextView
+            android:id="@+id/tv_time_count_down"
+            style="@style/UikitTextView.Auxiliary"
+            android:textColor="@color/uikit_text_sub_content"
+            android:textSize="@dimen/textFontSize_18"
+            tools:text="30:00" />
+
+        <TextView
+            style="@style/UikitTextView"
+            android:text="   失效"
+            android:textColor="@color/uikit_text_sub_content" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/UikitHMButton.Large.Main"
+        android:layout_height="48dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginStart="38dp"
+        android:text="立即支付" />
+</LinearLayout>

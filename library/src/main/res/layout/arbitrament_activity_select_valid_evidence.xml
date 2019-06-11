@@ -6,7 +6,7 @@
     android:background="@color/uikit_background">
 
     <com.hm.iou.uikit.HMTopBarView
-        android:id="@+id/TopBar"
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/uikit_topbar_height"
         app:bottomDividerIsShow="false"
@@ -17,7 +17,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/TopBar"
+        android:layout_below="@id/topBar"
         android:orientation="vertical"
         android:paddingBottom="20dp">
 

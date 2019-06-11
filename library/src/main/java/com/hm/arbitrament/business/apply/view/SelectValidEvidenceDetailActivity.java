@@ -9,6 +9,7 @@ import android.view.ViewStub;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.hm.arbitrament.R;
@@ -17,6 +18,7 @@ import com.hm.arbitrament.bean.IOUExtResult;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.tools.ImageLoader;
+import com.hm.iou.tools.StatusBarUtil;
 import com.hm.iou.tools.StringUtil;
 import com.hm.iou.uikit.HMBottomBarView;
 
@@ -34,11 +36,13 @@ public class SelectValidEvidenceDetailActivity<T extends MvpActivityPresenter> e
     private static final int FILE_TYPE_IMAGE = 1;
     private static final int FILE_TYPE_PDF = 2;
 
+    @BindView(R2.id.view_statusbar_placeholder)
+    View mViewStatusBarPlaceHolder;
     @BindView(R2.id.viewStub_detail_image)
     ViewStub mViewStubDetailImage;
     @BindView(R2.id.viewStub_detail_pdf)
     ViewStub mViewStubDetailPdf;
-    @BindView(R2.id.BottomBar)
+    @BindView(R2.id.bottomBar)
     HMBottomBarView mBottomBar;
 
     private IOUExtResult.ExtEvidence mItem;
@@ -67,6 +71,12 @@ public class SelectValidEvidenceDetailActivity<T extends MvpActivityPresenter> e
             return;
         }
         //初始化View
+        int statusBarHeight = StatusBarUtil.getStatusBarHeight(mContext);
+        if (statusBarHeight > 0) {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mViewStatusBarPlaceHolder.getLayoutParams();
+            params.height = statusBarHeight;
+            mViewStatusBarPlaceHolder.setLayoutParams(params);
+        }
         mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
             public void onClickTitle() {
@@ -119,7 +129,7 @@ public class SelectValidEvidenceDetailActivity<T extends MvpActivityPresenter> e
     }
 
     private void initDetailPDFView() {
-        View view = mViewStubDetailImage.inflate();
+        View view = mViewStubDetailPdf.inflate();
         WebView wv = view.findViewById(R.id.wv_pdf);
         WebSettings settings = wv.getSettings();
         settings.setJavaScriptEnabled(true);
