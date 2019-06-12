@@ -90,15 +90,15 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
                     return;
                 }
                 if (R.id.rl_content == view.getId()) {
+                    NavigationHelper.toSelectValidEvidenceDetailActivity(mContext, REQ_SELECT_EVIDENCE_DETAIL
+                            , item, mAdapter.getSelectObjects().contains(item));
+                } else if (R.id.iv_select == view.getId()) {
                     mAdapter.addOrRemoveCheck(item);
                     if (mAdapter.getSelectObjects().isEmpty()) {
                         mBtnOk.setEnabled(false);
                     } else {
                         mBtnOk.setEnabled(true);
                     }
-                } else if (R.id.iv_arrow == view.getId()) {
-                    NavigationHelper.toSelectValidEvidenceDetailActivity(mContext, REQ_SELECT_EVIDENCE_DETAIL
-                            , item, mAdapter.getSelectObjects().contains(item));
                 }
             }
         });
@@ -207,14 +207,14 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
         @Override
         protected void convert(BaseViewHolder helper, ElecEvidenceResBean item) {
             helper.setText(R.id.tv_name, item.getName());
-            helper.setText(R.id.tv_time, item.getName());
+            helper.setText(R.id.tv_time, "上传时间：" + item.getCreateTime());
             if (mSelectObject.contains(item)) {
                 helper.setImageResource(R.id.iv_select, R.mipmap.uikit_icon_check_black);
             } else {
                 helper.setImageResource(R.id.iv_select, R.mipmap.uikit_icon_check_default);
             }
+            helper.addOnClickListener(R.id.iv_select);
             helper.addOnClickListener(R.id.rl_content);
-            helper.addOnClickListener(R.id.iv_arrow);
         }
 
         public void addOrRemoveCheck(ElecEvidenceResBean position) {

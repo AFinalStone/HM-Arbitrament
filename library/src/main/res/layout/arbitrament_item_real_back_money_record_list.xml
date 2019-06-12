@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hm.iou.uikit.sidemenu.SideMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="62dp"
+    app:contentView="@+id/rl_content"
+    app:rightMenuView="@+id/btn_delete">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp">
+
+        <TextView
+            android:id="@+id/tv_money"
+            style="@style/UikitTextView"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/uikit_sub_title_text_size"
+            tools:text="汇款凭证" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            style="@style/UikitTextView.Auxiliary.Small"
+            android:layout_marginTop="35dp"
+            tools:text="还款时间：2019.09.23" />
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:scaleType="center"
+            android:src="@mipmap/uikit_ic_arrow_right" />
+
+        <View
+            style="@style/UikitDivider.Horizontal"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btn_delete"
+        style="@style/UikitHMButton.Large.Red.Minor"
+        android:layout_width="62dp"
+        android:layout_height="match_parent"
+        android:text="删除"
+        android:textSize="@dimen/textFontSize_16" />
+</com.hm.iou.uikit.sidemenu.SideMenuLayout>

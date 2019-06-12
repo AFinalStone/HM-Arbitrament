@@ -6,14 +6,48 @@
 
         <activity
             android:name=".business.index.IndexActivity"
-            android:theme="@style/UikitTranslucentThemeActivity" />
-        <activity android:name=".business.apply.view.ArbitramentServerAgreementActivity" />
-        <activity android:name=".business.apply.view.InputApplyInfoActivity" />
-        <activity android:name=".business.apply.view.FiveAdvantageActivity" />
-        <activity android:name=".business.apply.view.SelectValidEvidenceActivity" />
-        <activity android:name=".business.apply.view.SelectValidEvidenceDetailActivity" />
-        <activity android:name=".business.pdf.PDFLoadActivity" />
-        <activity android:name=".business.pay.view.PayActivity" />
-        <activity android:name=".business.apply.view.CollectionProveActivity" />
+            android:screenOrientation="portrait"
+            android:theme="@style/UikitTranslucentThemeActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".business.apply.view.ArbitramentServerAgreementActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".business.apply.view.InputApplyInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".business.apply.view.FiveAdvantageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".business.apply.view.SelectValidEvidenceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".business.apply.view.SelectValidEvidenceDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".business.pdf.PDFLoadActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".business.pay.view.PayActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".business.apply.view.InputCollectionProveActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".business.apply.view.InputRealBackMoneyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
+            android:name=".business.apply.view.InputRealBackMoneyAddRecordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
     </application>
 </manifest>

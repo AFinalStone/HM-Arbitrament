@@ -25,6 +25,7 @@ public class ElecEvidenceResBean implements Parcelable {
     private int fileType;
     private String name;
     private String url;
+    private String createTime;
 
     @Override
     public int describeContents() {

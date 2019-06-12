@@ -24,12 +24,12 @@ public class ArbitramentApplication extends Application {
         Router.init(this);
         BaseBizAppLike appLike = new BaseBizAppLike();
         appLike.onCreate(this);
-//        appLike.initServer("http://192.168.1.217", "http://192.168.1.217",
-//                "http://192.168.1.217");
+        appLike.initServer("http://192.168.1.217", "http://192.168.1.217",
+                "http://192.168.1.217");
 //        appLike.initServer("http://re.54jietiao.com", "http://re.54jietiao.com",
 //                "http://re.54jietiao.com");
-        appLike.initServer("http://192.168.1.107:3000", "http://192.168.1.107:3000",
-                "http://192.168.1.107:3000");
+//        appLike.initServer("http://192.168.1.107:3000", "http://192.168.1.107:3000",
+//                "http://192.168.1.107:3000");
 //        appLike.initServer("http://192.168.1.224:8071", "http://192.168.1.224:8071",
 //                "http://192.168.1.224:8071");
         initNetwork();

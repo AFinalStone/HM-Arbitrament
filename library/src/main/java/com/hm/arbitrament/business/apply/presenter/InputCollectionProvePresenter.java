@@ -3,7 +3,7 @@ package com.hm.arbitrament.business.apply.presenter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.hm.arbitrament.business.apply.CollectionProveContract;
+import com.hm.arbitrament.business.apply.InputCollectionProveContract;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 
 import java.util.ArrayList;
@@ -15,9 +15,9 @@ import java.util.List;
  * @time 2019/6/11 3:36 PM
  */
 
-public class CollectionProvePresenter extends MvpActivityPresenter<CollectionProveContract.View> implements CollectionProveContract.Presenter {
+public class InputCollectionProvePresenter extends MvpActivityPresenter<InputCollectionProveContract.View> implements InputCollectionProveContract.Presenter {
 
-    public CollectionProvePresenter(@NonNull Context context, @NonNull CollectionProveContract.View view) {
+    public InputCollectionProvePresenter(@NonNull Context context, @NonNull InputCollectionProveContract.View view) {
         super(context, view);
     }
 

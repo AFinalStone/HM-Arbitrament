@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/uikit_background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.hm.iou.uikit.HMTopBarView
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uikit_topbar_height"
+        app:backIconIsShow="false"
+        app:bottomDividerIsShow="false"
+        app:titleBackground="@color/transparent"
+        app:titleText="还款记录" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/uikit_bg_card_form"
+        android:orientation="vertical"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/ArbitramentInputName"
+                android:text="还款金额" />
+
+            <TextView
+                style="@style/UikitTextView"
+                android:text="@string/uikit_money" />
+
+            <EditText
+                android:id="@+id/et_money"
+                style="@style/ArbitramentInputContent"
+                android:layout_marginStart="5dp"
+                android:background="@null"
+                android:inputType="numberSigned" />
+
+
+        </LinearLayout>
+
+        <View style="@style/UikitDivider.Horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/ArbitramentInputName"
+                android:text="还款时间" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                style="@style/ArbitramentInputContent" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        style="@style/UikitTextView.Auxiliary.Small"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:text="*以上还款信息请真实填写，避免影响仲裁结果" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.hm.iou.uikit.HMBottomBarView
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        app:bottomTitleText="保存"
+        app:enable="false" />
+
+</LinearLayout>

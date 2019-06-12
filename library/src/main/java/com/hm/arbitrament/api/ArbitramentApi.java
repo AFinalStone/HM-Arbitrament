@@ -1,9 +1,11 @@
 package com.hm.arbitrament.api;
 
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
+import com.hm.arbitrament.bean.GetArbCostResBean;
 import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
+import com.hm.arbitrament.bean.req.GetArbCostReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentInputApplyDataReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentStatusReqBean;
 import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailReqBean;
@@ -80,6 +82,21 @@ public class ArbitramentApi {
         data.setIouId(iouId);
         data.setJusticeId(justiceId);
         return getService().getArbitramentInputApplyData(data).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 计算仲裁费用
+     *
+     * @param iouId
+     * @param justiceId
+     * @return
+     */
+    public static Flowable<BaseResponse<GetArbCostResBean>> getArbitramentCost(String iouId, String justiceId, Number totalMoney) {
+        GetArbCostReqBean data = new GetArbCostReqBean();
+        data.setIouId(iouId);
+        data.setJusticeId(justiceId);
+        data.setRepayAmount(totalMoney);
+        return getService().getArbitramentCost(data).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }

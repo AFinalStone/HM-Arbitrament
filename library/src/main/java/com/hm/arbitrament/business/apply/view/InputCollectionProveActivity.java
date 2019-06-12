@@ -8,48 +8,48 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
-import com.hm.arbitrament.business.apply.CollectionProveContract;
-import com.hm.arbitrament.business.apply.presenter.CollectionProvePresenter;
+import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
+import com.hm.arbitrament.business.apply.InputCollectionProveContract;
+import com.hm.arbitrament.business.apply.presenter.InputCollectionProvePresenter;
 import com.hm.iou.base.BaseActivity;
-import com.hm.iou.logger.Logger;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 催收证明
  */
-public class CollectionProveActivity extends BaseActivity<CollectionProvePresenter> implements CollectionProveContract.View {
+public class InputCollectionProveActivity extends BaseActivity<InputCollectionProvePresenter> implements InputCollectionProveContract.View {
 
     public static final int REQ_SELECT_PIC = 100;
-    public static final String EXTRA_KEY_URL = "url";
-    private String mUrl;
+
+    public static final String EXTRA_KEY_ITEM = "item";
 
     @BindView(R2.id.rv_collection_prove)
     RecyclerView mRvCollectionProve;
 
     CollectionProveAdapter mAdapter;
-
+    GetArbitramentInputApplyDataResBean.UrgeExidenceListBean mBean;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.arbitrament_activity_collection_prove;
+        return R.layout.arbitrament_activity_input_collection_prove;
     }
 
     @Override
-    protected CollectionProvePresenter initPresenter() {
-        return new CollectionProvePresenter(this, this);
+    protected InputCollectionProvePresenter initPresenter() {
+        return new InputCollectionProvePresenter(this, this);
     }
 
     @Override
     protected void initEventAndData(Bundle bundle) {
-        mUrl = getIntent().getStringExtra(EXTRA_KEY_URL);
+        mBean = (GetArbitramentInputApplyDataResBean.UrgeExidenceListBean) getIntent().getSerializableExtra(EXTRA_KEY_ITEM);
         if (bundle != null) {
-            mUrl = bundle.getString(EXTRA_KEY_URL);
+            mBean = (GetArbitramentInputApplyDataResBean.UrgeExidenceListBean) bundle.getSerializable(EXTRA_KEY_ITEM);
         }
         mRvCollectionProve.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new CollectionProveAdapter();
@@ -66,19 +66,28 @@ public class CollectionProveActivity extends BaseActivity<CollectionProvePresent
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(EXTRA_KEY_URL, mUrl);
+        outState.putSerializable(EXTRA_KEY_ITEM, mBean);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQ_SELECT_PIC == requestCode) {
+
         }
     }
 
     @Override
     public void showData(List<String> list) {
         mAdapter.setNewData(list);
+    }
+
+    @OnClick(R2.id.btn_ok)
+    public void onClick() {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_KEY_ITEM, mBean);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 

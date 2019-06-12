@@ -1,5 +1,6 @@
 package com.hm.arbitrament.business.apply;
 
+import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.iou.base.mvp.BaseContract;
 
 /**
@@ -10,6 +11,12 @@ public class InputApplyInfoContract {
 
     public interface View extends BaseContract.BaseView {
 
+        /**
+         * 显示仲裁的预加载信息
+         *
+         * @param resBean
+         */
+        void showData(GetArbitramentInputApplyDataResBean resBean);
     }
 
     public interface Presenter extends BaseContract.BasePresenter {
