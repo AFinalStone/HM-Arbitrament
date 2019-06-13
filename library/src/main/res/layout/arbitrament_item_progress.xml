@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal"
+    android:paddingLeft="15dip"
+    android:paddingRight="15dip"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        >
+
+        <TextView
+            android:id="@+id/tv_progress_title"
+            style="@style/UikitTextView"
+            tools:text="仲裁委托申请成功" />
+
+        <TextView
+            android:id="@+id/tv_progress_time"
+            style="@style/UikitTextView.Auxiliary.Small"
+            android:layout_marginTop="3dip"
+            tools:text="仲裁委托申请成功" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="16dip"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        >
+        <View
+            android:id="@+id/view_progress_line_top"
+            android:layout_width="1dp"
+            android:layout_height="30dip"
+            android:layout_centerHorizontal="true"
+            android:background="@color/uikit_text_sub_content"
+            />
+
+        <View
+            android:id="@+id/view_progress_line_bottom"
+            android:layout_width="1dp"
+            android:layout_height="30dip"
+            android:layout_centerHorizontal="true"
+            android:background="@color/uikit_text_sub_content"
+            android:layout_alignParentBottom="true"
+            />
+
+        <ImageView
+            android:id="@+id/iv_progress_checked"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
+            android:src="@mipmap/uikit_icon_check_black"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
+    
+</RelativeLayout>

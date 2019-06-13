@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:paddingLeft="20dip"
+    android:paddingRight="20dip"
+    android:gravity="center_vertical"
+    >
+
+    <TextView
+        android:id="@+id/tv_progress_title"
+        style="@style/UikitTextView"
+        android:textSize="16dp"
+        tools:text="律师费" />
+
+    <TextView
+        android:id="@+id/tv_progress_amount"
+        style="@style/UikitTextView"
+        tools:text="¥400.00"
+        android:layout_alignParentRight="true"
+        />
+
+</RelativeLayout>
