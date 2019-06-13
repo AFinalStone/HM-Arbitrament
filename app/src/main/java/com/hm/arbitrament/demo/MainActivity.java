@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                         .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
                         .withString("iou_id", "4c4e721d68c54d879b5d5c763e188bc9")
                         .withString("just_id", "190227170537000385")
-                        .withString("is_borrower", "0")
                         .navigation(MainActivity.this);
             }
         });

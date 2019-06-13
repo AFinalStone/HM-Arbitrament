@@ -12,7 +12,6 @@ public class IndexActivity extends BaseActivity<IndexPresenter> implements Index
 
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUST_ID = "just_id";
-    public static final String EXTRA_KEY_IS_BORROWER = "is_borrower";
 
     private String mIouId;
     private String mJustId;
@@ -32,17 +31,11 @@ public class IndexActivity extends BaseActivity<IndexPresenter> implements Index
     protected void initEventAndData(Bundle bundle) {
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
         mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
-        mIsBorrower = getIntent().getStringExtra(EXTRA_KEY_IS_BORROWER);
         if (bundle != null) {
             mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
             mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
-            mIsBorrower = getIntent().getStringExtra(EXTRA_KEY_IS_BORROWER);
         }
-        boolean isBorrower = false;
-        if ("1".equals(mIsBorrower)) {//是否是借款人
-            isBorrower = true;
-        }
-        mPresenter.getArbitramentStatus(mIouId, mJustId, isBorrower);
+        mPresenter.getArbitramentStatus(mIouId, mJustId);
     }
 
     @Override
@@ -50,7 +43,6 @@ public class IndexActivity extends BaseActivity<IndexPresenter> implements Index
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_IOU_ID, mIouId);
         outState.putString(EXTRA_KEY_JUST_ID, mJustId);
-        outState.putString(EXTRA_KEY_IS_BORROWER, mIsBorrower);
     }
 
     @Override

@@ -27,8 +27,7 @@ public class IndexContract {
          *
          * @param iouId
          * @param justId
-         * @param isBorrower
          */
-        void getArbitramentStatus(String iouId, String justId, boolean isBorrower);
+        void getArbitramentStatus(String iouId, String justId);
     }
 }
