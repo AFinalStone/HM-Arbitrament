@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
@@ -13,27 +12,53 @@
         android:layout_height="10dp"
         android:background="#F6F6F6" />
 
-    <LinearLayout
-        android:id="@+id/ll_add_collection_prove"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/arbitrament_selector_bg_add_collection_prove"
-        android:gravity="center"
-        android:layerType="software"
-        android:orientation="horizontal">
+        android:layerType="software">
 
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp" />
+        <LinearLayout
+            android:id="@+id/ll_add_collection_prove"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <TextView
-            style="@style/UikitTextView"
-            android:text="上传催收证明" />
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp" />
 
-    </LinearLayout>
+            <TextView
+                style="@style/UikitTextView"
+                android:text="上传催收证明" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_collection_prove_detail"
+            android:layout_width="match_parent"
+            android:layout_height="124dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="3dp"
+                android:src="@mipmap/arbitrament_ic_collection_prove" />
+
+            <TextView
+                style="@style/UikitTextView.Large"
+                android:layout_marginStart="3dp"
+                android:text="催收证明" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         style="@style/UikitTextView.Auxiliary.Small"
@@ -55,5 +80,6 @@
         android:layout_height="48dp"
         android:layout_marginEnd="38dp"
         android:layout_marginStart="38dp"
+        android:enabled="false"
         android:text="确认信息" />
 </LinearLayout>

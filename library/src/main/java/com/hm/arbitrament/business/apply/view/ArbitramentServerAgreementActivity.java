@@ -1,6 +1,5 @@
 package com.hm.arbitrament.business.apply.view;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,12 +9,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
-import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
-import com.hm.iou.logger.Logger;
 import com.hm.iou.tools.StatusBarUtil;
 import com.hm.iou.uikit.HMBottomBarView;
 
@@ -28,7 +25,6 @@ import butterknife.BindView;
  */
 public class ArbitramentServerAgreementActivity<T extends MvpActivityPresenter> extends BaseActivity<T> {
 
-    public static final int REQ_CHECK_SIGN_PWD = 100;
     public static final String EXTRA_KEY_URL = "url";
     private String mUrl;
 
@@ -68,7 +64,8 @@ public class ArbitramentServerAgreementActivity<T extends MvpActivityPresenter> 
         mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
             public void onClickTitle() {
-                NavigationHelper.toCreateElecBorrowCheckSignPwd(mContext, "输入签约密码", REQ_CHECK_SIGN_PWD);
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
@@ -79,19 +76,6 @@ public class ArbitramentServerAgreementActivity<T extends MvpActivityPresenter> 
         outState.putString(EXTRA_KEY_URL, mUrl);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (REQ_CHECK_SIGN_PWD == requestCode) {
-            if (RESULT_OK == resultCode && data != null) {
-                String signPwd = data.getStringExtra("pwd");
-                String signId = data.getStringExtra("sign_id");
-                Logger.d("SignPwd = " + signPwd);
-                Logger.d("SignId = " + signId);
-                NavigationHelper.toPay(mContext);
-            }
-        }
-    }
 
     private void initWebView() {
         WebSettings settings = mWvPdf.getSettings();

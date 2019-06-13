@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
-import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
+import com.hm.arbitrament.bean.BackMoneyRecordBean;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.comm.HMTextChangeListener;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
@@ -42,7 +42,7 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
     @BindView(R2.id.bottomBar)
     HMBottomBarView mBottomBar;
 
-    private GetArbitramentInputApplyDataResBean.RepaymentRecordListBean mItem;
+    private BackMoneyRecordBean mItem;
     private Dialog mDatePicker;
 
     int mMaxBackMoney = -1;
@@ -60,11 +60,11 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
 
     @Override
     protected void initEventAndData(Bundle bundle) {
-        mItem = (GetArbitramentInputApplyDataResBean.RepaymentRecordListBean) getIntent().getSerializableExtra(EXTRA_KEY_ITEM);
+        mItem = (BackMoneyRecordBean) getIntent().getSerializableExtra(EXTRA_KEY_ITEM);
         mMaxBackMoney = getIntent().getIntExtra(EXTRA_KEY_MAX_BACK_MONEY, -1);
         mBackTimeStartTime = getIntent().getStringExtra(EXTRA_KEY_BACK_TIME_START_TIME);
         if (bundle != null) {
-            mItem = (GetArbitramentInputApplyDataResBean.RepaymentRecordListBean) bundle.getSerializable(EXTRA_KEY_ITEM);
+            mItem = (BackMoneyRecordBean) bundle.getSerializable(EXTRA_KEY_ITEM);
             mMaxBackMoney = bundle.getInt(EXTRA_KEY_MAX_BACK_MONEY, -1);
             mBackTimeStartTime = bundle.getString(EXTRA_KEY_BACK_TIME_START_TIME);
         }
@@ -79,8 +79,9 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
                 if (TextUtils.isEmpty(backTime)) {
                     return;
                 }
+                backTime = backTime.replaceAll("\\.", "-") + " 00:00:00";
                 if (mItem == null) {
-                    mItem = new GetArbitramentInputApplyDataResBean.RepaymentRecordListBean();
+                    mItem = new BackMoneyRecordBean();
                     mItem.setCreateTime(System.currentTimeMillis());
                 }
                 int backMoney = Integer.parseInt(strBackMoney);
@@ -130,12 +131,15 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
         //还款金额
         if (!TextUtils.isEmpty(backMoney)) {
             mEvMoney.setText(backMoney);
+            mEvMoney.setSelection(mEvMoney.length());
         }
         //还款时间
         if (!TextUtils.isEmpty(backTime)) {
+            backTime = backTime.replaceAll("-", "\\.");
+            backTime = backTime.substring(0, 10);
             mTvTime.setText(backTime);
         }
-
+        showSoftKeyboard();
     }
 
     @Override
@@ -168,7 +172,7 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
             calendar.add(Calendar.YEAR, -10);
             String startTime = sdf.format(calendar.getTime());
             if (!TextUtils.isEmpty(mBackTimeStartTime)) {
-                startTime = sdf.format(mBackTimeStartTime);
+                startTime = mBackTimeStartTime;
             }
 
             calendar.setTimeInMillis(now);

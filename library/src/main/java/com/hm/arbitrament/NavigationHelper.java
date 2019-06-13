@@ -4,15 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.hm.arbitrament.bean.BackMoneyRecordBean;
+import com.hm.arbitrament.bean.CollectionProveBean;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.business.apply.view.ArbitramentServerAgreementActivity;
 import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
 import com.hm.arbitrament.business.apply.view.InputApplyInfoActivity;
+import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
+import com.hm.arbitrament.business.apply.view.InputRealBackMoneyActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceDetailActivity;
 import com.hm.arbitrament.business.pay.view.PayActivity;
 import com.hm.iou.base.BaseBizAppLike;
 import com.hm.iou.router.Router;
+
+import java.util.ArrayList;
 
 /**
  * Created by syl on 2019/6/6.
@@ -60,10 +66,11 @@ public class NavigationHelper {
      *
      * @param context
      */
-    public static void toInputApplyInfo(Context context, String iouId, String justId) {
+    public static void toInputApplyInfo(Context context, String iouId, String justId, ArrayList<String> list) {
         Intent intent = new Intent(context, InputApplyInfoActivity.class);
         intent.putExtra(InputApplyInfoActivity.EXTRA_KEY_IOU_ID, iouId);
         intent.putExtra(InputApplyInfoActivity.EXTRA_KEY_JUST_ID, justId);
+        intent.putExtra(InputApplyInfoActivity.EXTRA_KEY_LIST, list);
         context.startActivity(intent);
     }
 
@@ -98,7 +105,7 @@ public class NavigationHelper {
      * @param title
      * @param reqCode
      */
-    public static void toCreateElecBorrowCheckSignPwd(Activity context, String title, int reqCode) {
+    public static void toCheckSignPwd(Activity context, String title, int reqCode) {
         Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_v2")
                 .withString("title", title)
                 .navigation(context, reqCode);
@@ -109,9 +116,10 @@ public class NavigationHelper {
      *
      * @param activity
      */
-    public static void toArbitramentServerAgreement(Activity activity) {
+    public static void toArbitramentServerAgreement(Activity activity, String url, int reqCode) {
         Intent intent = new Intent(activity, ArbitramentServerAgreementActivity.class);
-        activity.startActivity(intent);
+        intent.putExtra(ArbitramentServerAgreementActivity.EXTRA_KEY_URL, url);
+        activity.startActivityForResult(intent, reqCode);
     }
 
     /**
@@ -174,5 +182,37 @@ public class NavigationHelper {
     public static void toPay(Activity activity) {
         Intent intent = new Intent(activity, PayActivity.class);
         activity.startActivity(intent);
+    }
+
+    /**
+     * 添加催收证明
+     *
+     * @param activity
+     * @param reqCode
+     */
+    public static void toAddCollectionProve(Activity activity, CollectionProveBean proveBean, int reqCode) {
+        Intent intent = new Intent(activity, InputCollectionProveActivity.class);
+        intent.putExtra(InputCollectionProveActivity.EXTRA_KEY_ITEM, proveBean);
+        activity.startActivityForResult(intent, reqCode);
+    }
+
+    /**
+     * 添加还款记录
+     *
+     * @param activity
+     * @param reqCode
+     */
+    public static void toAddBackMoneyRecord(Activity activity, ArrayList<BackMoneyRecordBean> list,
+                                            String startTime, String strTotalMoney, int reqCode) {
+        Intent intent = new Intent(activity, InputRealBackMoneyActivity.class);
+        intent.putExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_MONEY_RECORD_LIST, list);
+        intent.putExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_TIME_START_TIME, startTime);
+        try {
+            double totalMoney = Double.parseDouble(strTotalMoney);
+            intent.putExtra(InputRealBackMoneyActivity.EXTRA_KEY_MAX_BACK_MONEY, totalMoney);
+        } catch (Exception e) {
+
+        }
+        activity.startActivityForResult(intent, reqCode);
     }
 }

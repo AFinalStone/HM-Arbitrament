@@ -16,8 +16,8 @@ public class GetArbCostResBean {
      * arbMoney : 0
      */
 
-    private int arbCost;
-    private int arbMoney;
+    private Double arbCost;
+    private Double arbMoney;
 
 
 }

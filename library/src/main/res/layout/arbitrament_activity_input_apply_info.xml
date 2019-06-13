@@ -73,9 +73,14 @@
                         android:text="合计应还" />
 
                     <TextView
+                        android:id="@+id/tv_total_back_money_left"
+                        style="@style/UikitTextView"
+                        android:text="@string/uikit_money" />
+
+                    <TextView
                         android:id="@+id/tv_total_back_money"
                         style="@style/ArbitramentInputContent"
-                        android:text="¥500000" />
+                        android:text="500000" />
 
                     <ImageView
                         style="@style/ArbitramentGrayWarnIconStyle"
@@ -96,6 +101,12 @@
                         android:text="实际归还" />
 
                     <TextView
+                        android:id="@+id/tv_real_back_money_left"
+                        style="@style/UikitTextView"
+                        android:text="@string/uikit_money"
+                        android:visibility="gone" />
+
+                    <TextView
                         android:id="@+id/tv_real_back_money"
                         style="@style/ArbitramentInputContent" />
 
@@ -112,12 +123,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/ArbitramentInputName"
                         android:text="仲裁金额" />
 
+                    <TextView
+                        android:id="@+id/tv_arbitrament_money_left"
+                        style="@style/UikitTextView"
+                        android:text="@string/uikit_money"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tv_arbitrament_money"
@@ -125,13 +142,14 @@
 
                     <ImageView
                         android:id="@+id/iv_arbitrament_money"
-                        style="@style/ArbitramentInputArrow" />
+                        style="@style/ArbitramentGrayWarnIconStyle" />
 
                 </LinearLayout>
 
                 <View
                     android:id="@+id/view_divider_arbitrament_money"
-                    style="@style/UikitDivider.Horizontal" />
+                    style="@style/UikitDivider.Horizontal"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/ll_collection_prove"
@@ -207,23 +225,33 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/ArbitramentInputName"
                         android:text="仲裁费用" />
 
+
+                    <TextView
+                        android:id="@+id/tv_arbitrament_cost_left"
+                        style="@style/UikitTextView"
+                        android:text="@string/uikit_money" />
+
                     <TextView
                         android:id="@+id/tv_arbitrament_cost"
                         style="@style/ArbitramentInputContent"
-                        tools:text="$10000" />
+                        tools:text="10000" />
 
                     <ImageView
                         style="@style/ArbitramentGrayWarnIconStyle"
                         android:paddingRight="15dip" />
                 </LinearLayout>
 
-                <View style="@style/UikitDivider.Horizontal" />
+                <View
+                    android:id="@+id/view_arbitrament_cost_divider"
+                    style="@style/UikitDivider.Horizontal"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

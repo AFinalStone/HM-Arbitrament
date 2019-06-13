@@ -2,10 +2,14 @@ package com.hm.arbitrament.api;
 
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.bean.GetArbCostResBean;
+import com.hm.arbitrament.bean.GetArbServerAgreementResBean;
 import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
+import com.hm.arbitrament.bean.GetCollectionProveResBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
+import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbCostReqBean;
+import com.hm.arbitrament.bean.req.GetArbServerAgreementReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentInputApplyDataReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentStatusReqBean;
 import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailReqBean;
@@ -91,12 +95,42 @@ public class ArbitramentApi {
      * @param justiceId
      * @return
      */
-    public static Flowable<BaseResponse<GetArbCostResBean>> getArbitramentCost(String iouId, String justiceId, Number totalMoney) {
+    public static Flowable<BaseResponse<GetArbCostResBean>> getArbitramentCost(String iouId, String justiceId, Double totalMoney) {
         GetArbCostReqBean data = new GetArbCostReqBean();
         data.setIouId(iouId);
         data.setJusticeId(justiceId);
         data.setRepayAmount(totalMoney);
         return getService().getArbitramentCost(data).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取催收证明描述列表
+     *
+     * @return
+     */
+    public static Flowable<BaseResponse<List<GetCollectionProveResBean>>> getCollectionProvelist() {
+        return getService().getCollectionProvelist().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取仲裁服务协议
+     *
+     * @return
+     */
+    public static Flowable<BaseResponse<GetArbServerAgreementResBean>> getArbServerAgreement(String iouId, String justiceId) {
+        GetArbServerAgreementReqBean reqBean = new GetArbServerAgreementReqBean();
+        reqBean.setIouId(iouId);
+        reqBean.setJusticeId(justiceId);
+        return getService().getArbServerAgreement(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 创建仲裁申请书的支付订单
+     *
+     * @return
+     */
+    public static Flowable<BaseResponse<Object>> createArbApplyBookOrder(CreateArbOrderReqBean reqBean) {
+        return getService().createArbApplyBookOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }

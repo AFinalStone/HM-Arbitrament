@@ -17,6 +17,6 @@ public class GetArbitramentStatusResBean {
      */
 
     private String arbApplyNo;
-    private int route;
+    private Integer route;
 
 }

@@ -7,10 +7,9 @@ import lombok.Data;
  * @time 2019/6/10 11:27 AM
  */
 @Data
-public class GetArbCostReqBean {
+public class GetArbServerAgreementReqBean {
 
     private String iouId;
     private String justiceId;
-    private double repayAmount;
 
 }

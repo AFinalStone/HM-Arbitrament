@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingEnd="38dp"
+    android:paddingStart="38dp"
+    android:paddingTop="20dp">
+
+    <TextView
+        style="@style/UikitTextView.Auxiliary"
+        android:text="管家提醒：故意隐瞒还款记录将影响仲裁结果" />
+
+    <Button
+        android:id="@+id/btn_add_back_money_record"
+        style="@style/UikitHMButton.Large.Main"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:text="添加还款记录" />
+
+    <Button
+        android:id="@+id/btn_set_back_nothing"
+        style="@style/UikitHMButton.Large.Bordered"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:text="全部未还" />
+</LinearLayout>

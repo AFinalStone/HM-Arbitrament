@@ -32,4 +32,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     //签约密码，签章
     compile 'com.heima.iou:hmsignaturelocal:1.0.0'
+    //图片选择
+    compile 'com.heima.iou:hmselectpiclocal:1.0.0'
 }

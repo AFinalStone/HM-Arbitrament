@@ -1,6 +1,7 @@
 package com.hm.arbitrament.business.apply;
 
 import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
+import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.iou.base.mvp.BaseContract;
 
 /**
@@ -17,6 +18,16 @@ public class InputApplyInfoContract {
          * @param resBean
          */
         void showData(GetArbitramentInputApplyDataResBean resBean);
+
+        /**
+         * 显示仲裁金额
+         */
+        void showArbMoney(String strMoney);
+
+        /**
+         * 仲裁费用
+         */
+        void showArbCost(String strCost);
     }
 
     public interface Presenter extends BaseContract.BasePresenter {
@@ -29,9 +40,18 @@ public class InputApplyInfoContract {
 
         /**
          * 仲裁费用计算
-         *
-         * @param arbAmount
          */
-        void getArbitramentCost(String arbAmount);
+        void getArbitramentCost(String iouId, String justiceId, double totalMoney);
+
+        /**
+         * 获取仲裁协议
+         */
+        void getAgreement(String iouId, String justId);
+
+        /**
+         * 创建订单
+         */
+        void createOrder(CreateArbOrderReqBean reqBean);
+
     }
 }

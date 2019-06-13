@@ -21,6 +21,7 @@ import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -159,7 +160,15 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
 
     @OnClick(R2.id.btn_ok)
     public void onClick() {
-        NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId);
+        List<ElecEvidenceResBean> list = mAdapter.getData();
+        if (list == null) {
+            return;
+        }
+        ArrayList<String> idList = new ArrayList<>();
+        for (ElecEvidenceResBean bean : list) {
+            idList.add(bean.getExEvidenceId());
+        }
+        NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId, idList);
     }
 
     @Override

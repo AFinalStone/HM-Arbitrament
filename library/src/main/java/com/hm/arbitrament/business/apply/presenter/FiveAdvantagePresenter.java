@@ -22,6 +22,13 @@ import java.util.List;
 
 public class FiveAdvantagePresenter extends MvpActivityPresenter<FiveAdvantageContract.View> implements FiveAdvantageContract.Presenter {
 
+    private static final String CODE_IS_NOT_UP_TO_APPOINTED_TIME = "1801008";//还没有到约定的还款时间哦！
+    private static final String CODE_TIME_ARBITRAMENT_OUT_TIME = "1801009";//仲裁有效期为3年哦！
+    private static final String CODE_TIME_CURRENT_ONLE_SUPPORT_YZ = "1801009";//目前仅支持衢州仲裁委在线申请
+    private static final String CODE_TIME_NEED_UPLOAD_VALID_EVIDENCE = "1801011";//请先上传有效电子汇款凭证
+    private static final String CODE_TIME_ID_CART_WILL_OUT_TIME = "1801012";//您的身份证有效期不足一个月，为保证仲裁顺利进行，请先更新您的身份证信息
+
+
     public FiveAdvantagePresenter(@NonNull Context context, @NonNull FiveAdvantageContract.View view) {
         super(context, view);
     }
@@ -38,8 +45,18 @@ public class FiveAdvantagePresenter extends MvpActivityPresenter<FiveAdvantageCo
                     }
 
                     @Override
-                    public void handleException(Throwable throwable, String s, String s1) {
-
+                    public void handleException(Throwable throwable, String code, String s1) {
+                        if (CODE_IS_NOT_UP_TO_APPOINTED_TIME.equals(code)) {
+                            mView.showKnowDialog("还没有到约定的还款时间哦！");
+                        } else if (CODE_TIME_ARBITRAMENT_OUT_TIME.equals(code)) {
+                            mView.showKnowDialog("仲裁有效期为3年哦！");
+                        } else if (CODE_TIME_CURRENT_ONLE_SUPPORT_YZ.equals(code)) {
+                            mView.showKnowDialog("目前仅支持衢州仲裁委在线申请");
+                        } else if (CODE_TIME_NEED_UPLOAD_VALID_EVIDENCE.equals(code)) {
+                            mView.showNeedUploadElecEvidenceDialog();
+                        } else if (CODE_TIME_ID_CART_WILL_OUT_TIME.equals(code)) {
+                            mView.showNeedUpdateIDCardDialog();
+                        }
                     }
                 });
     }

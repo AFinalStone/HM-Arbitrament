@@ -2,7 +2,9 @@ package com.hm.arbitrament.business.apply.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,13 +13,19 @@ import android.widget.TextView;
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
+import com.hm.arbitrament.bean.BackMoneyRecordBean;
+import com.hm.arbitrament.bean.CollectionProveBean;
 import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
+import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.business.apply.InputApplyInfoContract;
 import com.hm.arbitrament.business.apply.presenter.InputApplyInfoPresenter;
-import com.hm.arbitrament.dict.CollectionProveEnum;
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.logger.Logger;
+import com.hm.iou.tools.Md5Util;
+import com.hm.iou.tools.StringUtil;
 import com.hm.iou.uikit.HMBottomBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
+import com.hm.iou.uikit.dialog.HMBottomDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,42 +42,67 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
 
     public static final int REQ_INPUT_REAL_BACK_MONEY_RECORD = 100;//实际归还记录
     public static final int REQ_INPUT_COLLECTION_PROVE = 101;//催收证明
-
+    public static final int REQ_GET_ARB_AGREEMENT_SERVER = 102;//催收证明
+    public static final int REQ_CHECK_SIGNATURE_PSD = 103;//校验签约密码
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUST_ID = "just_id";
+    public static final String EXTRA_KEY_LIST = "list";
 
     @BindView(R2.id.tv_total_back_money)
     TextView mTvTotalBackMoney;//合计应还
+    @BindView(R2.id.tv_real_back_money_left)
+    TextView mTvRealBackMoneyLeft;//实际归还金钱标记
     @BindView(R2.id.tv_real_back_money)
     TextView mTvRealBackMoney;//实际归还
     @BindView(R2.id.iv_real_back_money)
     ImageView mIvRealBackMoney;//实际归还
+
     @BindView(R2.id.ll_arbitrament_money)
     LinearLayout mLlArbitramentMoney;//仲裁金额
+    @BindView(R2.id.view_divider_arbitrament_money)
+    View mViewDividerArbitramentMoney;//仲裁金额分割线
+    @BindView(R2.id.tv_arbitrament_money_left)
+    TextView mTvArbitramentMoneyLeft;//仲裁金额金钱标记
     @BindView(R2.id.tv_arbitrament_money)
     TextView mTvArbitramentMoney;//仲裁金额
+
     @BindView(R2.id.tv_collection_prove)
     TextView mTvCollectionProve;//催收证明
     @BindView(R2.id.iv_collection_prove)
     ImageView mIvCollectionProve;//催收证明
+
     @BindView(R2.id.tv_purpose_interest_rate)
     TextView mTvPurposeInterestRate;//利息意向
     @BindView(R2.id.ll_purpose_interest_rate)
     LinearLayout llPurposeInterestRate;//利息意向
+
     @BindView(R2.id.tv_out_time_interest)
     TextView mTvOutTimeInterest;//逾期利息
+
+    @BindView(R2.id.tv_arbitrament_cost_left)
+    TextView mTvArbitramentCostLeft;//仲裁费用金钱标记
+
     @BindView(R2.id.tv_arbitrament_cost)
     TextView mTvArbitramentCost;//仲裁费用
+    @BindView(R2.id.ll_arbitrament_cost)
+    LinearLayout mLlArbitramentCost;////仲裁费用
+    @BindView(R2.id.view_arbitrament_cost_divider)
+    View mViewArbitramentCostDivider;////仲裁费用分割线
+
+
     @BindView(R2.id.bottomBar)
     HMBottomBarView mBottomBar;
 
+
     private String mIouId;
     private String mJustId;
+    private ArrayList<String> mListElecEvidence;//有效凭证列表
 
+    private HMBottomDialog mBottomAddBackRecordDialog;//还款记录
     private HMAlertDialog mArbitramentCostDialog;
+    private CollectionProveBean mCollectionProveBean;//催收证明
+    private ArrayList<BackMoneyRecordBean> mBackMoneyRecordList;//还款记录
     private String mContractStartTime;//合同开始时间
-    private ArrayList<GetArbitramentInputApplyDataResBean.RepaymentRecordListBean> mListDataBackMoneyRecord;//实际归还记录
-    private GetArbitramentInputApplyDataResBean.UrgeExidenceListBean mCollectionProveBean;//催收证明
 
     @Override
     protected int getLayoutId() {
@@ -85,9 +118,11 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
     protected void initEventAndData(Bundle bundle) {
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
         mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
+        mListElecEvidence = getIntent().getStringArrayListExtra(EXTRA_KEY_LIST);
         if (bundle != null) {
-            mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
-            mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
+            mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
+            mJustId = bundle.getString(EXTRA_KEY_JUST_ID);
+            mListElecEvidence = bundle.getStringArrayList(EXTRA_KEY_LIST);
         }
         mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
@@ -101,10 +136,10 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 if (mTvArbitramentMoney.length() == 0) {
                     return;
                 }
-                int arbMoney = 0;
+                double arbMoney = 0;
                 try {
                     String strArbMoney = mTvArbitramentMoney.getText().toString();
-                    arbMoney = Integer.parseInt(strArbMoney);
+                    arbMoney = Double.parseDouble(strArbMoney);
                 } catch (Exception e) {
 
                 }
@@ -112,7 +147,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                     showArbitramentMoneyTooSmallDialog();
                     return;
                 }
-                NavigationHelper.toArbitramentServerAgreement(mContext);
+                mPresenter.getAgreement(mIouId, mJustId);
             }
         });
         mPresenter.getInputApplyInfoData(mIouId, mJustId);
@@ -123,6 +158,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_IOU_ID, mIouId);
         outState.putString(EXTRA_KEY_JUST_ID, mJustId);
+        outState.putStringArrayList(EXTRA_KEY_LIST, mListElecEvidence);
     }
 
     @Override
@@ -134,9 +170,9 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                     return;
                 }
                 mIvRealBackMoney.setImageResource(R.mipmap.uikit_ic_arrow_right);
-                mListDataBackMoneyRecord = (ArrayList<GetArbitramentInputApplyDataResBean.RepaymentRecordListBean>) data.getSerializableExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_MONEY_RECORD_LIST);
+                ArrayList<BackMoneyRecordBean> list = (ArrayList<BackMoneyRecordBean>) data.getSerializableExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_MONEY_RECORD_LIST);
                 //归还记录
-                showRealBackRecord(mListDataBackMoneyRecord);
+                showRealBackRecord(list);
                 checkValue();
             }
         } else if (REQ_INPUT_COLLECTION_PROVE == requestCode) {
@@ -144,12 +180,36 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 if (data == null) {
                     return;
                 }
+                mIvCollectionProve.setImageResource(R.mipmap.uikit_ic_arrow_right);
+                mCollectionProveBean = (CollectionProveBean) data.getSerializableExtra(InputCollectionProveActivity.EXTRA_KEY_ITEM);
+                //催收证明
+                showCollectionProve(mCollectionProveBean);
+                checkValue();
             }
-            mIvCollectionProve.setImageResource(R.mipmap.uikit_ic_arrow_right);
-            mCollectionProveBean = (GetArbitramentInputApplyDataResBean.UrgeExidenceListBean) data.getSerializableExtra(InputCollectionProveActivity.EXTRA_KEY_ITEM);
-            //催收证明
-            showCollectionProve(mCollectionProveBean);
-            checkValue();
+
+        } else if (REQ_GET_ARB_AGREEMENT_SERVER == requestCode) {
+            if (RESULT_OK == resultCode) {
+                NavigationHelper.toCheckSignPwd(mContext, "输入签约密码", REQ_CHECK_SIGNATURE_PSD);
+            }
+        } else if (REQ_CHECK_SIGNATURE_PSD == requestCode) {
+            if (RESULT_OK == resultCode) {
+                String signPwd = data.getStringExtra("pwd");
+                String signId = data.getStringExtra("sign_id");
+                Logger.d("SignPwd = " + signPwd);
+                Logger.d("SignId = " + signId);
+
+                CreateArbOrderReqBean reqBean = new CreateArbOrderReqBean();
+                reqBean.setIouId(mIouId);//合同id
+                reqBean.setJusticeId(mJustId);//合同公证id
+                reqBean.setSealId(signId);//签章id
+                reqBean.setTransPswd(Md5Util.getMd5ByString(signPwd));//签约密码
+                reqBean.setExEvidenceIdList(mListElecEvidence);
+                reqBean.setRepaymentRecordList(mBackMoneyRecordList);
+                ArrayList<CollectionProveBean> list = new ArrayList<>();
+                list.add(mCollectionProveBean);
+                reqBean.setUrgeExidenceList(list);
+                mPresenter.createOrder(reqBean);
+            }
         }
     }
 
@@ -163,23 +223,43 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         } else if (R.id.ll_total_back_money == id) {
             showKnowDialog("合计应还", "借款本金+借款利息+逾期利息");
         } else if (R.id.tv_real_back_money == id || R.id.iv_real_back_money == id) {
-            Intent intent = new Intent(mContext, InputRealBackMoneyActivity.class);
-            intent.putExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_MONEY_RECORD_LIST, mListDataBackMoneyRecord);
-            intent.putExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_TIME_START_TIME, mContractStartTime);
-            String strMaxMoney = mTvTotalBackMoney.getText().toString();
-            try {
-                int maxMoney = Integer.parseInt(strMaxMoney);
-                intent.putExtra(InputRealBackMoneyActivity.EXTRA_KEY_MAX_BACK_MONEY, maxMoney);
-            } catch (Exception e) {
 
+            if (mBottomAddBackRecordDialog == null) {
+                View contentView = LayoutInflater.from(mContext).inflate(R.layout.arbitrament_dialog_select_real_back_money_type, null, false);
+                contentView.findViewById(R.id.btn_add_back_money_record).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mBottomAddBackRecordDialog.dismiss();
+                        String strTotalMoney = mTvTotalBackMoney.getText().toString();
+                        NavigationHelper.toAddBackMoneyRecord(mContext, mBackMoneyRecordList, mContractStartTime, strTotalMoney, REQ_INPUT_REAL_BACK_MONEY_RECORD);
+                    }
+                });
+                contentView.findViewById(R.id.btn_set_back_nothing).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mBottomAddBackRecordDialog.dismiss();
+                        showRealBackRecord(null);
+                        mTvRealBackMoney.setText("全部未还");
+                    }
+                });
+                mBottomAddBackRecordDialog = new HMBottomDialog.Builder(mContext)
+                        .setTitle("实际归还")
+                        .setBottomView(contentView)
+                        .create();
             }
-            startActivityForResult(intent, REQ_INPUT_REAL_BACK_MONEY_RECORD);
+            //判断是否填写了实际归还记录
+            String realBackMoney = mTvRealBackMoney.getText().toString();
+            if (TextUtils.isEmpty(realBackMoney) || "全部未还".equals(realBackMoney)) {
+                mBottomAddBackRecordDialog.show();
+            } else {
+                String strTotalMoney = mTvTotalBackMoney.getText().toString();
+                NavigationHelper.toAddBackMoneyRecord(mContext, mBackMoneyRecordList, mContractStartTime, strTotalMoney, REQ_INPUT_REAL_BACK_MONEY_RECORD);
+            }
         } else if (R.id.ll_arbitrament_money == id) {
             showKnowDialog("仲裁金额", "仲裁金额=未还金额+逾期利息\n仲裁时未还部分的利息最高支持为年化24%；已还款部分最高支持年化36%；仲裁时逾期利息最高支持为年化24%");
         } else if (R.id.tv_collection_prove == id || R.id.iv_collection_prove == id) {
-            Intent intent = new Intent(mContext, InputCollectionProveActivity.class);
-            intent.putExtra(InputCollectionProveActivity.EXTRA_KEY_ITEM, mCollectionProveBean);
-            startActivityForResult(intent, REQ_INPUT_COLLECTION_PROVE);
+
+            NavigationHelper.toAddCollectionProve(mContext, mCollectionProveBean, REQ_INPUT_COLLECTION_PROVE);
         } else if (R.id.ll_purpose_interest_rate == id) {
             showKnowDialog("利息意向", "依据相关法律规定，借款利息最高支持24%");
         } else if (R.id.ll_out_time_interest == id) {
@@ -236,9 +316,11 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
 
     @Override
     public void showData(GetArbitramentInputApplyDataResBean resBean) {
+        //合同开始时间
+        mContractStartTime = resBean.getContractStartDate();
         //合计应还
         Number totalBackMoney = resBean.getAmount();
-        mTvTotalBackMoney.setText(String.valueOf(totalBackMoney.doubleValue()));
+        mTvTotalBackMoney.setText(StringUtil.doubleToString(totalBackMoney.doubleValue()));
         //利息意向
         Number purposeInterestRate = resBean.getDailyRate();
         if (0 != purposeInterestRate.intValue()) {
@@ -254,28 +336,53 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         //归还记录
         showRealBackRecord(resBean.getRepaymentRecordList());
         //催收证明
-        List<GetArbitramentInputApplyDataResBean.UrgeExidenceListBean> list = resBean.getUrgeExidenceList();
+        List<CollectionProveBean> list = resBean.getUrgeExidenceList();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 showCollectionProve(list.get(i));
             }
         }
+        checkValue();
+    }
+
+    @Override
+    public void showArbMoney(String strMoney) {
+        mTvArbitramentMoneyLeft.setVisibility(View.VISIBLE);
+        mLlArbitramentMoney.setVisibility(View.VISIBLE);
+        mViewDividerArbitramentMoney.setVisibility(View.VISIBLE);
+        mTvArbitramentMoney.setText(strMoney);
+    }
+
+    @Override
+    public void showArbCost(String strCost) {
+        mTvArbitramentCostLeft.setVisibility(View.VISIBLE);
+        mLlArbitramentCost.setVisibility(View.VISIBLE);
+        mViewArbitramentCostDivider.setVisibility(View.VISIBLE);
+        mTvArbitramentCost.setText(strCost);
     }
 
     /**
-     * 归还记录
+     * 实际归还
      *
      * @param list
      */
 
-    private void showRealBackRecord(List<GetArbitramentInputApplyDataResBean.RepaymentRecordListBean> list) {
+    private void showRealBackRecord(ArrayList<BackMoneyRecordBean> list) {
+        mBackMoneyRecordList = list;
+        int realBackMoney = 0;
         if (list != null) {
-            int realBackMoney = 0;
             for (int i = 0; i < list.size(); i++) {
                 realBackMoney = realBackMoney + list.get(i).getAmount();
             }
-            mTvRealBackMoney.setText(String.valueOf(realBackMoney));
         }
+        mPresenter.getArbitramentCost(mIouId, mJustId, realBackMoney);
+        if (realBackMoney == 0) {
+            mTvArbitramentMoneyLeft.setVisibility(View.GONE);
+            mTvRealBackMoney.setText("");
+            return;
+        }
+        mTvArbitramentMoneyLeft.setVisibility(View.VISIBLE);
+        mTvRealBackMoney.setText(String.valueOf(realBackMoney));
     }
 
     /**
@@ -283,14 +390,14 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
      *
      * @param bean
      */
-    private void showCollectionProve(GetArbitramentInputApplyDataResBean.UrgeExidenceListBean bean) {
+    private void showCollectionProve(CollectionProveBean bean) {
         if (bean == null) {
             return;
         }
         mCollectionProveBean = bean;
-        CollectionProveEnum collectionProveEnum = CollectionProveEnum.getInstance(mCollectionProveBean.getUrgeEvidenceType());
-        if (collectionProveEnum != null) {
-            mTvCollectionProve.setText(collectionProveEnum.getDesc());
+        String desc = mCollectionProveBean.getDescription();
+        if (!TextUtils.isEmpty(desc)) {
+            mTvCollectionProve.setText(desc);
         }
     }
 }
