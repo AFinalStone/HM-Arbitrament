@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/uikit_background"
+    >
+
+    <LinearLayout
+        android:id="@+id/ll_apply_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dip"
+        android:background="@drawable/uikit_bg_card_form"
+        android:orientation="vertical"
+        android:padding="15dip">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/UikitTextView"
+                android:layout_width="70dp"
+                android:text="收件人" />
+
+            <EditText
+                android:id="@+id/et_award_name"
+                style="@style/UikitEditText.Normal"
+                android:hint="请输入收件人姓名"
+                android:maxLength="16"
+                android:singleLine="true"
+                />
+
+        </LinearLayout>
+
+        <View style="@style/UikitDivider.Horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/UikitTextView"
+                android:layout_width="70dp"
+                android:text="手机号码" />
+
+            <EditText
+                android:id="@+id/et_award_mobile"
+                style="@style/UikitEditText.InputMobile"
+                android:hint="请输入手机号码" />
+
+        </LinearLayout>
+
+        <View style="@style/UikitDivider.Horizontal" />
+
+        <LinearLayout
+            android:id="@+id/ll_award_city"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/UikitTextView"
+                android:layout_width="70dp"
+                android:text="城市/区域" />
+
+            <TextView
+                android:id="@+id/tv_award_city"
+                style="@style/UikitEditText"
+                android:hint="请选择" />
+
+        </LinearLayout>
+
+        <View style="@style/UikitDivider.Horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/UikitTextView"
+                android:layout_width="70dp"
+                android:text="详细地址" />
+
+            <EditText
+                android:id="@+id/et_award_addr"
+                style="@style/UikitEditText.Normal"
+                android:hint="需要填写楼栋楼层或房间号信息" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_apply_tip1"
+        style="@style/UikitTextView.Auxiliary.Small"
+        android:paddingLeft="15dip"
+        android:text="*申请纸质裁决书将收取10元快递费用"
+        android:layout_below="@id/ll_apply_input"
+        />
+
+    <TextView
+        style="@style/UikitTextView.Auxiliary.Small"
+        android:layout_marginTop="5dip"
+        android:paddingLeft="15dip"
+        android:layout_below="@id/tv_apply_tip1"
+        android:text="*申请成功后不可取消，不可修改" />
+
+    <com.hm.iou.uikit.HMBottomBarView
+        android:id="@+id/bottomBar_apply"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        app:bottomTitleText="确认申请"
+        />
+
+
+</RelativeLayout>

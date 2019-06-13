@@ -32,4 +32,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="催收证明" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="仲裁进度"
+        android:onClick="toProgressPage"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="裁决书"
+        android:onClick="toAwardPage"
+        />
+
 </LinearLayout>

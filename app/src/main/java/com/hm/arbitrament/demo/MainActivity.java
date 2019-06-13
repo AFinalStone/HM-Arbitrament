@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
+import com.hm.arbitrament.business.award.ArbitralAwardActivity;
+import com.hm.arbitrament.business.progress.view.ArbitramentProgressActivity;
 import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.UserManager;
@@ -66,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void toProgressPage(View v) {
+        startActivity(new Intent(this, ArbitramentProgressActivity.class));
+    }
+
+    public void toAwardPage(View v) {
+        startActivity(new Intent(this, ArbitralAwardActivity.class));
+    }
 
     private void login() {
         String pwd = MD5.hexdigest("123456".getBytes());

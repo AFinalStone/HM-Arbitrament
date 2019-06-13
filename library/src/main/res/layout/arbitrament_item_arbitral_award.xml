@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/uikit_bg_card_form"
+    android:padding="15dip"
+    >
+
+    <TextView
+        style="@style/UikitTextView.Auxiliary.Small"
+        android:id="@+id/tv_award_time"
+        tools:text="2019.12.25 12:33"
+        />
+    <TextView
+        style="@style/UikitTextView"
+        android:id="@+id/tv_award_status"
+        android:textColor="@color/uikit_function_remind"
+        android:layout_alignParentRight="true"
+        tools:text="申请成功"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_award_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dip"
+        android:layout_below="@id/tv_award_time"
+        >
+
+        <TextView
+            style="@style/UikitTextView"
+            android:id="@+id/tv_award_name"
+            tools:text="王二小"
+            />
+
+        <TextView
+            style="@style/UikitTextView"
+            android:id="@+id/tv_award_mobile"
+            tools:text="13456816850"
+            android:layout_marginLeft="15dip"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/UikitTextView"
+        android:id="@+id/tv_award_address"
+        tools:text="浙江省 杭州市 余杭区 天目山西路222号竹海水韵7幢2单元1111"
+        android:layout_below="@id/ll_award_user"
+        android:layout_marginTop="10dp"
+        />
+
+
+</RelativeLayout>
