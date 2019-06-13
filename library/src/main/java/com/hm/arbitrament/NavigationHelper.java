@@ -12,7 +12,10 @@ import com.hm.arbitrament.business.apply.view.SelectValidEvidenceActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceDetailActivity;
 import com.hm.arbitrament.business.pay.view.PayActivity;
 import com.hm.iou.base.BaseBizAppLike;
+import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.router.Router;
+
+import static com.hm.arbitrament.Constants.H5_URL_ZHONGCAI_XUZHI;
 
 /**
  * Created by syl on 2019/6/6.
@@ -38,9 +41,7 @@ public class NavigationHelper {
      * @param context
      */
     public static void toNeedKnowByArbitrament(Context context) {
-        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/webview/index")
-                .withString("url", BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_NEED_KNOW_BY_ARBIRAMENT)
-                .navigation(context);
+        RouterUtil.clickMenuLink(context, H5_URL_ZHONGCAI_XUZHI);
     }
 
     /**
@@ -174,5 +175,17 @@ public class NavigationHelper {
     public static void toPay(Activity activity) {
         Intent intent = new Intent(activity, PayActivity.class);
         activity.startActivity(intent);
+    }
+
+    /**
+     * 查看pdf页面
+     *
+     * @param context
+     * @param pdfUrl  pdf文件地址或者普通网页地址
+     */
+    public static void toPdfPage(Context context, String pdfUrl) {
+        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/iou/contract_pdf_detail")
+                .withString("pdf_url", pdfUrl)
+                .navigation(context);
     }
 }

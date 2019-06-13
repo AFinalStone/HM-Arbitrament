@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.business.progress.ArbitramentProgressContract;
 import com.hm.arbitrament.business.progress.presenter.ArbitramentProgressPresenter;
@@ -56,7 +57,7 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
                 if (view.getId() == R.id.tv_progress_title) {
                     String link = (String) view.getTag();
                     if (!TextUtils.isEmpty(link)) {
-
+                        NavigationHelper.toPdfPage(ArbitramentProgressActivity.this, link);
                     }
                 }
             }

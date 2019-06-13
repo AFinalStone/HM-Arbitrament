@@ -48,4 +48,11 @@
         android:onClick="toAwardPage"
         />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="退款进度"
+        android:onClick="toBackMoneyPage"
+        />
+
 </LinearLayout>
