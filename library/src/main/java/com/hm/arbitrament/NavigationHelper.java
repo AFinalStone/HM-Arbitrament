@@ -21,6 +21,7 @@ import com.hm.iou.router.Router;
 
 import java.util.ArrayList;
 
+import static com.hm.arbitrament.Constants.H5_URL_RETURN_MONEY_RULE;
 import static com.hm.arbitrament.Constants.H5_URL_ZHONGCAI_XUZHI;
 
 /**
@@ -228,4 +229,10 @@ public class NavigationHelper {
                 .withString("pdf_url", pdfUrl)
                 .navigation(context);
     }
+
+    public static void toReturnMoneyRulePage(Context context, int progress) {
+        String url = BaseBizAppLike.getInstance().getH5Server() + H5_URL_RETURN_MONEY_RULE + progress;
+        RouterUtil.clickMenuLink(context, url);
+    }
+
 }

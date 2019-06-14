@@ -71,6 +71,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
+        <activity
+            android:name=".business.submit.ArbitramentSubmitActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
 
     </application>
 </manifest>
