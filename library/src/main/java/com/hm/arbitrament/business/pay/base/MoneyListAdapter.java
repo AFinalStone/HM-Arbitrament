@@ -1,4 +1,4 @@
-package com.hm.arbitrament.business.pay.view;
+package com.hm.arbitrament.business.pay.base;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

@@ -14,7 +14,7 @@ import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.apply.view.InputRealBackMoneyActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceDetailActivity;
-import com.hm.arbitrament.business.pay.view.PayActivity;
+import com.hm.arbitrament.business.pay.base.BasePayActivity;
 import com.hm.iou.base.BaseBizAppLike;
 import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.router.Router;
@@ -181,7 +181,7 @@ public class NavigationHelper {
      * @param activity
      */
     public static void toPay(Activity activity) {
-        Intent intent = new Intent(activity, PayActivity.class);
+        Intent intent = new Intent(activity, BasePayActivity.class);
         activity.startActivity(intent);
     }
 

@@ -28,12 +28,15 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp" />
+            <TextView
+                style="@style/UikitTextView"
+                android:paddingBottom="3dp"
+                android:text="+"
+                android:textSize="@dimen/textFontSize_16" />
 
             <TextView
                 style="@style/UikitTextView"
+                android:layout_marginStart="5dp"
                 android:text="上传催收证明" />
 
         </LinearLayout>

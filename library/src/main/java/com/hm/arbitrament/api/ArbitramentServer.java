@@ -1,18 +1,22 @@
 package com.hm.arbitrament.api;
 
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
+import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.GetArbCostResBean;
 import com.hm.arbitrament.bean.GetArbServerAgreementResBean;
 import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
+import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
+import com.hm.arbitrament.bean.req.GetArbApplyBookOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbCostReqBean;
 import com.hm.arbitrament.bean.req.GetArbServerAgreementReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentInputApplyDataReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentStatusReqBean;
 import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailReqBean;
+import com.hm.arbitrament.bean.req.PayArbApplyBookOrderReqBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
 import java.util.List;
@@ -50,4 +54,10 @@ public interface ArbitramentServer {
 
     @POST("/api/arb/v1/order/createHmOrder")
     Flowable<BaseResponse<Object>> createArbApplyBookOrder(@Body CreateArbOrderReqBean reqBean);
+
+    @POST("/api/arb/v1/order/getHmPackage")
+    Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbApplyBookOrderDetail(@Body GetArbApplyBookOrderReqBean reqBean);
+
+    @POST("/api/arb/v1/order/arouseHmOrder")
+    Flowable<BaseResponse<PayArbApplyBookOrderResBean>> payArbApplyBookOrder(@Body PayArbApplyBookOrderReqBean reqBean);
 }

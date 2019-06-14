@@ -1,18 +1,22 @@
 package com.hm.arbitrament.api;
 
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
+import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.GetArbCostResBean;
 import com.hm.arbitrament.bean.GetArbServerAgreementResBean;
 import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
+import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
+import com.hm.arbitrament.bean.req.GetArbApplyBookOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbCostReqBean;
 import com.hm.arbitrament.bean.req.GetArbServerAgreementReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentInputApplyDataReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentStatusReqBean;
 import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailReqBean;
+import com.hm.arbitrament.bean.req.PayArbApplyBookOrderReqBean;
 import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.sharedata.model.BaseResponse;
 
@@ -133,4 +137,24 @@ public class ArbitramentApi {
         return getService().createArbApplyBookOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 获取仲裁申请书的订单详情
+     *
+     * @return
+     */
+    public static Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbApplyBookOrderDetail(String iouId, String justiceId) {
+        GetArbApplyBookOrderReqBean reqBean = new GetArbApplyBookOrderReqBean();
+        reqBean.setIouId(iouId);
+        reqBean.setJusticeId(justiceId);
+        return getService().getArbApplyBookOrderDetail(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 对仲裁申请书的订单进行付款
+     *
+     * @return
+     */
+    public static Flowable<BaseResponse<PayArbApplyBookOrderResBean>> payArbApplyBookOrder(PayArbApplyBookOrderReqBean reqBean) {
+        return getService().payArbApplyBookOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 }

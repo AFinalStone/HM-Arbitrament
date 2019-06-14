@@ -15,7 +15,6 @@ public class IndexActivity extends BaseActivity<IndexPresenter> implements Index
 
     private String mIouId;
     private String mJustId;
-    private String mIsBorrower;//是否是借款人
 
     @Override
     protected int getLayoutId() {
