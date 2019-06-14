@@ -85,7 +85,7 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
                     IMoneyItem item = mAdapter.getItem(position);
                     if (item != null && !TextUtils.isEmpty(item.getWarnDialogContent())) {
                         new HMAlertDialog.Builder(mContext)
-                                .setTitle(item.getWarnDialogTitle())
+                                .setTitle(item.getName())
                                 .setMessage(item.getWarnDialogContent())
                                 .setPositiveButton("知道了")
                                 .create()
@@ -154,7 +154,10 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
 
     @Override
     public void showDiscount(String discount) {
-        if (!TextUtils.isEmpty(discount)) {
+        if (TextUtils.isEmpty(discount)) {
+            mTvDiscount.setVisibility(View.INVISIBLE);
+        } else {
+            mTvDiscount.setVisibility(View.VISIBLE);
             mTvDiscount.setText(discount);
         }
     }

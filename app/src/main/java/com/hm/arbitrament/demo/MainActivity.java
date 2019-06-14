@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
+import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.award.ArbitralAwardActivity;
+import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
 import com.hm.arbitrament.business.progress.view.ArbitramentProgressActivity;
 import com.hm.arbitrament.business.progress.view.MoneyBackProgressActivity;
 import com.hm.arbitrament.business.submit.ArbitramentSubmitActivity;
@@ -41,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, FiveAdvantageActivity.class);
                 intent.putExtra(FiveAdvantageActivity.EXTRA_KEY_IOU_ID, "e67ff445193545bab4b44d14e8eb5705");
                 intent.putExtra(FiveAdvantageActivity.EXTRA_KEY_JUST_ID, "190523143827000448");
+                startActivity(intent);
+            }
+        });
+        findViewById(R.id.btn_pay_arb_apply_order).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ArbApplyBookPayActivity.class);
+                intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_IOU_ID, "e67ff445193545bab4b44d14e8eb5705");
+                intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_JUST_ID, "190523143827000448");
                 startActivity(intent);
             }
         });

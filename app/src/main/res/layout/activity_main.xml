@@ -26,6 +26,12 @@
         android:layout_height="wrap_content"
         android:text="5个优势" />
 
+    <Button
+        android:id="@+id/btn_pay_arb_apply_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="支付仲裁申请书订单" />
+
 
     <Button
         android:id="@+id/btn_collection_prove"
@@ -37,29 +43,25 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="仲裁进度"
         android:onClick="toProgressPage"
-        />
+        android:text="仲裁进度" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="裁决书"
         android:onClick="toAwardPage"
-        />
+        android:text="裁决书" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="退款进度"
         android:onClick="toBackMoneyPage"
-        />
+        android:text="退款进度" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="仲裁提交"
         android:onClick="arbitramentSubmit"
-        />
+        android:text="仲裁提交" />
 
 </LinearLayout>

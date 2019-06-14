@@ -35,6 +35,7 @@ public class GetArbApplyBookOrderResBean {
     private List<ItemListBean> itemList;
 
 
+    @Data
     public static class ItemListBean {
         /**
          * amountStr : string

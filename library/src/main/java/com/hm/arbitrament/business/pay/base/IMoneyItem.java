@@ -10,7 +10,5 @@ public interface IMoneyItem {
 
     String getContent();
 
-    String getWarnDialogTitle();
-
     String getWarnDialogContent();
 }
