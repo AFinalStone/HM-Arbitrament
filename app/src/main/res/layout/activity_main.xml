@@ -55,4 +55,11 @@
         android:onClick="toBackMoneyPage"
         />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="仲裁提交"
+        android:onClick="arbitramentSubmit"
+        />
+
 </LinearLayout>

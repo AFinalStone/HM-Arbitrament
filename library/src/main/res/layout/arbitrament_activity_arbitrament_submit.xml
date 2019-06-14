@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <WebView
+        android:id="@+id/wv_pdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
+    </WebView>
+
+    <com.hm.iou.uikit.HMBottomBarView
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        app:bottomTitleIcon="@mipmap/uikit_ic_more_black"
+        app:bottomTitleText="提交仲裁"
+        app:bottomTitleIconWidth="50dp"
+        />
+
+</LinearLayout>

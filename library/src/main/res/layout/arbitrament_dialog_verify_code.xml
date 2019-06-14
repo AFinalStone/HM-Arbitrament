@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp"
+    android:paddingLeft="25dp"
+    android:paddingRight="25dp"
+    >
+
+    <TextView
+        android:id="@+id/tv_dialog_msg"
+        style="@style/UikitTextView"
+        android:textColor="@color/uikit_text_sub_content"
+        tools:text="为确保账户资金安全，请输入138****收到的验证码"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        >
+
+        <EditText
+            android:id="@+id/et_dialog_code"
+            style="@style/UikitEditText.Normal"
+            android:layout_width="wrap_content"
+            android:height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/uikit_bg_edit_with_border"
+            android:inputType="numberSigned"
+            android:maxLength="6"
+            android:paddingLeft="10dp"
+            android:hint="短信验证码"
+            android:gravity="center_vertical|left"
+            />
+
+        <com.hm.iou.uikit.HMCountDownTextView
+            android:id="@+id/tv_dialog_countdown"
+            style="@style/UikitHMButton.CheckCode"
+            android:layout_marginLeft="18dp"
+            android:enabled="true"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

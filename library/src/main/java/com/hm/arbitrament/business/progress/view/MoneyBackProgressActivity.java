@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
 import com.hm.arbitrament.business.progress.ArbitramentProgressContract;
@@ -19,6 +20,8 @@ import com.hm.arbitrament.business.progress.MoneyBackProgressContract;
 import com.hm.arbitrament.business.progress.presenter.ArbitramentProgressPresenter;
 import com.hm.arbitrament.business.progress.presenter.MoneyBackProgressPresenter;
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.base.BaseBizAppLike;
+import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.uikit.HMBottomBarView;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.dialog.HMBottomDialog;
@@ -27,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.hm.arbitrament.Constants.H5_URL_RETURN_MONEY_RULE;
 
 /**
  * 退款进度
@@ -141,6 +146,13 @@ public class MoneyBackProgressActivity extends BaseActivity<MoneyBackProgressPre
         mTvAmount.setText(txt);
         mBottomBar.updateTitle("退款规则");
         mBottomBar.setTitleVisible(true);
+        mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
+            @Override
+            public void onClickTitle() {
+                //TODO 当前退款进度到哪了
+                NavigationHelper.toReturnMoneyRulePage(MoneyBackProgressActivity.this, 2);
+            }
+        });
     }
 
 }
