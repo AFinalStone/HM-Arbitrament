@@ -27,6 +27,9 @@ import butterknife.BindView;
  */
 public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgressPresenter> implements ArbitramentProgressContract.View {
 
+    //仲裁申请编号
+    public static final String EXTRA_KEY_ARB_NO = "arb_no";
+
     @BindView(R2.id.rv_progress_content)
     RecyclerView mRvProgress;
     @BindView(R2.id.loading_view)
@@ -35,6 +38,7 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
     HMBottomBarView mBottomBar;
 
     private ProgressAdapter mAdapter;
+    private String mArbNo;
 
     @Override
     protected int getLayoutId() {
@@ -48,6 +52,11 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+        mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
+        if (bundle != null) {
+            mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
+        }
+
         mRvProgress.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ProgressAdapter(this);
         mRvProgress.setAdapter(mAdapter);
@@ -63,7 +72,13 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
             }
         });
 
-        mPresenter.loadProgressData();
+        mPresenter.loadProgressData(mArbNo);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
     }
 
     @Override
@@ -76,7 +91,7 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
         mLoadingView.showDataFail(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.loadProgressData();
+                mPresenter.loadProgressData(mArbNo);
             }
         });
     }

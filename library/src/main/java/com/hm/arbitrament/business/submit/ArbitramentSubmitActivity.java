@@ -33,6 +33,8 @@ import io.reactivex.functions.Consumer;
 
 public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPresenter> implements ArbitramentSubmitContract.View {
 
+    public static final String EXTRA_KEY_ARB_NO = "arb_no";
+
     @BindView(R2.id.wv_pdf)
     WebView mWebView;
     @BindView(R2.id.bottomBar)
@@ -43,9 +45,8 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     private EditText mEtCode;
     private HMCountDownTextView mCountDownView;
 
-    private String mPdfUrl = "http://www.baidu.com";
-    private String mIouId;
-    private String mJusticeId;
+    private String mArbNo;
+    private String mPdfUrl;
 
     @Override
     protected int getLayoutId() {
@@ -59,6 +60,11 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+        mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
+        if (bundle != null) {
+            mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
+        }
+
         initWebView();
         mBottomBarView.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
@@ -73,15 +79,13 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
             }
         });
 
-        Uri uri = Uri.parse(mPdfUrl);
-        String path = uri.getPath();
-        if (path.endsWith(".pdf")) {
-            //如果是 pdf 文件地址，则用加载pdf的方式来打开
-            mWebView.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + Uri.encode(mPdfUrl));
-        } else {
-            //如果是普通文件地址，则直接用WebView加载
-            mWebView.loadUrl(mPdfUrl);
-        }
+        mPresenter.getArbApplyDoc(mArbNo);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
     }
 
     protected void initWebView() {
@@ -134,7 +138,7 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
 
                     @Override
                     public void onNegClick() {
-                        mPresenter.cancelArbitrament(mIouId, mJusticeId);
+                        mPresenter.cancelArbitrament(mArbNo);
                     }
                 })
                 .create().show();
@@ -202,5 +206,11 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
         if (mCountDownView != null)
             mCountDownView.startCountDown();
         KeyboardUtil.showKeyboard(mEtCode);
+    }
+
+    @Override
+    public void showArbApplyDoc(String pdfUrl) {
+        mPdfUrl = pdfUrl;
+        mWebView.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + Uri.encode(mPdfUrl));
     }
 }

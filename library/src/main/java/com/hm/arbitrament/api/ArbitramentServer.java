@@ -8,6 +8,8 @@ import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
+import com.hm.arbitrament.bean.ProgressResBean;
+import com.hm.arbitrament.bean.req.CancelArbReqBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbApplyBookOrderReqBean;
@@ -23,7 +25,9 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by syl on 2019/6/5.
@@ -60,4 +64,14 @@ public interface ArbitramentServer {
 
     @POST("/api/arb/v1/order/arouseHmOrder")
     Flowable<BaseResponse<PayArbApplyBookOrderResBean>> payArbApplyBookOrder(@Body PayArbApplyBookOrderReqBean reqBean);
+
+    @GET("/api/arb/v1/getProgress")
+    Flowable<BaseResponse<ProgressResBean>> getProgress(@Query("arbApplyNo") String arbApplyNo);
+
+    @GET("/api/arb/v1/getArbApplyDoc")
+    Flowable<BaseResponse<String>> getArbApplyDoc(@Query("arbApplyNo") String arbApplyNo);
+
+    @POST("/api/arb/v1/cancel")
+    Flowable<BaseResponse<Object>> cancelArbitrament(@Body CancelArbReqBean reqBean);
+
 }

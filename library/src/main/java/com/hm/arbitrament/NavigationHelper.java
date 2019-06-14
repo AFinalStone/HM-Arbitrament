@@ -15,6 +15,8 @@ import com.hm.arbitrament.business.apply.view.InputRealBackMoneyActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceDetailActivity;
 import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
+import com.hm.arbitrament.business.progress.view.ArbitramentProgressActivity;
+import com.hm.arbitrament.business.submit.ArbitramentSubmitActivity;
 import com.hm.iou.base.BaseBizAppLike;
 import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.router.Router;
@@ -177,6 +179,18 @@ public class NavigationHelper {
     }
 
     /**
+     * 进入仲裁进度页面
+     *
+     * @param context
+     * @param arbNo   仲裁申请编号
+     */
+    public static void toArbitramentProgressPage(Context context, String arbNo) {
+        Intent intent = new Intent(context, ArbitramentProgressActivity.class);
+        intent.putExtra(ArbitramentProgressActivity.EXTRA_KEY_ARB_NO, arbNo);
+        context.startActivity(intent);
+    }
+
+    /**
      * 在线支付页面
      *
      * @param context
@@ -233,9 +247,27 @@ public class NavigationHelper {
                 .navigation(context);
     }
 
+    /**
+     * 退款规则页面
+     *
+     * @param context
+     * @param progress [0, 4]
+     */
     public static void toReturnMoneyRulePage(Context context, int progress) {
         String url = BaseBizAppLike.getInstance().getH5Server() + H5_URL_RETURN_MONEY_RULE + progress;
         RouterUtil.clickMenuLink(context, url);
+    }
+
+    /**
+     * 进入仲裁申请书提交页面
+     *
+     * @param context
+     * @param arbApplyNo
+     */
+    public static void toArbitramentSubmitPage(Context context, String arbApplyNo) {
+        Intent intent = new Intent(context, ArbitramentSubmitActivity.class);
+        intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_ARB_NO, arbApplyNo);
+        context.startActivity(intent);
     }
 
 }
