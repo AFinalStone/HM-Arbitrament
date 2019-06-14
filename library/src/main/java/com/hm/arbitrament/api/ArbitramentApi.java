@@ -133,7 +133,7 @@ public class ArbitramentApi {
      *
      * @return
      */
-    public static Flowable<BaseResponse<Object>> createArbApplyBookOrder(CreateArbOrderReqBean reqBean) {
+    public static Flowable<BaseResponse<Integer>> createArbApplyBookOrder(CreateArbOrderReqBean reqBean) {
         return getService().createArbApplyBookOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 

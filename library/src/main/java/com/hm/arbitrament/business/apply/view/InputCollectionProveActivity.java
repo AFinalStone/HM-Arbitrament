@@ -14,7 +14,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
 import com.hm.arbitrament.bean.CollectionProveBean;
-import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
 import com.hm.arbitrament.business.apply.InputCollectionProveContract;
 import com.hm.arbitrament.business.apply.presenter.InputCollectionProvePresenter;
@@ -87,7 +86,7 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
         });
         mRvCollectionProve.setAdapter(mAdapter);
 
-        if (mBean != null) {
+        if (mBean != null && !TextUtils.isEmpty(mBean.getFileId()) && !TextUtils.isEmpty(mBean.getImageUrl())) {
             showImage(mBean.getFileId(), mBean.getImageUrl());
         }
         //获取催收证明列表

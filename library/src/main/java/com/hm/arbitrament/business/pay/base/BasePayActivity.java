@@ -78,20 +78,17 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
         mRvMoneyList.setLayoutManager(new LinearLayoutManager(this));
         mRvMoneyList.addItemDecoration(new HMGrayDividerItemDecoration(mContext, HMGrayDividerItemDecoration.VERTICAL));
         mAdapter = new MoneyListAdapter();
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (R.id.iv_warn == view.getId()) {
-                    IMoneyItem item = mAdapter.getItem(position);
-                    if (item != null && !TextUtils.isEmpty(item.getWarnDialogContent())) {
-                        new HMAlertDialog.Builder(mContext)
-                                .setTitle(item.getName())
-                                .setMessage(item.getWarnDialogContent())
-                                .setPositiveButton("知道了")
-                                .create()
-                                .show();
-                    }
-
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                IMoneyItem item = mAdapter.getItem(position);
+                if (item != null && !TextUtils.isEmpty(item.getWarnDialogContent())) {
+                    new HMAlertDialog.Builder(mContext)
+                            .setTitle(item.getName())
+                            .setMessage(item.getWarnDialogContent())
+                            .setPositiveButton("知道了")
+                            .create()
+                            .show();
                 }
             }
         });
@@ -168,13 +165,6 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
     }
 
     @Override
-    public void showCountDown(String time) {
-        if (!TextUtils.isEmpty(time)) {
-            mTvTimeCountDown.setText(time);
-        }
-    }
-
-    @Override
     public void showInitLoadingView() {
         mInitLoading.setVisibility(View.VISIBLE);
         mInitLoading.showDataLoading();
@@ -182,8 +172,8 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
 
     @Override
     public void hideInitLoadingView() {
+        mInitLoading.stopLoadingAnim();
         mInitLoading.setVisibility(View.GONE);
-        mInitLoading.showDataLoading();
     }
 
     @Override

@@ -1,11 +1,5 @@
 package com.hm.arbitrament.bean.req;
 
-import com.hm.arbitrament.bean.BackMoneyRecordBean;
-import com.hm.arbitrament.bean.CollectionProveBean;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.Data;
 
 /**
@@ -17,21 +11,20 @@ public class PayArbApplyBookOrderReqBean {
 
 
     /**
-     * exEvidenceIdList : ["string"]
-     * iouId : string
+     * channel : 0
      * justiceId : string
-     * repaymentRecordList : [{"amount":0,"repaymentDate":"2019-06-13T10:28:50.209Z"}]
-     * sealId : string
-     * transPswd : string
-     * urgeExidenceList : [{"fileId":"string","urgeEvidenceType":0}]
+     * openId : string
+     * orderId : 0
+     * sceneCode : string
+     * tradeType : string
      */
 
-    private String iouId;
+    private int channel;
     private String justiceId;
-    private String sealId;
-    private String transPswd;
-    private List<String> exEvidenceIdList;
-    private ArrayList<BackMoneyRecordBean> repaymentRecordList;//还款记录
-    private ArrayList<CollectionProveBean> urgeExidenceList;//催收证明
+    private String openId;
+    private int orderId;
+    private String sceneCode;
+    private String tradeType;
+
 
 }

@@ -49,8 +49,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/uikit_bg_card_form"
-                    android:paddingEnd="10dp"
-                    android:paddingStart="10dp" />
+                    android:paddingEnd="15dp"
+                    android:paddingStart="15dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -73,6 +73,7 @@
                         android:layout_gravity="top"
                         android:layout_marginStart="6dp"
                         android:background="@drawable/arbitrament_bg_discount"
+                        android:gravity="center"
                         android:text="限时5折"
                         android:textColor="@color/white"
                         android:textSize="@dimen/textFontSize_9" />
@@ -99,6 +100,7 @@
                     android:id="@+id/tv_bottom_remark"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
+                    android:layout_marginStart="5dp"
                     android:gravity="center_vertical"
                     tools:text="*仲裁成功以上费用由对方承担" />
             </LinearLayout>
@@ -117,7 +119,8 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 style="@style/UikitTextView"
@@ -151,5 +154,8 @@
     <com.hm.iou.uikit.HMLoadingView
         android:id="@+id/init_loading"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/topBar"
+        android:background="@color/uikit_background"
+        tools:visibility="gone" />
 </RelativeLayout>

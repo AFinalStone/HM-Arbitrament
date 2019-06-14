@@ -14,7 +14,7 @@ import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.apply.view.InputRealBackMoneyActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceDetailActivity;
-import com.hm.arbitrament.business.pay.base.BasePayActivity;
+import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
 import com.hm.iou.base.BaseBizAppLike;
 import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.router.Router;
@@ -179,11 +179,14 @@ public class NavigationHelper {
     /**
      * 在线支付页面
      *
-     * @param activity
+     * @param context
      */
-    public static void toPay(Activity activity) {
-        Intent intent = new Intent(activity, BasePayActivity.class);
-        activity.startActivity(intent);
+    public static void toPay(Context context, String iouId, String justId, Integer orderId) {
+        Intent intent = new Intent(context, ArbApplyBookPayActivity.class);
+        intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_IOU_ID, iouId);
+        intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_JUST_ID, justId);
+        intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_ORDER_ID, orderId);
+        context.startActivity(intent);
     }
 
     /**

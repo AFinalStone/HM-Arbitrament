@@ -31,8 +31,8 @@ public class IndexActivity extends BaseActivity<IndexPresenter> implements Index
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
         mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
         if (bundle != null) {
-            mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
-            mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
+            mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
+            mJustId = bundle.getString(EXTRA_KEY_JUST_ID);
         }
         mPresenter.getArbitramentStatus(mIouId, mJustId);
     }

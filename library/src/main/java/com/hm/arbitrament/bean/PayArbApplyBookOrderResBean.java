@@ -29,5 +29,5 @@ public class PayArbApplyBookOrderResBean {
     private String partnerid;
     private String prepayid;
     private String sign;
-    private int timestamp;
+    private String timestamp;
 }

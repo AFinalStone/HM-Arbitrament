@@ -17,5 +17,12 @@ public class ArbApplyBookPayContract {
          * 获取仲裁申请书订单信息
          */
         void getArbApplyBookOrderInfo(String iouId, String justId);
+
+        /**
+         * 通过微信进行订单支付
+         *
+         * @param orderId 订单id
+         */
+        void payOrderByWeiXin(Integer orderId);
     }
 }

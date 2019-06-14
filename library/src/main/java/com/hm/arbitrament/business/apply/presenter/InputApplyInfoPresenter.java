@@ -103,14 +103,14 @@ public class InputApplyInfoPresenter extends MvpActivityPresenter<InputApplyInfo
     }
 
     @Override
-    public void createOrder(CreateArbOrderReqBean reqBean) {
+    public void createOrder(final CreateArbOrderReqBean reqBean) {
         ArbitramentApi.createArbApplyBookOrder(reqBean)
-                .compose(getProvider().<BaseResponse<Object>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.handleResponse())
-                .subscribeWith(new CommSubscriber<Object>(mView) {
+                .compose(getProvider().<BaseResponse<Integer>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<Integer>handleResponse())
+                .subscribeWith(new CommSubscriber<Integer>(mView) {
                     @Override
-                    public void handleResult(Object o) {
-
+                    public void handleResult(Integer orderId) {
+                        NavigationHelper.toPay(mContext, reqBean.getIouId(), reqBean.getJusticeId(), orderId);
                     }
 
                     @Override

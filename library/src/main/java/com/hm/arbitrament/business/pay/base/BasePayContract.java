@@ -39,13 +39,6 @@ public class BasePayContract {
         void showBottomRemark(String remark);
 
         /**
-         * 倒计时时间
-         *
-         * @param time
-         */
-        void showCountDown(String time);
-
-        /**
          * 显示初始化动画
          */
         void showInitLoadingView();
