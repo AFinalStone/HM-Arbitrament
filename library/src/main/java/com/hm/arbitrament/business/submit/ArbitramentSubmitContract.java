@@ -6,13 +6,21 @@ public interface ArbitramentSubmitContract {
 
     interface View extends BaseContract.BaseView {
 
-        void startCountDown();
+        void showArbApplyDoc(String pdfUrl);
 
+        void startCountDown();
     }
 
     interface Presenter extends BaseContract.BasePresenter {
 
-        void cancelArbitrament(String iouId, String justiceId);
+        /**
+         * 查询仲裁申请书pdf地址
+         *
+         * @param arbApplyNo
+         */
+        void getArbApplyDoc(String arbApplyNo);
+
+        void cancelArbitrament(String arbApplyNo);
 
         void sendVerifyCode();
     }

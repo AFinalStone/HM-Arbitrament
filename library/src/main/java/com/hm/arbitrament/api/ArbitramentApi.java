@@ -8,6 +8,8 @@ import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
+import com.hm.arbitrament.bean.ProgressResBean;
+import com.hm.arbitrament.bean.req.CancelArbReqBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbApplyBookOrderReqBean;
@@ -157,4 +159,41 @@ public class ArbitramentApi {
     public static Flowable<BaseResponse<PayArbApplyBookOrderResBean>> payArbApplyBookOrder(PayArbApplyBookOrderReqBean reqBean) {
         return getService().payArbApplyBookOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
+    /**
+     * 获取仲裁进度
+     *
+     * @param arbApplyNo 仲裁申请编号
+     * @return
+     */
+    public static Flowable<BaseResponse<ProgressResBean>> getProgress(String arbApplyNo) {
+        return getService().getProgress(arbApplyNo).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取仲裁申请书
+     *
+     * @param arbApplyNo
+     * @return
+     */
+    public static Flowable<BaseResponse<String>> getArbApplyDoc(String arbApplyNo) {
+        return getService().getArbApplyDoc(arbApplyNo).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 取消仲裁
+     *
+     * @param arbApplyNo 仲裁申请编号
+     * @param type       1-已履行，2-已和解，3-其他
+     * @param reason     撤案原因描述：withdrawType=3时必传
+     * @return
+     */
+    public static Flowable<BaseResponse<Object>> cancelArbitrament(String arbApplyNo, int type, String reason) {
+        CancelArbReqBean reqBean = new CancelArbReqBean();
+        reqBean.setArbApplyNo(arbApplyNo);
+        reqBean.setWithdrawType(type);
+        reqBean.setWithdrawReason(reason);
+        return getService().cancelArbitrament(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

@@ -23,7 +23,12 @@ public interface ArbitramentProgressContract {
 
     interface Presenter extends BaseContract.BasePresenter {
 
-        void loadProgressData();
+        /**
+         * 加载仲裁进度
+         *
+         * @param arbNo
+         */
+        void loadProgressData(String arbNo);
 
     }
 
