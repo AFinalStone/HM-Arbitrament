@@ -115,4 +115,43 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
         tvFooter.setText(tips);
         mAdapter.addFooterView(tvFooter);
     }
+
+    @Override
+    public void showBottomCancelArbMenu() {
+        mBottomBar.setTitleIconVisible(true);
+        mBottomBar.setTitleVisible(false);
+        mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
+            @Override
+            public void onClickTitle() {
+
+            }
+        });
+    }
+
+    @Override
+    public void showBottomBackMoneyRule(final int progress) {
+        mBottomBar.setTitleIconVisible(false);
+        mBottomBar.setTitleVisible(true);
+        mBottomBar.updateTitle("退款规则");
+        mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
+            @Override
+            public void onClickTitle() {
+                NavigationHelper.toReturnMoneyRulePage(mContext, progress);
+            }
+        });
+    }
+
+    @Override
+    public void showBottomBackMoneyProgressMenu() {
+        mBottomBar.setTitleIconVisible(false);
+        mBottomBar.setTitleVisible(true);
+        mBottomBar.updateTitle("退款进度");
+        mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
+            @Override
+            public void onClickTitle() {
+                NavigationHelper.toMoneyBackProgressPage(ArbitramentProgressActivity.this, mArbNo);
+            }
+        });
+    }
+
 }

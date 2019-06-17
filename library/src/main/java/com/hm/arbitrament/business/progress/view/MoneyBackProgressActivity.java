@@ -38,6 +38,8 @@ import static com.hm.arbitrament.Constants.H5_URL_RETURN_MONEY_RULE;
  */
 public class MoneyBackProgressActivity extends BaseActivity<MoneyBackProgressPresenter> implements MoneyBackProgressContract.View, View.OnClickListener {
 
+    public static final String EXTRA_KEY_ARB_NO = "arb_no";
+
     @BindView(R2.id.ll_backmoney_content)
     LinearLayout mLlContent;
     @BindView(R2.id.tv_backmoney_amount)
@@ -50,6 +52,7 @@ public class MoneyBackProgressActivity extends BaseActivity<MoneyBackProgressPre
     HMBottomBarView mBottomBar;
 
     private ProgressAdapter mAdapter;
+    private String mArbNo;
 
     @Override
     protected int getLayoutId() {
@@ -63,6 +66,11 @@ public class MoneyBackProgressActivity extends BaseActivity<MoneyBackProgressPre
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+        mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
+        if (bundle != null) {
+            mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
+        }
+
         mRvProgress.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ProgressAdapter(this);
         mRvProgress.setAdapter(mAdapter);
@@ -70,6 +78,12 @@ public class MoneyBackProgressActivity extends BaseActivity<MoneyBackProgressPre
         findViewById(R.id.ll_backmoney_amount).setOnClickListener(this);
 
         mPresenter.loadProgressData();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
     }
 
     @Override
