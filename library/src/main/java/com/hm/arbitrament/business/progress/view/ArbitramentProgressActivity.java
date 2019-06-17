@@ -11,13 +11,17 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
+import com.hm.arbitrament.R2;
+import com.hm.arbitrament.business.CancelArbDialog;
 import com.hm.arbitrament.business.progress.ArbitramentProgressContract;
 import com.hm.arbitrament.business.progress.presenter.ArbitramentProgressPresenter;
+import com.hm.arbitrament.business.submit.ArbitramentSubmitActivity;
 import com.hm.iou.base.BaseActivity;
-import com.hm.arbitrament.R2;
 import com.hm.iou.uikit.HMBottomBarView;
 import com.hm.iou.uikit.HMLoadingView;
+import com.hm.iou.uikit.dialog.HMActionSheetDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,6 +43,9 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
 
     private ProgressAdapter mAdapter;
     private String mArbNo;
+
+    private HMActionSheetDialog mCancelActionSheetDialog;
+    private CancelArbDialog mCancelArbDialog;
 
     @Override
     protected int getLayoutId() {
@@ -123,7 +130,38 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
         mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
             public void onClickTitle() {
-
+                if (mCancelActionSheetDialog == null) {
+                    List<String> list = new ArrayList<>();
+                    list.add("取消仲裁");
+                    mCancelActionSheetDialog = new HMActionSheetDialog.Builder(ArbitramentProgressActivity.this)
+                            .setActionSheetList(list)
+                            .setCanSelected(false)
+                            .setOnItemClickListener(new HMActionSheetDialog.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int i, String s) {
+                                    if (mCancelArbDialog == null) {
+                                        mCancelArbDialog = new CancelArbDialog(ArbitramentProgressActivity.this);
+                                        mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
+                                            @Override
+                                            public void onCanceled(int index, String reason) {
+                                                int type = 0;
+                                                if (index == 0) {
+                                                    type = 2;
+                                                } else if (index == 1) {
+                                                    type = 1;
+                                                } else if (index == 2) {
+                                                    type = 3;
+                                                }
+                                                mPresenter.cancelArbitrament(mArbNo, type, reason);
+                                            }
+                                        });
+                                    }
+                                    mCancelArbDialog.show();
+                                }
+                            })
+                            .create();
+                }
+                mCancelActionSheetDialog.show();
             }
         });
     }

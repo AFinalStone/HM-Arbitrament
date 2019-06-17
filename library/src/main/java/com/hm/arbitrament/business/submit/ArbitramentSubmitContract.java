@@ -29,7 +29,12 @@ public interface ArbitramentSubmitContract {
          */
         void cancelArbitrament(String arbApplyNo, int type, String reason);
 
+        /**
+         * 发送验证码
+         */
         void sendVerifyCode();
+
+        void verifySmsCode(String code);
     }
 
 }

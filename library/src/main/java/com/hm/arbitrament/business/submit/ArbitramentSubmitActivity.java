@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -42,7 +41,7 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     HMBottomBarView mBottomBarView;
 
     private Dialog mCancelDialog;
-    private CancelArbDialog mCanceArblDialog;
+    private CancelArbDialog mCancelArbDialog;
 
     private HMAlertDialog mVerifyCodeDialog;
     private EditText mEtCode;
@@ -119,9 +118,9 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
                     .setOnItemClickListener(new HMActionSheetDialog.OnItemClickListener() {
                         @Override
                         public void onItemClick(int i, String s) {
-                            if (mCanceArblDialog == null) {
-                                mCanceArblDialog = new CancelArbDialog(ArbitramentSubmitActivity.this);
-                                mCanceArblDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
+                            if (mCancelArbDialog == null) {
+                                mCancelArbDialog = new CancelArbDialog(ArbitramentSubmitActivity.this);
+                                mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
                                     @Override
                                     public void onCanceled(int index, String reason) {
                                         int type = 0;
@@ -136,7 +135,7 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
                                     }
                                 });
                             }
-                            mCanceArblDialog.show();
+                            mCancelArbDialog.show();
                         }
                     })
                     .create();
@@ -158,7 +157,7 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
                     .setOnClickListener(new HMAlertDialog.OnClickListener() {
                         @Override
                         public void onPosClick() {
-
+                            mPresenter.verifySmsCode(mEtCode.getText().toString());
                         }
 
                         @Override

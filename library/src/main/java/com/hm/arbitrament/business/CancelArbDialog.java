@@ -3,6 +3,7 @@ package com.hm.arbitrament.business;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -58,6 +59,7 @@ public class CancelArbDialog {
                 mSelected = 0;
                 updateCheckState();
                 mEtReason.setVisibility(View.GONE);
+                hideSoftInput(mEtReason);
             }
         });
         contentView.findViewById(R.id.ll_cancel_option2).setOnClickListener(new View.OnClickListener() {
@@ -66,6 +68,7 @@ public class CancelArbDialog {
                 mSelected = 1;
                 updateCheckState();
                 mEtReason.setVisibility(View.GONE);
+                hideSoftInput(mEtReason);
             }
         });
         contentView.findViewById(R.id.ll_cancel_option3).setOnClickListener(new View.OnClickListener() {
@@ -122,6 +125,13 @@ public class CancelArbDialog {
             mIvOption2.setImageResource(R.mipmap.uikit_icon_check_black);
         } else if (mSelected == 2) {
             mIvOption3.setImageResource(R.mipmap.uikit_icon_check_black);
+        }
+    }
+
+    private void hideSoftInput(View view) {
+        InputMethodManager imm = (InputMethodManager)mContext.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
