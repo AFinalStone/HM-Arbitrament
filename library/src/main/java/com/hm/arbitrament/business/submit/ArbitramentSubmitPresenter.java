@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 
+import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
@@ -39,8 +40,25 @@ public class ArbitramentSubmitPresenter extends MvpActivityPresenter<Arbitrament
     }
 
     @Override
-    public void cancelArbitrament(String arbApplyNo) {
+    public void cancelArbitrament(final String arbApplyNo, int type, String reason) {
+        mView.showLoadingView();
+        ArbitramentApi.cancelArbitrament(arbApplyNo, type, reason)
+                .compose(getProvider().<BaseResponse<Object>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.handleResponse())
+                .subscribeWith(new CommSubscriber<Object>(mView) {
+                    @Override
+                    public void handleResult(Object o) {
+                        mView.dismissLoadingView();
+                        //取消之后，进入仲裁进度页面
+                        NavigationHelper.toArbitramentProgressPage(mContext, arbApplyNo);
+                    }
 
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+                        mView.dismissLoadingView();
+
+                    }
+                });
     }
 
     @Override

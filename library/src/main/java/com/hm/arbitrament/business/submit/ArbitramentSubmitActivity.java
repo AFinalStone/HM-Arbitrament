@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
+import com.hm.arbitrament.business.CancelArbDialog;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.tools.KeyboardUtil;
@@ -41,6 +42,8 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     HMBottomBarView mBottomBarView;
 
     private Dialog mCancelDialog;
+    private CancelArbDialog mCanceArblDialog;
+
     private HMAlertDialog mVerifyCodeDialog;
     private EditText mEtCode;
     private HMCountDownTextView mCountDownView;
@@ -116,32 +119,29 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
                     .setOnItemClickListener(new HMActionSheetDialog.OnItemClickListener() {
                         @Override
                         public void onItemClick(int i, String s) {
-                            showCancelConfirmDialog();
+                            if (mCanceArblDialog == null) {
+                                mCanceArblDialog = new CancelArbDialog(ArbitramentSubmitActivity.this);
+                                mCanceArblDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
+                                    @Override
+                                    public void onCanceled(int index, String reason) {
+                                        int type = 0;
+                                        if (index == 0) {
+                                            type = 2;
+                                        } else if (index == 1) {
+                                            type = 1;
+                                        } else if (index == 2) {
+                                            type = 3;
+                                        }
+                                        mPresenter.cancelArbitrament(mArbNo, type, reason);
+                                    }
+                                });
+                            }
+                            mCanceArblDialog.show();
                         }
                     })
                     .create();
         }
         mCancelDialog.show();
-    }
-
-    private void showCancelConfirmDialog() {
-        new HMAlertDialog.Builder(this)
-                .setTitle("取消仲裁")
-                .setMessage("取消仲裁后10天内将不能再次申请，是否确定取消仲裁？")
-                .setPositiveButton("继续仲裁")
-                .setNegativeButton("继续取消")
-                .setOnClickListener(new HMAlertDialog.OnClickListener() {
-                    @Override
-                    public void onPosClick() {
-
-                    }
-
-                    @Override
-                    public void onNegClick() {
-                        mPresenter.cancelArbitrament(mArbNo);
-                    }
-                })
-                .create().show();
     }
 
     private void showVerifyCodeDialog() {

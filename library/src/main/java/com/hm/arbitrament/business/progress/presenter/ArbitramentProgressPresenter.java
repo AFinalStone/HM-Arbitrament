@@ -31,6 +31,9 @@ public class ArbitramentProgressPresenter extends MvpActivityPresenter<Arbitrame
     @Override
     public void loadProgressData(String arbNo) {
         mView.showDataLoading();
+
+        mView.showBottomBackMoneyRule(1);
+
         ArbitramentApi.getProgress(arbNo)
                 .compose(getProvider().<BaseResponse<ProgressResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<ProgressResBean>handleResponse())

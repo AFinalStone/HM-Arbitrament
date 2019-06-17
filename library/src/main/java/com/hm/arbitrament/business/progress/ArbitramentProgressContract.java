@@ -19,6 +19,21 @@ public interface ArbitramentProgressContract {
         void showProgressList(List<ProgressAdapter.IProgressItem> list);
 
         void addFooterTips(CharSequence tips, android.view.View.OnClickListener listener);
+
+        /**
+         * 底部导航栏上显示"取消仲裁"按钮操作
+         */
+        void showBottomCancelArbMenu();
+
+        /**
+         * 底部导航栏上显示"退款规则"按钮操作
+         */
+        void showBottomBackMoneyRule(int progress);
+
+        /**
+         * 底部导航栏上显示"退款进度"按钮操作
+         */
+        void showBottomBackMoneyProgressMenu();
     }
 
     interface Presenter extends BaseContract.BasePresenter {

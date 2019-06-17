@@ -16,6 +16,7 @@ import com.hm.arbitrament.business.apply.view.SelectValidEvidenceActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceDetailActivity;
 import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
 import com.hm.arbitrament.business.progress.view.ArbitramentProgressActivity;
+import com.hm.arbitrament.business.progress.view.MoneyBackProgressActivity;
 import com.hm.arbitrament.business.submit.ArbitramentSubmitActivity;
 import com.hm.iou.base.BaseBizAppLike;
 import com.hm.iou.base.utils.RouterUtil;
@@ -262,11 +263,23 @@ public class NavigationHelper {
      * 进入仲裁申请书提交页面
      *
      * @param context
-     * @param arbApplyNo
+     * @param arbApplyNo 仲裁申请编号
      */
     public static void toArbitramentSubmitPage(Context context, String arbApplyNo) {
         Intent intent = new Intent(context, ArbitramentSubmitActivity.class);
         intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_ARB_NO, arbApplyNo);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 进入退款进度页面
+     *
+     * @param context
+     * @param arbApplyNo 仲裁申请编号
+     */
+    public static void toMoneyBackProgressPage(Context context, String arbApplyNo) {
+        Intent intent = new Intent(context, MoneyBackProgressActivity.class);
+        intent.putExtra(MoneyBackProgressActivity.EXTRA_KEY_ARB_NO, arbApplyNo);
         context.startActivity(intent);
     }
 
