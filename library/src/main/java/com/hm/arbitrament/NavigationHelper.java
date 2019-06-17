@@ -246,7 +246,7 @@ public class NavigationHelper {
         intent.putExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_MONEY_RECORD_LIST, list);
         intent.putExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_TIME_START_TIME, startTime);
         try {
-            double totalMoney = Double.parseDouble(strTotalMoney);
+            Double totalMoney = Double.parseDouble(strTotalMoney);
             intent.putExtra(InputRealBackMoneyActivity.EXTRA_KEY_MAX_BACK_MONEY, totalMoney);
         } catch (Exception e) {
 

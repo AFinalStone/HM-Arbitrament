@@ -118,6 +118,7 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
                 mBean.setImageUrl("");
                 mLlAddCollectionProveDetail.setVisibility(View.GONE);
                 mLlAddCollectionProve.setVisibility(View.VISIBLE);
+                checkValue();
             }
         }
     }

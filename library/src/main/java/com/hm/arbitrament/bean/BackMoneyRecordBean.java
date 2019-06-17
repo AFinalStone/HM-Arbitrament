@@ -11,7 +11,7 @@ public class BackMoneyRecordBean implements Serializable {
      * repaymentDate : 2019-06-10T10:13:56.077Z
      */
     private long createTime;//创建时间
-    private int amount;
+    private Double amount;
     private String repaymentDate;
 
     @Override

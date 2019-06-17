@@ -22,8 +22,9 @@ import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -92,14 +93,10 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
                 }
                 if (R.id.rl_content == view.getId()) {
                     NavigationHelper.toSelectValidEvidenceDetailActivity(mContext, REQ_SELECT_EVIDENCE_DETAIL
-                            , item, mAdapter.getSelectObjects().contains(item));
+                            , item, mAdapter.isSelectItem(item));
                 } else if (R.id.iv_select == view.getId()) {
                     mAdapter.addOrRemoveCheck(item);
-                    if (mAdapter.getSelectObjects().isEmpty()) {
-                        mBtnOk.setEnabled(false);
-                    } else {
-                        mBtnOk.setEnabled(true);
-                    }
+                    checkValue();
                 }
             }
         });
@@ -144,31 +141,27 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQ_SELECT_EVIDENCE_DETAIL == requestCode) {
-            ElecEvidenceResBean item = data.getParcelableExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_ITEM);
+            ElecEvidenceResBean item = (ElecEvidenceResBean) data.getSerializableExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_ITEM);
             if (item == null) {
                 return;
             }
-            HashSet<ElecEvidenceResBean> selectObjects = mAdapter.getSelectObjects();
             if (RESULT_OK == resultCode) {
-                selectObjects.add(item);
+                mAdapter.addSelectObject(item);
             } else {
-                selectObjects.remove(item);
+                mAdapter.removeSelectObject(item);
             }
             mAdapter.notifyDataSetChanged();
+            checkValue();
         }
     }
 
     @OnClick(R2.id.btn_ok)
     public void onClick() {
-        List<ElecEvidenceResBean> list = mAdapter.getData();
-        if (list == null) {
-            return;
-        }
-        ArrayList<String> idList = new ArrayList<>();
-        for (ElecEvidenceResBean bean : list) {
-            idList.add(bean.getExEvidenceId());
-        }
-        NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId, idList);
+        NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId, mAdapter.getSelectEvidenceIds());
+    }
+
+    private void checkValue() {
+        mBtnOk.setEnabled(mAdapter.isSelectItems());
     }
 
     @Override
@@ -207,7 +200,7 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
 
     public static class EvidenceAdapter extends BaseQuickAdapter<ElecEvidenceResBean, BaseViewHolder> {
 
-        private HashSet<ElecEvidenceResBean> mSelectObject = new HashSet();
+        private HashMap<String, ElecEvidenceResBean> mSelectObject = new HashMap<String, ElecEvidenceResBean>();
 
         public EvidenceAdapter() {
             super(R.layout.arbitrament_item_select_valid_evidence);
@@ -217,7 +210,7 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
         protected void convert(BaseViewHolder helper, ElecEvidenceResBean item) {
             helper.setText(R.id.tv_name, item.getName());
             helper.setText(R.id.tv_time, "上传时间：" + item.getCreateTime());
-            if (mSelectObject.contains(item)) {
+            if (mSelectObject.containsKey(item.getExEvidenceId())) {
                 helper.setImageResource(R.id.iv_select, R.mipmap.uikit_icon_check_black);
             } else {
                 helper.setImageResource(R.id.iv_select, R.mipmap.uikit_icon_check_default);
@@ -226,17 +219,35 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
             helper.addOnClickListener(R.id.rl_content);
         }
 
-        public void addOrRemoveCheck(ElecEvidenceResBean position) {
-            if (mSelectObject.contains(position)) {
-                mSelectObject.remove(position);
+        public void addOrRemoveCheck(ElecEvidenceResBean bean) {
+            if (mSelectObject.containsKey(bean.getExEvidenceId())) {
+                mSelectObject.remove(bean.getExEvidenceId());
             } else {
-                mSelectObject.add(position);
+                mSelectObject.put(bean.getExEvidenceId(), bean);
             }
             notifyDataSetChanged();
         }
 
-        public HashSet<ElecEvidenceResBean> getSelectObjects() {
-            return mSelectObject;
+        public void addSelectObject(ElecEvidenceResBean bean) {
+            mSelectObject.put(bean.getExEvidenceId(), bean);
+        }
+
+        public void removeSelectObject(ElecEvidenceResBean bean) {
+            mSelectObject.remove(bean.getExEvidenceId());
+        }
+
+        public boolean isSelectItems() {
+            return !mSelectObject.isEmpty();
+        }
+
+        public boolean isSelectItem(ElecEvidenceResBean bean) {
+            return mSelectObject.containsKey(bean.getExEvidenceId());
+        }
+
+        public ArrayList<String> getSelectEvidenceIds() {
+            ArrayList<String> list = new ArrayList<>();
+            list.addAll(mSelectObject.keySet());
+            return list;
         }
     }
 }

@@ -83,7 +83,7 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
                 if (mItem == null) {
                     mItem = new BackMoneyRecordBean();
                 }
-                int backMoney = Integer.parseInt(strBackMoney);
+                Double backMoney = Double.parseDouble(strBackMoney);
                 mItem.setAmount(backMoney);
                 mItem.setRepaymentDate(backTime);
                 Intent intent = new Intent();
@@ -103,10 +103,10 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 if (mMaxBackMoney != -1) {
                     try {
-                        int backMoney = Integer.parseInt(charSequence.toString());
+                        Double backMoney = Double.parseDouble(charSequence.toString());
                         if (backMoney > mMaxBackMoney) {
-                            mEvMoney.setText(String.valueOf(backMoney));
-                            return;
+                            mEvMoney.setText(String.valueOf(mMaxBackMoney));
+                            mEvMoney.setSelection(mEvMoney.length());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -179,7 +179,7 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
 
             String value = mTvTime.getText().toString();
             if (!TextUtils.isEmpty(value)) {
-                value = value.replace(".", "-") + " 00:00:00";
+                value = value.replace("\\.", "-") + " 00:00:00";
             }
 
             mDatePicker = new TimePickerDialog.Builder(this)

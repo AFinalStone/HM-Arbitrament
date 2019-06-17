@@ -60,7 +60,7 @@ public class SelectValidEvidenceDetailActivity<T extends MvpActivityPresenter> e
 
     @Override
     protected void initEventAndData(Bundle bundle) {
-        mItem = getIntent().getParcelableExtra(EXTRA_KEY_ITEM);
+        mItem = (ElecEvidenceResBean) getIntent().getSerializableExtra(EXTRA_KEY_ITEM);
         mIsSelect = getIntent().getBooleanExtra(EXTRA_KEY_IS_SELECT, false);
         if (bundle != null) {
             mItem = bundle.getParcelable(EXTRA_KEY_ITEM);
@@ -108,7 +108,7 @@ public class SelectValidEvidenceDetailActivity<T extends MvpActivityPresenter> e
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(EXTRA_KEY_ITEM, mItem);
+        outState.putSerializable(EXTRA_KEY_ITEM, mItem);
         outState.putBoolean(EXTRA_KEY_IS_SELECT, mIsSelect);
     }
 
