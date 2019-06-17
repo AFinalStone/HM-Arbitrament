@@ -19,6 +19,7 @@ import com.hm.arbitrament.bean.req.GetArbitramentInputApplyDataReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentStatusReqBean;
 import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailReqBean;
 import com.hm.arbitrament.bean.req.PayArbApplyBookOrderReqBean;
+import com.hm.arbitrament.bean.req.VerifySmsReqBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
 import java.util.List;
@@ -73,5 +74,8 @@ public interface ArbitramentServer {
 
     @POST("/api/arb/v1/cancel")
     Flowable<BaseResponse<Object>> cancelArbitrament(@Body CancelArbReqBean reqBean);
+
+    @POST("/api/base/msg/v1/verifyMessage")
+    Flowable<BaseResponse<Object>> verfySmsCode(@Body VerifySmsReqBean reqBean);
 
 }

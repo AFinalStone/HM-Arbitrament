@@ -19,6 +19,7 @@ import com.hm.arbitrament.bean.req.GetArbitramentInputApplyDataReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentStatusReqBean;
 import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailReqBean;
 import com.hm.arbitrament.bean.req.PayArbApplyBookOrderReqBean;
+import com.hm.arbitrament.bean.req.VerifySmsReqBean;
 import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.sharedata.model.BaseResponse;
 
@@ -194,6 +195,14 @@ public class ArbitramentApi {
         reqBean.setWithdrawType(type);
         reqBean.setWithdrawReason(reason);
         return getService().cancelArbitrament(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Flowable<BaseResponse<Object>> verfySmsCode(int purpose, String mobile, String msg) {
+        VerifySmsReqBean reqBean = new VerifySmsReqBean();
+        reqBean.setPurpose(purpose);
+        reqBean.setMobile(mobile);
+        reqBean.setMessage(msg);
+        return getService().verfySmsCode(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }
