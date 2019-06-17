@@ -43,21 +43,19 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 NavigationHelper.toWaitPayToMakeArbitramentApplyBook(mContext, iouId, justId, bean.getArbApplyNo(), bean.getExField());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_WAIT_RESULT.getCode() == flag) {
-                                //正在制作仲裁书
-//                                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
-                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId);
+                                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_SUCCESS.getCode() == flag) {
                                 //成功生成仲裁书
-                                NavigationHelper.toArbitramentApplyBookDetail(mContext);
+                                NavigationHelper.toArbitramentApplyBookDetail(mContext, bean.getArbApplyNo());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_FIRST_TRIAL_FAILED_CAN_RETRY.getCode() == flag) {
                                 //初审失败，允许重新补全资料
-                                NavigationHelper.toSubmitFirstTrialFailed(mContext, true);
+                                NavigationHelper.toSubmitFirstTrialFailed(mContext, iouId, justId, bean.getArbApplyNo());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_FIRST_TRIAL_FAILED_CAN_NOT_RETRY.getCode() == flag) {
                                 //初审失败，不允许重新补全资料
-                                NavigationHelper.toSubmitFirstTrialFailed(mContext, false);
+                                NavigationHelper.toSubmitFirstTrialFailed(mContext, iouId, justId, bean.getArbApplyNo());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_PROGRESS_CAN_CANCEL.getCode() == flag) {
                                 //初审通过进度页面，允许取消
@@ -65,11 +63,11 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_PROGRESS_CAN_NOT_CANCEL.getCode() == flag) {
                                 //初审通过进度页面，不允许取消
-                                NavigationHelper.toSubmitProgressFailed(mContext, false);
+                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_PROGRESS_HAVE_FINISH.getCode() == flag) {
                                 //初审通过进度页面，不允许取消
-                                NavigationHelper.toSubmitProgressFailed(mContext, false);
+                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.LENDER_NO_APPLY_ARBITRAMENT.getCode() == flag) {
                                 //当前用户借款人，出借人未申请仲裁

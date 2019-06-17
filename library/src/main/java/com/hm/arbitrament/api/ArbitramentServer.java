@@ -1,6 +1,8 @@
 package com.hm.arbitrament.api;
 
+import com.hm.arbitrament.bean.ArbPaperApplyInfo;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
+import com.hm.arbitrament.bean.FailReasonResBean;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.GetArbCostResBean;
 import com.hm.arbitrament.bean.GetArbServerAgreementResBean;
@@ -9,6 +11,7 @@ import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.ProgressResBean;
+import com.hm.arbitrament.bean.req.ArbPaperReqBean;
 import com.hm.arbitrament.bean.req.CancelArbReqBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
@@ -77,5 +80,14 @@ public interface ArbitramentServer {
 
     @POST("/api/base/msg/v1/verifyMessage")
     Flowable<BaseResponse<Object>> verfySmsCode(@Body VerifySmsReqBean reqBean);
+
+    @GET("/api/arb/v1/getSubmitBackFailReason")
+    Flowable<BaseResponse<FailReasonResBean>> getFailReason(@Query("arbApplyNo") String arbApplyNo);
+
+    @POST("/api/arb/v1/applyArbPaper")
+    Flowable<BaseResponse<String>> applyArbPaper(@Body ArbPaperReqBean reqBean);
+
+    @GET("/api/arb/v1/getArbPaperList")
+    Flowable<BaseResponse<List<ArbPaperApplyInfo>>> getArbPaperList(@Query("arbApplyNo") String arbApplyNo);
 
 }

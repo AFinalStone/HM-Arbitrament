@@ -27,18 +27,21 @@ public interface ArbitralAwardContract {
 
         /**
          * 刷新裁决书申请历史记录
+         *
+         * @param arbNo
          */
-        void refreshApplyHistoryList();
+        void refreshApplyHistoryList(String arbNo);
 
         /**
          * 提交信息
          *
+         * @param arbNo
          * @param name
          * @param mobile
          * @param city
          * @param addr
          */
-        void submitApplyInfo(String name, String mobile, String city, String addr);
+        void submitApplyInfo(String arbNo, String name, String mobile, String city, String addr);
     }
 
 }

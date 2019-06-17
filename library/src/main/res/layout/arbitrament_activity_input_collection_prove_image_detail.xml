@@ -23,6 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:bottomBackText="催收证明"
-        app:bottomTitleIcon="@mipmap/uikit_ic_menu_more"
+        app:bottomTitleIcon="@mipmap/uikit_ic_more_black"
         app:bottomTitleIconWidth="38dp" />
 </LinearLayout>

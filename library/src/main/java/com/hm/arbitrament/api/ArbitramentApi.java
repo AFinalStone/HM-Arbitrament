@@ -1,6 +1,8 @@
 package com.hm.arbitrament.api;
 
+import com.hm.arbitrament.bean.ArbPaperApplyInfo;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
+import com.hm.arbitrament.bean.FailReasonResBean;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.GetArbCostResBean;
 import com.hm.arbitrament.bean.GetArbServerAgreementResBean;
@@ -9,6 +11,7 @@ import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.ProgressResBean;
+import com.hm.arbitrament.bean.req.ArbPaperReqBean;
 import com.hm.arbitrament.bean.req.CancelArbReqBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
@@ -204,5 +207,30 @@ public class ArbitramentApi {
         reqBean.setMessage(msg);
         return getService().verfySmsCode(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
+    /**
+     * 获取失败原因
+     *
+     * @param arbApplyNo
+     * @return
+     */
+    public static Flowable<BaseResponse<FailReasonResBean>> getFailReason(String arbApplyNo) {
+        return getService().getFailReason(arbApplyNo).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 裁决书申请
+     *
+     * @param reqBean
+     * @return
+     */
+    public static Flowable<BaseResponse<String>> applyArbPaper(ArbPaperReqBean reqBean) {
+        return getService().applyArbPaper(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Flowable<BaseResponse<List<ArbPaperApplyInfo>>> getArbPaperList(String arbApplyNo) {
+        return getService().getArbPaperList(arbApplyNo).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
 
 }
