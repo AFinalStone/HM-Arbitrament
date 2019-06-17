@@ -153,19 +153,19 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
 
 
     private void toAddRecord(BackMoneyRecordBean bean) {
+        double maxBackMoney = mMaxBackMoney;
+        for (int i = 0; i < mListData.size(); i++) {
+            maxBackMoney = maxBackMoney - mListData.get(i).getAmount();
+        }
         Intent intent = new Intent(mContext, InputRealBackMoneyAddRecordActivity.class);
         intent.putExtra(InputRealBackMoneyAddRecordActivity.EXTRA_KEY_ITEM, bean);
-        intent.putExtra(InputRealBackMoneyAddRecordActivity.EXTRA_KEY_MAX_BACK_MONEY, mMaxBackMoney);
+        intent.putExtra(InputRealBackMoneyAddRecordActivity.EXTRA_KEY_MAX_BACK_MONEY, maxBackMoney);
         intent.putExtra(InputRealBackMoneyAddRecordActivity.EXTRA_KEY_BACK_TIME_START_TIME, mBackTimeStartTime);
         startActivityForResult(intent, REQ_ADD_BACK_MONEY_RECORD);
     }
 
     private void updateListData() {
         mAdapter.setNewData(mListData);
-        int totalMoney = 0;
-        for (BackMoneyRecordBean bean : mListData) {
-            totalMoney = totalMoney + bean.getAmount();
-        }
     }
 
     @OnClick(R2.id.btn_ok)

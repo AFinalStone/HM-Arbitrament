@@ -61,8 +61,6 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
     LinearLayout mLlArbitramentMoney;//仲裁金额
     @BindView(R2.id.view_divider_arbitrament_money)
     View mViewDividerArbitramentMoney;//仲裁金额分割线
-    @BindView(R2.id.tv_arbitrament_money_left)
-    TextView mTvArbitramentMoneyLeft;//仲裁金额金钱标记
     @BindView(R2.id.tv_arbitrament_money)
     TextView mTvArbitramentMoney;//仲裁金额
 
@@ -78,9 +76,6 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
 
     @BindView(R2.id.tv_out_time_interest)
     TextView mTvOutTimeInterest;//逾期利息
-
-    @BindView(R2.id.tv_arbitrament_cost_left)
-    TextView mTvArbitramentCostLeft;//仲裁费用金钱标记
 
     @BindView(R2.id.tv_arbitrament_cost)
     TextView mTvArbitramentCost;//仲裁费用
@@ -258,7 +253,6 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         } else if (R.id.ll_arbitrament_money == id) {
             showKnowDialog("仲裁金额", "仲裁金额=未还金额+逾期利息\n仲裁时未还部分的利息最高支持为年化24%；已还款部分最高支持年化36%；仲裁时逾期利息最高支持为年化24%");
         } else if (R.id.tv_collection_prove == id || R.id.iv_collection_prove == id) {
-
             NavigationHelper.toAddCollectionProve(mContext, mCollectionProveBean, REQ_INPUT_COLLECTION_PROVE);
         } else if (R.id.ll_purpose_interest_rate == id) {
             showKnowDialog("利息意向", "依据相关法律规定，借款利息最高支持24%");
@@ -347,7 +341,6 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
 
     @Override
     public void showArbMoney(String strMoney) {
-        mTvArbitramentMoneyLeft.setVisibility(View.VISIBLE);
         mLlArbitramentMoney.setVisibility(View.VISIBLE);
         mViewDividerArbitramentMoney.setVisibility(View.VISIBLE);
         mTvArbitramentMoney.setText(strMoney);
@@ -355,7 +348,6 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
 
     @Override
     public void showArbCost(String strCost) {
-        mTvArbitramentCostLeft.setVisibility(View.VISIBLE);
         mLlArbitramentCost.setVisibility(View.VISIBLE);
         mViewArbitramentCostDivider.setVisibility(View.VISIBLE);
         mTvArbitramentCost.setText(strCost);
@@ -369,27 +361,30 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
 
     private void showRealBackRecord(ArrayList<BackMoneyRecordBean> list) {
         mBackMoneyRecordList = list;
-        int realBackMoney = 0;
-        if (list != null) {
-            for (int i = 0; i < list.size(); i++) {
-                BackMoneyRecordBean bean = list.get(i);
-                realBackMoney = realBackMoney + bean.getAmount();
-                //添加唯一标识
-                bean.setCreateTime(System.currentTimeMillis());
-                String backTime = bean.getRepaymentDate();
-                //修改归还时间格式
-                backTime = backTime.replaceAll("\\.", "-") + " 00:00:00";
-                bean.setRepaymentDate(backTime);
-            }
-        }
-        mPresenter.getArbitramentCost(mIouId, mJustId, realBackMoney);
-        if (realBackMoney == 0) {
-            mTvArbitramentMoneyLeft.setVisibility(View.GONE);
-            mTvRealBackMoney.setText("");
+        if ("全部未还".equals(mTvRealBackMoney.getText().toString())) {
+            mPresenter.getArbitramentCost(mIouId, mJustId, 0);
             return;
         }
-        mTvArbitramentMoneyLeft.setVisibility(View.VISIBLE);
+        //初始化或者用户未添加实际归还记录
+        if (list == null || list.isEmpty()) {
+            mTvRealBackMoney.setText("");
+            mLlArbitramentCost.setVisibility(View.GONE);
+            mLlArbitramentMoney.setVisibility(View.GONE);
+            return;
+        }
+        //计算仲裁金额和仲裁费用
+        double realBackMoney = 0;
+        for (int i = 0; i < list.size(); i++) {
+            BackMoneyRecordBean bean = list.get(i);
+            realBackMoney = realBackMoney + bean.getAmount();
+            bean.setCreateTime(System.currentTimeMillis());
+            String backTime = bean.getRepaymentDate();
+            //修改归还时间格式
+            backTime = backTime.replaceAll("\\.", "-") + " 00:00:00";
+            bean.setRepaymentDate(backTime);
+        }
         mTvRealBackMoney.setText(String.valueOf(realBackMoney));
+        mPresenter.getArbitramentCost(mIouId, mJustId, 0);
     }
 
     /**

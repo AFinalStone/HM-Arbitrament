@@ -133,8 +133,7 @@
                     <TextView
                         android:id="@+id/tv_arbitrament_money_left"
                         style="@style/UikitTextView"
-                        android:text="@string/uikit_money"
-                        android:visibility="gone" />
+                        android:text="@string/uikit_money" />
 
                     <TextView
                         android:id="@+id/tv_arbitrament_money"

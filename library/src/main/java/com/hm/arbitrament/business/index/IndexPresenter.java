@@ -44,8 +44,8 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_WAIT_RESULT.getCode() == flag) {
                                 //正在制作仲裁书
-                                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
-//                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId);
+//                                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_SUCCESS.getCode() == flag) {
                                 //成功生成仲裁书
