@@ -5,7 +5,8 @@ package com.hm.arbitrament.dict;
  */
 
 public enum ArbitramentStatusEnum {
-    HAVE_NOT_APPLY(0, "还未申请过或重新申请"), HAVE_APPLY_MAKE_BOOK_NOT_PAY(1, "已申请制作仲裁申请书，未付款"),
+    HAVE_NOT_APPLY(0, "还未申请过或重新申请"),
+    HAVE_APPLY_MAKE_BOOK_NOT_PAY(1, "已申请制作仲裁申请书，未付款"),
     HAVE_APPLY_MAKE_BOOK_WAIT_RESULT(2, "已付款，等待仲裁申请书的制作结果"),
     HAVE_APPLY_MAKE_BOOK_SUCCESS(3, "提交材料,仲裁申请书成功生成"),
     HAVE_SUBMIT_FIRST_TRIAL_FAILED_CAN_RETRY(4, "提交材料-预审失败-允许重试"),

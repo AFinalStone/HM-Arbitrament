@@ -29,6 +29,9 @@ import butterknife.BindView;
  */
 public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> implements ArbitralAwardContract.View {
 
+    //仲裁申请编号
+    public static final String EXTRA_KEY_ARB_NO = "arb_no";
+
     @BindView(R2.id.topBar)
     HMTopBarView mTopBarView;
     @BindView(R2.id.smartrl_award_list)
@@ -49,6 +52,9 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
 
     private ArbitralAwardListAdapter mAdapter;
 
+    private String mArbNo;
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.arbitrament_activity_arbitral_award;
@@ -61,6 +67,11 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+        mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
+        if (bundle != null) {
+            mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
+        }
+
         mBottomBarView.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
             public void onClickTitle() {
@@ -73,11 +84,17 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mPresenter.refreshApplyHistoryList();
+                mPresenter.refreshApplyHistoryList(mArbNo);
             }
         });
 
         mRefreshLayout.autoRefresh();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
     }
 
     @Override
@@ -123,7 +140,7 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
                     String mobile = mEtMobile.getText().toString();
                     String city = mTvCity.getText().toString();
                     String addr = mEtArr.getText().toString();
-                    mPresenter.submitApplyInfo(name, mobile, city, addr);
+                    mPresenter.submitApplyInfo(mArbNo, name, mobile, city, addr);
                 }
             });
             bottomBarView.setOnBackClickListener(new HMBottomBarView.OnBackClickListener() {

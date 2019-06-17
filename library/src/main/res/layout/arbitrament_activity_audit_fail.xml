@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/uikit_background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.hm.iou.uikit.HMTopBarView
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uikit_topbar_height"
+        app:bottomDividerIsShow="false"
+        app:titleBackground="@color/transparent"
+        app:backIconIsShow="false"
+        app:titleText="申请进度" />
+
+    <LinearLayout
+        android:id="@+id/ll_fail_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomBar"
+        android:layout_below="@id/topBar"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="100dp"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/msgcenter_ic_warn" />
+
+        <TextView
+            style="@style/UikitTextView.Large"
+            android:layout_marginTop="30dp"
+            android:text="很抱歉，您的申请因为以下\n原因审核未通过"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/tv_fail_reason"
+            style="@style/UikitTextView"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/uikit_text_sub_content"
+            android:text="1. XXXXXXXXXXXXXX\n2.失败原因"
+            android:layout_marginLeft="50dip"
+            android:layout_marginRight="50dp"
+            />
+
+    </LinearLayout>
+
+    <com.hm.iou.uikit.HMLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        >
+    </com.hm.iou.uikit.HMLoadingView>
+
+    <com.hm.iou.uikit.HMBottomBarView
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        app:bottomTitleIcon="@mipmap/uikit_ic_more_black" />
+</RelativeLayout>
