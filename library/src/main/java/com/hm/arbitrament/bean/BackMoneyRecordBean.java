@@ -15,14 +15,11 @@ public class BackMoneyRecordBean implements Serializable {
     private String repaymentDate;
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        BackMoneyRecordBean that = (BackMoneyRecordBean) o;
-
-        return createTime == that.createTime;
+    public boolean equals(Object obj) {
+        if (obj instanceof BackMoneyRecordBean) {
+            return createTime == ((BackMoneyRecordBean) obj).getCreateTime();
+        }
+        return false;
     }
 
     @Override

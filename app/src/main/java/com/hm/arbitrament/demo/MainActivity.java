@@ -5,15 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
-import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
-import com.hm.arbitrament.business.award.ArbitralAwardActivity;
-import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
-import com.hm.arbitrament.business.progress.view.ArbitramentProgressActivity;
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
 import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.award.ArbitralAwardActivity;
+import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
 import com.hm.arbitrament.business.progress.view.MoneyBackProgressActivity;
 import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.router.Router;
@@ -80,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.btn_test).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                test();
+            }
+        });
     }
 
     public void toProgressPage(View v) {
@@ -96,6 +98,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void arbitramentSubmit(View v) {
         NavigationHelper.toArbitramentSubmitPage(this, "123456");
+    }
+
+    private void test() {
+        HttpReqManager.getInstance().getService(LoginService.class)
+                .testUpdateStauts("", "")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<BaseResponse<Object>>() {
+                    @Override
+                    public void accept(BaseResponse<Object> objectBaseResponse) throws Exception {
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
     }
 
     private void login() {

@@ -64,4 +64,10 @@
         android:onClick="arbitramentSubmit"
         android:text="仲裁提交" />
 
+    <Button
+        android:id="@+id/btn_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="修改仲裁状态" />
+
 </LinearLayout>

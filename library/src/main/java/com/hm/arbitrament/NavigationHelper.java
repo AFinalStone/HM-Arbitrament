@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.hm.arbitrament.bean.BackMoneyRecordBean;
 import com.hm.arbitrament.bean.CollectionProveBean;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
+import com.hm.arbitrament.business.apply.view.ArbApplyBookWaitPayActivity;
 import com.hm.arbitrament.business.apply.view.ArbitramentServerAgreementActivity;
 import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
 import com.hm.arbitrament.business.apply.view.InputApplyInfoActivity;
@@ -14,6 +15,7 @@ import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.apply.view.InputRealBackMoneyActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceDetailActivity;
+import com.hm.arbitrament.business.apply.view.WaitMakeArbApplyBookActivity;
 import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
 import com.hm.arbitrament.business.progress.view.ArbitramentProgressActivity;
 import com.hm.arbitrament.business.progress.view.MoneyBackProgressActivity;
@@ -130,21 +132,29 @@ public class NavigationHelper {
     /**
      * 等待付款去生成仲裁申请书
      *
-     * @param activity
+     * @param context
+     * @param iouId
+     * @param justId
+     * @param orderId
+     * @param arbNo
      */
-    public static void toWaitPayToMakeArbitramentApplyBook(Context activity) {
-//        Intent intent = new Intent(activity, Wai.class);
-//        activity.startActivity(intent);
+    public static void toWaitPayToMakeArbitramentApplyBook(Context context, String iouId, String justId, String arbNo, String orderId) {
+        Intent intent = new Intent(context, ArbApplyBookWaitPayActivity.class);
+        intent.putExtra(ArbApplyBookWaitPayActivity.EXTRA_KEY_IOU_ID, iouId);
+        intent.putExtra(ArbApplyBookWaitPayActivity.EXTRA_KEY_JUST_ID, justId);
+        intent.putExtra(ArbApplyBookWaitPayActivity.EXTRA_KEY_ARB_NO, arbNo);
+        intent.putExtra(ArbApplyBookWaitPayActivity.EXTRA_KEY_ORDER_ID, orderId);
+        context.startActivity(intent);
     }
 
     /**
      * 等待生成仲裁申请书
      *
-     * @param activity
+     * @param context
      */
-    public static void toWaitMakeArbitramentApplyBook(Context activity) {
-//        Intent intent = new Intent(activity, Wai.class);
-//        activity.startActivity(intent);
+    public static void toWaitMakeArbitramentApplyBook(Context context) {
+        Intent intent = new Intent(context, WaitMakeArbApplyBookActivity.class);
+        context.startActivity(intent);
     }
 
     /**
@@ -196,7 +206,7 @@ public class NavigationHelper {
      *
      * @param context
      */
-    public static void toPay(Context context, String iouId, String justId, Integer orderId) {
+    public static void toPay(Context context, String iouId, String justId, String orderId) {
         Intent intent = new Intent(context, ArbApplyBookPayActivity.class);
         intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_IOU_ID, iouId);
         intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_JUST_ID, justId);

@@ -372,7 +372,14 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         int realBackMoney = 0;
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-                realBackMoney = realBackMoney + list.get(i).getAmount();
+                BackMoneyRecordBean bean = list.get(i);
+                realBackMoney = realBackMoney + bean.getAmount();
+                //添加唯一标识
+                bean.setCreateTime(System.currentTimeMillis());
+                String backTime = bean.getRepaymentDate();
+                //修改归还时间格式
+                backTime = backTime.replaceAll("\\.", "-") + " 00:00:00";
+                bean.setRepaymentDate(backTime);
             }
         }
         mPresenter.getArbitramentCost(mIouId, mJustId, realBackMoney);

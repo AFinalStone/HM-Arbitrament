@@ -2,16 +2,21 @@ package com.hm.arbitrament.business.pay.applybook;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
+import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.req.PayArbApplyBookOrderReqBean;
 import com.hm.arbitrament.business.pay.base.IMoneyItem;
+import com.hm.arbitrament.event.ClosePageEvent;
 import com.hm.iou.base.event.OpenWxResultEvent;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
+import com.hm.iou.pay.api.PayApi;
+import com.hm.iou.pay.dict.OrderPayStatusEnumBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.wxapi.WXEntryActivity;
 import com.hm.iou.wxapi.WXPayEntryActivity;
@@ -33,17 +38,16 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
 
     private IWXAPI mWXApi;
     private static final String KEY_WX_PAY_CODE = "arbapplybookpay.wxpay";
-
+    private String mJustId;//订单公证id
+    private String mOrderId;//订单id
 
     public ArbApplyBookPayPresenter(@NonNull Context context, @NonNull ArbApplyBookPayActivity view) {
         super(context, view);
-        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
         if (mWXApi != null) {
             mWXApi.detach();
             mWXApi = null;
@@ -89,10 +93,21 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
     }
 
     @Override
-    public void payOrderByWeiXin(Integer orderId) {
+    public void payOrderByWeiXin(String justId, String orderId) {
+        if (TextUtils.isEmpty(mJustId) || TextUtils.isEmpty(orderId)) {
+            mJustId = justId;
+            mOrderId = orderId;
+            payOrder();
+            return;
+        }
+        checkPayResult();
+    }
+
+    private void payOrder() {
         PayArbApplyBookOrderReqBean reqBean = new PayArbApplyBookOrderReqBean();
         reqBean.setChannel(1);//微信支付
-        reqBean.setOrderId(orderId);
+        reqBean.setJusticeId(mJustId);
+        reqBean.setOrderId(mOrderId);
         ArbitramentApi.payArbApplyBookOrder(reqBean)
                 .compose(getProvider().<BaseResponse<PayArbApplyBookOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<PayArbApplyBookOrderResBean>handleResponse())
@@ -120,6 +135,41 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
                 });
     }
 
+
+    private void checkPayResult() {
+        PayApi.queryOrderPayState(mOrderId)
+                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<String>handleResponse())
+                .subscribeWith(new CommSubscriber<String>(mView) {
+                    @Override
+                    public void handleResult(String code) {
+                        mView.dismissLoadingView();
+                        if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
+                            NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                            mView.closeCurrPage();
+                        } else if (OrderPayStatusEnumBean.PayFailed.getStatus().equals(code)) {
+
+                        } else if (OrderPayStatusEnumBean.PayWait.getStatus().equals(code)
+                                || OrderPayStatusEnumBean.Paying.getStatus().equals(code)) {
+                            payOrder();
+                        } else if (OrderPayStatusEnumBean.PayFinish.getStatus().equals(code)) {
+                            mView.toastMessage("订单已经关闭...");
+                            EventBus.getDefault().post(new ClosePageEvent());
+                        } else if (OrderPayStatusEnumBean.RefundMoney.getStatus().equals(code)) {
+                            mView.toastMessage("订单已经退款...");
+                            EventBus.getDefault().post(new ClosePageEvent());
+                        } else {
+                            mView.toastMessage("发生未知异常...");
+                            EventBus.getDefault().post(new ClosePageEvent());
+                        }
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String code, String errorMsg) {
+                        mView.dismissLoadingView();
+                    }
+                });
+    }
 
     private List<IMoneyItem> changeData(List<GetArbApplyBookOrderResBean.ItemListBean> list) {
         List<IMoneyItem> listResult = new ArrayList<>();
@@ -159,6 +209,8 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
         if (KEY_WX_PAY_CODE.equals(openWxResultEvent.getKey())) {
             if (openWxResultEvent.getIfPaySuccess()) {
                 mView.toastMessage("支付成功");
+                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                mView.closeCurrPage();
             }
         }
     }

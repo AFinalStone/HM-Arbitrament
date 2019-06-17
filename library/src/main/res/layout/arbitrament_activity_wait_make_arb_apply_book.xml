@@ -13,7 +13,7 @@
         android:layout_height="@dimen/uikit_topbar_height"
         app:bottomDividerIsShow="false"
         app:titleBackground="@color/transparent"
-        app:titleText="申请进度" />
+        app:titleText="仲裁申请书" />
 
     <View
         android:layout_width="0dp"
@@ -23,32 +23,17 @@
     <ImageView
         android:layout_width="106dp"
         android:layout_height="106dp"
-        android:src="@mipmap/arbitrament_ic_arb_apply_wait_pay" />
+        android:src="@mipmap/arbitrament_ic_wait_make_arb_apply_book" />
 
     <TextView
         style="@style/UikitTextView.Large"
         android:layout_marginTop="30dp"
-        android:text="您有一个申请正在等待支付"
+        android:gravity="center"
+        android:text="律师团队正在快马加鞭的\n为您书写仲裁申请书\n请耐心等待"
         android:textColor="#ff575b62" />
-
-    <Button
-        android:id="@+id/btn_ok"
-        style="@style/UikitHMButton.Large.Main"
-        android:layout_marginEnd="38dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="30dp"
-        android:text="去支付" />
 
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="2" />
-
-
-    <com.hm.iou.uikit.HMBottomBarView
-        android:id="@+id/bottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:bottomTitleIcon="@mipmap/uikit_ic_menu_more"
-        app:bottomTitleIconWidth="38dp" />
 </LinearLayout>

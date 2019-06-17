@@ -23,6 +23,7 @@ public class ArbApplyBookPayContract {
          *
          * @param orderId 订单id
          */
-        void payOrderByWeiXin(Integer orderId);
+        void payOrderByWeiXin(String justId, String orderId);
+
     }
 }

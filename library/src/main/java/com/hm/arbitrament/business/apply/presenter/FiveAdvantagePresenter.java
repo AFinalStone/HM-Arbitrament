@@ -7,7 +7,7 @@ import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.business.apply.FiveAdvantageContract;
-import com.hm.iou.base.mvp.MvpActivityPresenter;
+import com.hm.arbitrament.business.base.BasePresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -20,7 +20,7 @@ import java.util.List;
  * Created by syl on 2019/6/10.
  */
 
-public class FiveAdvantagePresenter extends MvpActivityPresenter<FiveAdvantageContract.View> implements FiveAdvantageContract.Presenter {
+public class FiveAdvantagePresenter extends BasePresenter<FiveAdvantageContract.View> implements FiveAdvantageContract.Presenter {
 
     private static final String CODE_IS_NOT_UP_TO_APPOINTED_TIME = "1801008";//还没有到约定的还款时间哦！
     private static final String CODE_TIME_ARBITRAMENT_OUT_TIME = "1801009";//仲裁有效期为3年哦！

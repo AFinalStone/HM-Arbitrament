@@ -12,7 +12,7 @@ import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.business.apply.InputApplyInfoContract;
 import com.hm.arbitrament.business.apply.view.InputApplyInfoActivity;
-import com.hm.iou.base.mvp.MvpActivityPresenter;
+import com.hm.arbitrament.business.base.BasePresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.logger.Logger;
@@ -25,7 +25,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
  * @time 2019/6/11 3:36 PM
  */
 
-public class InputApplyInfoPresenter extends MvpActivityPresenter<InputApplyInfoContract.View> implements InputApplyInfoContract.Presenter {
+public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContract.View> implements InputApplyInfoContract.Presenter {
 
     public InputApplyInfoPresenter(@NonNull Context context, @NonNull InputApplyInfoContract.View view) {
         super(context, view);
@@ -113,7 +113,7 @@ public class InputApplyInfoPresenter extends MvpActivityPresenter<InputApplyInfo
                 .subscribeWith(new CommSubscriber<Integer>(mView) {
                     @Override
                     public void handleResult(Integer orderId) {
-                        NavigationHelper.toPay(mContext, reqBean.getIouId(), reqBean.getJusticeId(), orderId);
+                        NavigationHelper.toPay(mContext, reqBean.getIouId(), reqBean.getJusticeId(), String.valueOf(orderId));
                     }
 
                     @Override

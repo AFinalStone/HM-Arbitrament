@@ -45,7 +45,7 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
     private BackMoneyRecordBean mItem;
     private Dialog mDatePicker;
 
-    int mMaxBackMoney = -1;
+    Double mMaxBackMoney;
     String mBackTimeStartTime;
 
     @Override
@@ -61,11 +61,11 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
     @Override
     protected void initEventAndData(Bundle bundle) {
         mItem = (BackMoneyRecordBean) getIntent().getSerializableExtra(EXTRA_KEY_ITEM);
-        mMaxBackMoney = getIntent().getIntExtra(EXTRA_KEY_MAX_BACK_MONEY, -1);
+        mMaxBackMoney = getIntent().getDoubleExtra(EXTRA_KEY_MAX_BACK_MONEY, -1);
         mBackTimeStartTime = getIntent().getStringExtra(EXTRA_KEY_BACK_TIME_START_TIME);
         if (bundle != null) {
             mItem = (BackMoneyRecordBean) bundle.getSerializable(EXTRA_KEY_ITEM);
-            mMaxBackMoney = bundle.getInt(EXTRA_KEY_MAX_BACK_MONEY, -1);
+            mMaxBackMoney = bundle.getDouble(EXTRA_KEY_MAX_BACK_MONEY, -1);
             mBackTimeStartTime = bundle.getString(EXTRA_KEY_BACK_TIME_START_TIME);
         }
         mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
@@ -82,7 +82,6 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
                 backTime = backTime.replaceAll("\\.", "-") + " 00:00:00";
                 if (mItem == null) {
                     mItem = new BackMoneyRecordBean();
-                    mItem.setCreateTime(System.currentTimeMillis());
                 }
                 int backMoney = Integer.parseInt(strBackMoney);
                 mItem.setAmount(backMoney);
@@ -146,7 +145,7 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(EXTRA_KEY_ITEM, mItem);
-        outState.putInt(EXTRA_KEY_MAX_BACK_MONEY, mMaxBackMoney);
+        outState.putDouble(EXTRA_KEY_MAX_BACK_MONEY, mMaxBackMoney);
         outState.putString(EXTRA_KEY_BACK_TIME_START_TIME, mBackTimeStartTime);
     }
 

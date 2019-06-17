@@ -15,6 +15,7 @@ import com.hm.arbitrament.bean.BackMoneyRecordBean;
 import com.hm.arbitrament.business.apply.ArbitramentServerAgreementContract;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
+import com.hm.iou.logger.Logger;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
@@ -42,7 +43,7 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
 
     BackMoneyRecordProveAdapter mAdapter;
     ArrayList<BackMoneyRecordBean> mListData;
-    int mMaxBackMoney = -1;
+    Double mMaxBackMoney;
     String mBackTimeStartTime;
 
     @Override
@@ -58,11 +59,11 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
     @Override
     protected void initEventAndData(Bundle bundle) {
         mListData = (ArrayList<BackMoneyRecordBean>) getIntent().getSerializableExtra(EXTRA_KEY_BACK_MONEY_RECORD_LIST);
-        mMaxBackMoney = getIntent().getIntExtra(EXTRA_KEY_MAX_BACK_MONEY, -1);
+        mMaxBackMoney = getIntent().getDoubleExtra(EXTRA_KEY_MAX_BACK_MONEY, -1);
         mBackTimeStartTime = getIntent().getStringExtra(EXTRA_KEY_BACK_TIME_START_TIME);
         if (bundle != null) {
             mListData = (ArrayList<BackMoneyRecordBean>) bundle.getSerializable(EXTRA_KEY_BACK_MONEY_RECORD_LIST);
-            mMaxBackMoney = bundle.getInt(EXTRA_KEY_MAX_BACK_MONEY, -1);
+            mMaxBackMoney = bundle.getDouble(EXTRA_KEY_MAX_BACK_MONEY, -1);
             mBackTimeStartTime = bundle.getString(EXTRA_KEY_BACK_TIME_START_TIME);
         }
         if (mListData == null) {
@@ -128,7 +129,7 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(EXTRA_KEY_BACK_MONEY_RECORD_LIST, mListData);
-        outState.putInt(EXTRA_KEY_MAX_BACK_MONEY, mMaxBackMoney);
+        outState.putDouble(EXTRA_KEY_MAX_BACK_MONEY, mMaxBackMoney);
         outState.putString(EXTRA_KEY_BACK_TIME_START_TIME, mBackTimeStartTime);
     }
 
@@ -138,6 +139,7 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
         if (REQ_ADD_BACK_MONEY_RECORD == requestCode) {
             if (RESULT_OK == resultCode && data != null) {
                 BackMoneyRecordBean bean = (BackMoneyRecordBean) data.getSerializableExtra(InputRealBackMoneyAddRecordActivity.EXTRA_KEY_ITEM);
+                Logger.d("bean.toString()==" + bean.toString());
                 int position = mListData.indexOf(bean);
                 if (position != -1) {
                     mListData.set(position, bean);

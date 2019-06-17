@@ -16,7 +16,7 @@ public class ArbApplyBookPayActivity extends BasePayActivity<ArbApplyBookPayPres
 
     private String mIouId;
     private String mJustId;
-    private Integer mOrderId;
+    private String mOrderId;
 
     @Override
     protected ArbApplyBookPayPresenter initPresenter() {
@@ -27,11 +27,11 @@ public class ArbApplyBookPayActivity extends BasePayActivity<ArbApplyBookPayPres
     protected void init(Bundle bundle) {
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
         mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
-        mOrderId = getIntent().getIntExtra(EXTRA_KEY_ORDER_ID, -1);
+        mOrderId = getIntent().getStringExtra(EXTRA_KEY_ORDER_ID);
         if (bundle != null) {
             mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
             mJustId = bundle.getString(EXTRA_KEY_JUST_ID);
-            mOrderId = bundle.getInt(EXTRA_KEY_ORDER_ID, -1);
+            mOrderId = bundle.getString(EXTRA_KEY_ORDER_ID);
         }
         mPresenter.getArbApplyBookOrderInfo(mIouId, mJustId);
     }
@@ -41,7 +41,7 @@ public class ArbApplyBookPayActivity extends BasePayActivity<ArbApplyBookPayPres
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_IOU_ID, mIouId);
         outState.putString(EXTRA_KEY_JUST_ID, mJustId);
-        outState.putInt(EXTRA_KEY_ORDER_ID, mOrderId);
+        outState.putString(EXTRA_KEY_ORDER_ID, mOrderId);
     }
 
     @Override
@@ -51,6 +51,6 @@ public class ArbApplyBookPayActivity extends BasePayActivity<ArbApplyBookPayPres
 
     @Override
     protected void pay() {
-        mPresenter.payOrderByWeiXin(mOrderId);
+        mPresenter.payOrderByWeiXin(mJustId, mOrderId);
     }
 }

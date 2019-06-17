@@ -6,10 +6,10 @@ import android.support.annotation.NonNull;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
 import com.hm.arbitrament.business.apply.InputCollectionProveContract;
+import com.hm.arbitrament.business.base.BasePresenter;
 import com.hm.iou.base.file.FileApi;
 import com.hm.iou.base.file.FileBizType;
 import com.hm.iou.base.file.FileUploadResult;
-import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -24,7 +24,7 @@ import java.util.List;
  * @time 2019/6/11 3:36 PM
  */
 
-public class InputCollectionProvePresenter extends MvpActivityPresenter<InputCollectionProveContract.View> implements InputCollectionProveContract.Presenter {
+public class InputCollectionProvePresenter extends BasePresenter<InputCollectionProveContract.View> implements InputCollectionProveContract.Presenter {
 
     public InputCollectionProvePresenter(@NonNull Context context, @NonNull InputCollectionProveContract.View view) {
         super(context, view);
