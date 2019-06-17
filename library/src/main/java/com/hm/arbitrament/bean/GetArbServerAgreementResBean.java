@@ -9,12 +9,8 @@ import lombok.Data;
 @Data
 public class GetArbServerAgreementResBean {
 
-    /**
-     * contractId : 0
-     * hasPaid : true
-     */
-
-    private Integer contractId;
+    private int contractId;
+    private String contractUrl;
     private boolean hasPaid;
 
 }

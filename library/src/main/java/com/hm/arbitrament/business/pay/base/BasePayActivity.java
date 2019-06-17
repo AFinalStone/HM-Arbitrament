@@ -69,7 +69,7 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
 
     @Override
     protected int getLayoutId() {
-        return R.layout.arbitrament_activity_pay;
+        return R.layout.arbitrament_activity_base_pay;
     }
 
 

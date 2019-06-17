@@ -38,7 +38,7 @@ public class ArbitramentServerAgreementActivity<T extends MvpActivityPresenter> 
 
     @Override
     protected int getLayoutId() {
-        return R.layout.arbitrament_activity_arbirament_server_agreement;
+        return R.layout.arbitrament_activity_arb_server_agreement;
     }
 
     @Override

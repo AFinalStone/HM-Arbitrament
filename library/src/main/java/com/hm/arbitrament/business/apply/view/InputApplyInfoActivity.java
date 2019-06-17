@@ -238,8 +238,8 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                     @Override
                     public void onClick(View v) {
                         mBottomAddBackRecordDialog.dismiss();
-                        showRealBackRecord(null);
                         mTvRealBackMoney.setText("全部未还");
+                        showRealBackRecord(null);
                     }
                 });
                 mBottomAddBackRecordDialog = new HMBottomDialog.Builder(mContext)

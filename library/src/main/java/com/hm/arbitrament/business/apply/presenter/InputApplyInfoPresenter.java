@@ -90,13 +90,16 @@ public class InputApplyInfoPresenter extends MvpActivityPresenter<InputApplyInfo
                 .map(RxUtil.<GetArbServerAgreementResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<GetArbServerAgreementResBean>(mView) {
                     @Override
-                    public void handleResult(GetArbServerAgreementResBean getCollectionProveResBeans) {
-                        NavigationHelper.toArbitramentServerAgreement((Activity) mContext, "", InputApplyInfoActivity.REQ_GET_ARB_AGREEMENT_SERVER);
+                    public void handleResult(GetArbServerAgreementResBean bean) {
+                        if (bean == null) {
+                            return;
+                        }
+                        String url = bean.getContractUrl();
+                        NavigationHelper.toArbitramentServerAgreement((Activity) mContext, url, InputApplyInfoActivity.REQ_GET_ARB_AGREEMENT_SERVER);
                     }
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
-                        NavigationHelper.toArbitramentServerAgreement((Activity) mContext, "", InputApplyInfoActivity.REQ_GET_ARB_AGREEMENT_SERVER);
                     }
                 });
 
