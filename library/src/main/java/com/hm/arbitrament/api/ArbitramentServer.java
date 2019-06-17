@@ -14,6 +14,7 @@ import com.hm.arbitrament.bean.ProgressResBean;
 import com.hm.arbitrament.bean.req.ArbPaperReqBean;
 import com.hm.arbitrament.bean.req.CancelArbReqBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
+import com.hm.arbitrament.bean.req.CreateApplyOrderReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbApplyBookOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbCostReqBean;
@@ -89,5 +90,11 @@ public interface ArbitramentServer {
 
     @GET("/api/arb/v1/getArbPaperList")
     Flowable<BaseResponse<List<ArbPaperApplyInfo>>> getArbPaperList(@Query("arbApplyNo") String arbApplyNo);
+
+    @POST("/api/arb/v1/order/getApplyPackage")
+    Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getApplyPackage(@Body GetArbApplyBookOrderReqBean reqBean);
+
+    @POST("/api/arb/v1/order/createApplyOrder")
+    Flowable<BaseResponse<String>> createApplyOrder(@Body CreateApplyOrderReqBean reqBean);
 
 }
