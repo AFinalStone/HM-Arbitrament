@@ -26,6 +26,7 @@ public class GetArbitramentInputApplyDataResBean implements Serializable {
     private Integer dailyRate;
     private String contractStartDate;//合同开始时间
     private Integer overdueInterestType;
+    private Boolean ifAllNoReturn;
     private ArrayList<BackMoneyRecordBean> repaymentRecordList;//还款记录
     private ArrayList<CollectionProveBean> urgeExidenceList;//催收证明
 

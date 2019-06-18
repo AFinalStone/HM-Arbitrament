@@ -380,7 +380,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
             bean.setCreateTime(System.currentTimeMillis());
             String backTime = bean.getRepaymentDate();
             //修改归还时间格式
-            backTime = backTime.replaceAll("\\.", "-") + " 00:00:00";
+            backTime = backTime.replaceAll("\\.", "-");
             bean.setRepaymentDate(backTime);
         }
         mTvRealBackMoney.setText(String.valueOf(realBackMoney));

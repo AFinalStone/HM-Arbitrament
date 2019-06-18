@@ -86,8 +86,8 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
         });
         mRvCollectionProve.setAdapter(mAdapter);
 
-        if (mBean != null && !TextUtils.isEmpty(mBean.getFileId()) && !TextUtils.isEmpty(mBean.getImageUrl())) {
-            showImage(mBean.getFileId(), mBean.getImageUrl());
+        if (mBean != null && !TextUtils.isEmpty(mBean.getFileId()) && !TextUtils.isEmpty(mBean.getFileUrl())) {
+            showImage(mBean.getFileId(), mBean.getFileUrl());
         }
         //获取催收证明列表
         mPresenter.getCollectionProvelist();
@@ -115,7 +115,7 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
         } else if (REQ_OPEN_PIC_DETAIL == requestCode && RESULT_OK == resultCode) {
             if (mBean != null) {
                 mBean.setFileId("");
-                mBean.setImageUrl("");
+                mBean.setFileUrl("");
                 mLlAddCollectionProveDetail.setVisibility(View.GONE);
                 mLlAddCollectionProve.setVisibility(View.VISIBLE);
                 checkValue();
@@ -144,7 +144,7 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
             mBean = new CollectionProveBean();
         }
         mBean.setFileId(fileId);
-        mBean.setImageUrl(fileUrl);
+        mBean.setFileUrl(fileUrl);
         mLlAddCollectionProveDetail.setVisibility(View.VISIBLE);
         mLlAddCollectionProve.setVisibility(View.GONE);
         checkValue();
@@ -163,11 +163,11 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
                     .withString("enable_select_max_num", String.valueOf(1))
                     .navigation(this, REQ_OPEN_SELECT_PIC);
         } else if (R.id.ll_collection_prove_detail == view.getId()) {
-            if (mBean == null || TextUtils.isEmpty(mBean.getImageUrl())) {
+            if (mBean == null || TextUtils.isEmpty(mBean.getFileUrl())) {
                 return;
             }
             Intent intent = new Intent(mContext, InputCollectionProveImageDetailActivity.class);
-            intent.putExtra(InputCollectionProveImageDetailActivity.EXTRA_KEY_URL, mBean.getImageUrl());
+            intent.putExtra(InputCollectionProveImageDetailActivity.EXTRA_KEY_URL, mBean.getFileUrl());
             startActivityForResult(intent, REQ_OPEN_PIC_DETAIL);
         }
 
@@ -182,7 +182,7 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
             mBtnOk.setEnabled(false);
             return;
         }
-        if (TextUtils.isEmpty(mBean.getImageUrl())) {
+        if (TextUtils.isEmpty(mBean.getFileUrl())) {
             mBtnOk.setEnabled(false);
             return;
         }

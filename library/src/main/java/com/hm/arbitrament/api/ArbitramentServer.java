@@ -90,4 +90,7 @@ public interface ArbitramentServer {
     @GET("/api/arb/v1/getArbPaperList")
     Flowable<BaseResponse<List<ArbPaperApplyInfo>>> getArbPaperList(@Query("arbApplyNo") String arbApplyNo);
 
+    @GET("/pay/iou/v1/queryOrderWhilePaying")
+    Flowable<BaseResponse<String>> queryOrderPayState(@Query("orderId") String orderId);
+
 }

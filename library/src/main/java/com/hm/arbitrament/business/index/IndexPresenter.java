@@ -43,7 +43,8 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 NavigationHelper.toWaitPayToMakeArbitramentApplyBook(mContext, iouId, justId, bean.getArbApplyNo(), bean.getExField());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_WAIT_RESULT.getCode() == flag) {
-                                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+//                                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_SUCCESS.getCode() == flag) {
                                 //成功生成仲裁书

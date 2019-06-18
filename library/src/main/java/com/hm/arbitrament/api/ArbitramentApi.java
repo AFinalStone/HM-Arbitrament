@@ -232,5 +232,14 @@ public class ArbitramentApi {
         return getService().getArbPaperList(arbApplyNo).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 查询支付订单状态
+     *
+     * @param orderId
+     * @return
+     */
+    public static Flowable<BaseResponse<String>> queryOrderPayState(String orderId) {
+        return getService().queryOrderPayState(orderId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 
 }

@@ -12,7 +12,7 @@ public class CollectionProveBean implements Serializable {
      */
 
     private String fileId;
-    private String imageUrl;//本地缓存使用
+    private String fileUrl;//本地缓存使用
     private int urgeEvidenceType;
     private String description;
 
