@@ -14,6 +14,7 @@ import com.hm.arbitrament.bean.ProgressResBean;
 import com.hm.arbitrament.bean.req.ArbPaperReqBean;
 import com.hm.arbitrament.bean.req.CancelArbReqBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
+import com.hm.arbitrament.bean.req.CreateApplyOrderReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbApplyBookOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbCostReqBean;
@@ -240,6 +241,19 @@ public class ArbitramentApi {
      */
     public static Flowable<BaseResponse<String>> queryOrderPayState(String orderId) {
         return getService().queryOrderPayState(orderId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getApplyPackage(String iouId, String justId) {
+        GetArbApplyBookOrderReqBean reqBean = new GetArbApplyBookOrderReqBean();
+        reqBean.setIouId(iouId);
+        reqBean.setJusticeId(justId);
+        return getService().getApplyPackage(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Flowable<BaseResponse<String>> createApplyOrder(String arbNo) {
+        CreateApplyOrderReqBean reqBean = new CreateApplyOrderReqBean();
+        reqBean.setArbApplyNo(arbNo);
+        return getService().createApplyOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }
