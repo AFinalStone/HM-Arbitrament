@@ -136,6 +136,7 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
                     @Override
                     public void handleResult(String orderId) {
                         NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                        EventBus.getDefault().post(new ClosePageEvent());
                     }
 
                     @Override
