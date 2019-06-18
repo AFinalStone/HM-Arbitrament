@@ -140,8 +140,17 @@ public class ArbitramentApi {
      *
      * @return
      */
-    public static Flowable<BaseResponse<Integer>> createArbApplyBookOrder(CreateArbOrderReqBean reqBean) {
+    public static Flowable<BaseResponse<String>> createArbApplyBookOrder(CreateArbOrderReqBean reqBean) {
         return getService().createArbApplyBookOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 重新提交仲裁申请书的支付订单
+     *
+     * @return
+     */
+    public static Flowable<BaseResponse<String>> resubmitArbApplyBookOrder(CreateArbOrderReqBean reqBean) {
+        return getService().resubmitArbApplyBookOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     /**

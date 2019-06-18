@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.business.apply.SelectValidEvidenceContract;
-import com.hm.arbitrament.business.base.BasePresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.sharedata.model.BaseResponse;

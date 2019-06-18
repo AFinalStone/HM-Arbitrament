@@ -62,7 +62,10 @@ public interface ArbitramentServer {
     Flowable<BaseResponse<GetArbServerAgreementResBean>> getArbServerAgreement(@Body GetArbServerAgreementReqBean reqBean);
 
     @POST("/api/arb/v1/order/createHmOrder")
-    Flowable<BaseResponse<Integer>> createArbApplyBookOrder(@Body CreateArbOrderReqBean reqBean);
+    Flowable<BaseResponse<String>> createArbApplyBookOrder(@Body CreateArbOrderReqBean reqBean);
+
+    @POST("/api/arb/v1/resubmit")
+    Flowable<BaseResponse<String>> resubmitArbApplyBookOrder(@Body CreateArbOrderReqBean reqBean);
 
     @POST("/api/arb/v1/order/getHmPackage")
     Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbApplyBookOrderDetail(@Body GetArbApplyBookOrderReqBean reqBean);

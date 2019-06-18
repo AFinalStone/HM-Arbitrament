@@ -199,7 +199,10 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 reqBean.setSealId(signId);//签章id
                 reqBean.setTransPswd(Md5Util.getMd5ByString(signPwd));//签约密码
                 reqBean.setExEvidenceIdList(mListElecEvidence);
-                reqBean.setRepaymentRecordList(mBackMoneyRecordList);
+                if (mBackMoneyRecordList == null) {
+                    mBackMoneyRecordList = new ArrayList<>();
+                }
+                reqBean.setRepaymentRecordList(mBackMoneyRecordList);//归还记录
                 ArrayList<CollectionProveBean> list = new ArrayList<>();
                 list.add(mCollectionProveBean);
                 reqBean.setUrgeExidenceList(list);
@@ -235,6 +238,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                         mBottomAddBackRecordDialog.dismiss();
                         mTvRealBackMoney.setText("全部未还");
                         showRealBackRecord(null);
+                        checkValue();
                     }
                 });
                 mBottomAddBackRecordDialog = new HMBottomDialog.Builder(mContext)

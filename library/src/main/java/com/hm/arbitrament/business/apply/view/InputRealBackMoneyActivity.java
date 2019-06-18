@@ -73,7 +73,7 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
         mTopBar.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
             public void onClickTextMenu() {
-                startActivityForResult(new Intent(mContext, InputRealBackMoneyAddRecordActivity.class), REQ_ADD_BACK_MONEY_RECORD);
+                toAddRecord(null);
             }
 
             @Override

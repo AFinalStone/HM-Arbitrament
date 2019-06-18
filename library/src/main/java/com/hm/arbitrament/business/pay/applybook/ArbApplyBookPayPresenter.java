@@ -11,7 +11,6 @@ import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.req.PayArbApplyBookOrderReqBean;
 import com.hm.arbitrament.business.pay.base.IMoneyItem;
 import com.hm.arbitrament.dict.OrderPayStatusEnumBean;
-import com.hm.arbitrament.event.ClosePageEvent;
 import com.hm.iou.base.event.OpenWxResultEvent;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
@@ -44,11 +43,13 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
 
     public ArbApplyBookPayPresenter(@NonNull Context context, @NonNull ArbApplyBookPayActivity view) {
         super(context, view);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         if (mWXApi != null) {
             mWXApi.detach();
         }

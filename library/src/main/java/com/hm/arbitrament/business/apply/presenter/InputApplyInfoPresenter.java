@@ -12,12 +12,14 @@ import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.business.apply.InputApplyInfoContract;
 import com.hm.arbitrament.business.apply.view.InputApplyInfoActivity;
-import com.hm.arbitrament.business.base.BasePresenter;
+import com.hm.arbitrament.event.ClosePageEvent;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.logger.Logger;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /**
@@ -26,6 +28,8 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
  */
 
 public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContract.View> implements InputApplyInfoContract.Presenter {
+
+    private Boolean mIsCreateOrder;//是否是创建订单
 
     public InputApplyInfoPresenter(@NonNull Context context, @NonNull InputApplyInfoContract.View view) {
         super(context, view);
@@ -42,6 +46,10 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
                         if (resBean == null) {
                             mView.closeCurrPage();
                             return;
+                        }
+                        //如果没有催收证明，这里认为是第一次创建订单
+                        if (resBean.getUrgeExidenceList() == null || resBean.getUrgeExidenceList().isEmpty()) {
+                            mIsCreateOrder = true;
                         }
                         mView.showData(resBean);
                     }
@@ -107,19 +115,39 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
 
     @Override
     public void createOrder(final CreateArbOrderReqBean reqBean) {
-        ArbitramentApi.createArbApplyBookOrder(reqBean)
-                .compose(getProvider().<BaseResponse<Integer>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.<Integer>handleResponse())
-                .subscribeWith(new CommSubscriber<Integer>(mView) {
-                    @Override
-                    public void handleResult(Integer orderId) {
-                        NavigationHelper.toPay(mContext, reqBean.getIouId(), reqBean.getJusticeId(), String.valueOf(orderId));
-                    }
+        if (mIsCreateOrder) {//创建订单
+            ArbitramentApi.createArbApplyBookOrder(reqBean)
+                    .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                    .map(RxUtil.<String>handleResponse())
+                    .subscribeWith(new CommSubscriber<String>(mView) {
+                        @Override
+                        public void handleResult(String orderId) {
+                            NavigationHelper.toPay(mContext, reqBean.getIouId(), reqBean.getJusticeId(), orderId);
+                            EventBus.getDefault().post(new ClosePageEvent());
+                        }
 
-                    @Override
-                    public void handleException(Throwable throwable, String s, String s1) {
+                        @Override
+                        public void handleException(Throwable throwable, String s, String s1) {
 
-                    }
-                });
+                        }
+                    });
+        } else {//重新提交订单
+            ArbitramentApi.resubmitArbApplyBookOrder(reqBean)
+                    .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                    .map(RxUtil.<String>handleResponse())
+                    .subscribeWith(new CommSubscriber<String>(mView) {
+                        @Override
+                        public void handleResult(String orderId) {
+                            NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                        }
+
+                        @Override
+                        public void handleException(Throwable throwable, String s, String s1) {
+
+                        }
+                    });
+        }
+
     }
+
 }

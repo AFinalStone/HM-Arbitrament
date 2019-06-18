@@ -1,4 +1,4 @@
-package com.hm.arbitrament.business.base;
+package com.hm.arbitrament.business.apply.presenter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
