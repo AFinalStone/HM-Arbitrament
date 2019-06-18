@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
 import com.hm.arbitrament.business.CancelArbDialog;
@@ -34,6 +35,8 @@ import io.reactivex.functions.Consumer;
 public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPresenter> implements ArbitramentSubmitContract.View {
 
     public static final String EXTRA_KEY_ARB_NO = "arb_no";
+    public static final String EXTRA_KEY_IOU_ID = "iou_id";
+    public static final String EXTRA_KEY_JUSTICE_ID = "justice_id";
 
     @BindView(R2.id.wv_pdf)
     WebView mWebView;
@@ -48,6 +51,9 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     private HMCountDownTextView mCountDownView;
 
     private String mArbNo;
+    private String mIouId;
+    private String mJusticeId;
+
     private String mPdfUrl;
 
     @Override
@@ -63,8 +69,12 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     @Override
     protected void initEventAndData(Bundle bundle) {
         mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
+        mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
+        mJusticeId = getIntent().getStringExtra(EXTRA_KEY_JUSTICE_ID);
         if (bundle != null) {
             mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
+            mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
+            mJusticeId = bundle.getString(EXTRA_KEY_JUSTICE_ID);
         }
 
         initWebView();
@@ -88,6 +98,8 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
+        outState.putString(EXTRA_KEY_IOU_ID, mIouId);
+        outState.putString(EXTRA_KEY_JUSTICE_ID, mJusticeId);
     }
 
     protected void initWebView() {
@@ -211,5 +223,10 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     public void showArbApplyDoc(String pdfUrl) {
         mPdfUrl = pdfUrl;
         mWebView.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + Uri.encode(mPdfUrl));
+    }
+
+    @Override
+    public void toPay(String orderId) {
+        NavigationHelper.toArbApplyPayPage(this, mIouId, mJusticeId, mArbNo, orderId);
     }
 }

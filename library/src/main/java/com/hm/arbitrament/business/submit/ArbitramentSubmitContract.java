@@ -9,6 +9,8 @@ public interface ArbitramentSubmitContract {
         void showArbApplyDoc(String pdfUrl);
 
         void startCountDown();
+
+        void toPay(String orderId);
     }
 
     interface Presenter extends BaseContract.BasePresenter {

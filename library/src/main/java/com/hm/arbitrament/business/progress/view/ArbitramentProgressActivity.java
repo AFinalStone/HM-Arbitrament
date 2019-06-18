@@ -125,6 +125,7 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
 
     @Override
     public void showBottomCancelArbMenu() {
+        mBottomBar.setTitleIconDrawable(R.mipmap.uikit_ic_more_black);
         mBottomBar.setTitleIconVisible(true);
         mBottomBar.setTitleVisible(false);
         mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {

@@ -1,6 +1,7 @@
 package com.hm.arbitrament.business.index;
 
 import android.os.Bundle;
+import android.view.Gravity;
 
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
@@ -49,6 +50,7 @@ public class IndexActivity extends BaseActivity<IndexPresenter> implements Index
         new HMAlertDialog.Builder(mContext)
                 .setTitle(title)
                 .setMessage(msg)
+                .setMessageGravity(Gravity.CENTER)
                 .setPositiveButton("知道了")
                 .setCanceledOnTouchOutside(false)
                 .setOnClickListener(new HMAlertDialog.OnClickListener() {

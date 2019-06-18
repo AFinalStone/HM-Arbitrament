@@ -13,6 +13,7 @@ import com.hm.arbitrament.business.progress.ArbitramentProgressContract;
 import com.hm.arbitrament.business.progress.view.ProgressAdapter;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
+import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -20,10 +21,13 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.hm.arbitrament.Constants.H5_URL_CAILIAO_BUCHONG;
+
 public class ArbitramentProgressPresenter extends MvpActivityPresenter<ArbitramentProgressContract.View>
         implements ArbitramentProgressContract.Presenter, View.OnClickListener {
 
     private ProgressResBean mProgressInfo;
+    private String mArbNo;
 
     public ArbitramentProgressPresenter(@NonNull Context context, @NonNull ArbitramentProgressContract.View view) {
         super(context, view);
@@ -31,6 +35,7 @@ public class ArbitramentProgressPresenter extends MvpActivityPresenter<Arbitrame
 
     @Override
     public void loadProgressData(String arbNo) {
+        mArbNo = arbNo;
         mView.showDataLoading();
         ArbitramentApi.getProgress(arbNo)
                 .compose(getProvider().<BaseResponse<ProgressResBean>>bindUntilEvent(ActivityEvent.DESTROY))
@@ -55,8 +60,19 @@ public class ArbitramentProgressPresenter extends MvpActivityPresenter<Arbitrame
                         }
                         mView.showProgressList(list);
 
-                        if (!TextUtils.isEmpty(result.getOperName())) {
-                            mView.addFooterTips(result.getOperName(), ArbitramentProgressPresenter.this);
+                        if (!TextUtils.isEmpty(result.getNextOperName())) {
+                            mView.addFooterTips(result.getNextOperName(), ArbitramentProgressPresenter.this);
+                        }
+
+                        int pageOperType = mProgressInfo.getPageOperType();
+                        if (pageOperType == 1) {            //取消仲裁
+                            mView.showBottomCancelArbMenu();
+                        } else if (pageOperType == 2) {     //退款规则
+                        //    mView.showBottomBackMoneyRule();
+
+                            //TODO 接口里增加退款进度
+                        } else if (pageOperType == 3) {     //退款进度
+                            mView.showBottomBackMoneyProgressMenu();
                         }
 
                     }
@@ -72,6 +88,12 @@ public class ArbitramentProgressPresenter extends MvpActivityPresenter<Arbitrame
     public void onClick(View v) {
         if (mProgressInfo == null)
             return;
+        int nextOperType = mProgressInfo.getNextOperType();
+        if (nextOperType == 1) {            //如何补充
+            RouterUtil.clickMenuLink(mContext, H5_URL_CAILIAO_BUCHONG);
+        } else if (nextOperType == 2) {     //申请裁决书
+            NavigationHelper.toArbAwardPage(mContext, mArbNo);
+        }
     }
 
     @Override

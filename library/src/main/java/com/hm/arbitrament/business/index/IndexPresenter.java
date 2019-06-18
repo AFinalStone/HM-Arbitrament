@@ -43,12 +43,12 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 NavigationHelper.toWaitPayToMakeArbitramentApplyBook(mContext, iouId, justId, bean.getArbApplyNo(), bean.getExField());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_WAIT_RESULT.getCode() == flag) {
-//                                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
-                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId);
+                                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+//                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_SUCCESS.getCode() == flag) {
                                 //成功生成仲裁书
-                                NavigationHelper.toArbitramentApplyBookDetail(mContext, bean.getArbApplyNo());
+                                NavigationHelper.toArbitramentApplyBookDetail(mContext, iouId, justId, bean.getArbApplyNo());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_FIRST_TRIAL_FAILED_CAN_RETRY.getCode() == flag) {
                                 //初审失败，允许重新补全资料

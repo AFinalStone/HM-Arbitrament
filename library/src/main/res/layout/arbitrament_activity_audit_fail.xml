@@ -65,6 +65,5 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        app:bottomTitleIcon="@mipmap/uikit_ic_more_black" />
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
