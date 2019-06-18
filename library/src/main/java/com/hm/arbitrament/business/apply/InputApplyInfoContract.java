@@ -50,8 +50,16 @@ public class InputApplyInfoContract {
 
         /**
          * 创建订单
+         *
+         * @param reqBean
          */
         void createOrder(CreateArbOrderReqBean reqBean);
 
+        /**
+         * 重新提交订单
+         *
+         * @param reqBean
+         */
+        void resubmitOrder(CreateArbOrderReqBean reqBean);
     }
 }

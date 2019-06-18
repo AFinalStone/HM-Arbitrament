@@ -2,7 +2,6 @@ package com.hm.arbitrament.business.pay.applybook;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
@@ -40,6 +39,7 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
     private static final String KEY_WX_PAY_CODE = "arbapplybookpay.wxpay";
     private String mJustId;//订单公证id
     private String mOrderId;//订单id
+    private Boolean mHavePaySuccess;
 
     public ArbApplyBookPayPresenter(@NonNull Context context, @NonNull ArbApplyBookPayActivity view) {
         super(context, view);
@@ -93,13 +93,13 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
 
     @Override
     public void payOrderByWeiXin(String justId, String orderId) {
-        if (TextUtils.isEmpty(mJustId) || TextUtils.isEmpty(orderId)) {
-            mJustId = justId;
-            mOrderId = orderId;
-            payOrder();
-            return;
+        if (mHavePaySuccess) {
+            checkPayResult();
         }
-        checkPayResult();
+        mJustId = justId;
+        mOrderId = orderId;
+        payOrder();
+        return;
     }
 
     private String getAppId() {
@@ -223,6 +223,7 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
     public void onEvenBusOpenWXResult(OpenWxResultEvent openWxResultEvent) {
         if (KEY_WX_PAY_CODE.equals(openWxResultEvent.getKey())) {
             if (openWxResultEvent.getIfPaySuccess()) {
+                mHavePaySuccess = true;
                 checkPayResult();
             }
         }

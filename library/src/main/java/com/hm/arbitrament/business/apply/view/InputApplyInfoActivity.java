@@ -47,6 +47,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUST_ID = "just_id";
     public static final String EXTRA_KEY_LIST = "list";
+    public static final String EXTRA_KEY_IS_RESUBMIT = "is_resubmit";
 
     @BindView(R2.id.tv_total_back_money)
     TextView mTvTotalBackMoney;//合计应还
@@ -92,6 +93,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
     private String mIouId;
     private String mJustId;
     private ArrayList<String> mListElecEvidence;//有效凭证列表
+    private boolean mIsSubmit;//是否提交
 
     private HMBottomDialog mBottomAddBackRecordDialog;//还款记录
     private HMAlertDialog mArbitramentCostDialog;
@@ -114,10 +116,12 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
         mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
         mListElecEvidence = getIntent().getStringArrayListExtra(EXTRA_KEY_LIST);
+        mIsSubmit = getIntent().getBooleanExtra(EXTRA_KEY_IS_RESUBMIT, false);
         if (bundle != null) {
             mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
             mJustId = bundle.getString(EXTRA_KEY_JUST_ID);
             mListElecEvidence = bundle.getStringArrayList(EXTRA_KEY_LIST);
+            mIsSubmit = bundle.getBoolean(EXTRA_KEY_IS_RESUBMIT, false);
         }
         mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
@@ -154,6 +158,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         outState.putString(EXTRA_KEY_IOU_ID, mIouId);
         outState.putString(EXTRA_KEY_JUST_ID, mJustId);
         outState.putStringArrayList(EXTRA_KEY_LIST, mListElecEvidence);
+        outState.putBoolean(EXTRA_KEY_IS_RESUBMIT, mIsSubmit);
     }
 
     @Override
@@ -206,7 +211,11 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 ArrayList<CollectionProveBean> list = new ArrayList<>();
                 list.add(mCollectionProveBean);
                 reqBean.setUrgeExidenceList(list);
-                mPresenter.createOrder(reqBean);
+                if (mIsSubmit) {
+                    mPresenter.resubmitOrder(reqBean);
+                } else {
+                    mPresenter.createOrder(reqBean);
+                }
             }
         }
     }

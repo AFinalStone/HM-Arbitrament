@@ -29,8 +29,6 @@ import org.greenrobot.eventbus.EventBus;
 
 public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContract.View> implements InputApplyInfoContract.Presenter {
 
-    private Boolean mIsCreateOrder;//是否是创建订单
-
     public InputApplyInfoPresenter(@NonNull Context context, @NonNull InputApplyInfoContract.View view) {
         super(context, view);
     }
@@ -46,10 +44,6 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
                         if (resBean == null) {
                             mView.closeCurrPage();
                             return;
-                        }
-                        //如果没有催收证明，这里认为是第一次创建订单
-                        if (resBean.getUrgeExidenceList() == null || resBean.getUrgeExidenceList().isEmpty()) {
-                            mIsCreateOrder = true;
                         }
                         mView.showData(resBean);
                     }
@@ -115,39 +109,40 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
 
     @Override
     public void createOrder(final CreateArbOrderReqBean reqBean) {
-        if (mIsCreateOrder) {//创建订单
-            ArbitramentApi.createArbApplyBookOrder(reqBean)
-                    .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
-                    .map(RxUtil.<String>handleResponse())
-                    .subscribeWith(new CommSubscriber<String>(mView) {
-                        @Override
-                        public void handleResult(String orderId) {
-                            NavigationHelper.toPay(mContext, reqBean.getIouId(), reqBean.getJusticeId(), orderId);
-                            EventBus.getDefault().post(new ClosePageEvent());
-                        }
+        ArbitramentApi.createArbApplyBookOrder(reqBean)
+                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<String>handleResponse())
+                .subscribeWith(new CommSubscriber<String>(mView) {
+                    @Override
+                    public void handleResult(String orderId) {
+                        NavigationHelper.toPay(mContext, reqBean.getIouId(), reqBean.getJusticeId(), orderId);
+                        EventBus.getDefault().post(new ClosePageEvent());
+                    }
 
-                        @Override
-                        public void handleException(Throwable throwable, String s, String s1) {
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
 
-                        }
-                    });
-        } else {//重新提交订单
-            ArbitramentApi.resubmitArbApplyBookOrder(reqBean)
-                    .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
-                    .map(RxUtil.<String>handleResponse())
-                    .subscribeWith(new CommSubscriber<String>(mView) {
-                        @Override
-                        public void handleResult(String orderId) {
-                            NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
-                        }
+                    }
+                });
 
-                        @Override
-                        public void handleException(Throwable throwable, String s, String s1) {
+    }
 
-                        }
-                    });
-        }
+    @Override
+    public void resubmitOrder(CreateArbOrderReqBean reqBean) {
+        ArbitramentApi.resubmitArbApplyBookOrder(reqBean)
+                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<String>handleResponse())
+                .subscribeWith(new CommSubscriber<String>(mView) {
+                    @Override
+                    public void handleResult(String orderId) {
+                        NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                    }
 
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+
+                    }
+                });
     }
 
 }
