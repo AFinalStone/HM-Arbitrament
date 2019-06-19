@@ -49,10 +49,10 @@ public class SelectValidEvidencePresenter extends BasePresenter<SelectValidEvide
                                 return;
                             }
                             for (ElecEvidenceResBean bean : list) {
-                                String createTime = bean.getCreateTime();
                                 try {
+                                    String createTime = bean.getCreateTime();
                                     Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(createTime);
-                                    createTime = new SimpleDateFormat("MM月dd日").format(date);
+                                    createTime = new SimpleDateFormat("yyyy.MM.dd").format(date);
                                     bean.setCreateTime(createTime);
                                 } catch (Exception e) {
 
