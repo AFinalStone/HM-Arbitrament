@@ -13,6 +13,7 @@ import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.business.apply.InputApplyInfoContract;
 import com.hm.arbitrament.business.apply.view.InputApplyInfoActivity;
 import com.hm.arbitrament.event.ClosePageEvent;
+import com.hm.arbitrament.util.CacheDataUtil;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.logger.Logger;
@@ -35,12 +36,14 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
 
     @Override
     public void getInputApplyInfoData(String iouId, String justId) {
+        mView.showLoadingView();
         ArbitramentApi.getArbitramentInputApplyData(iouId, justId)
                 .compose(getProvider().<BaseResponse<GetArbitramentInputApplyDataResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<GetArbitramentInputApplyDataResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<GetArbitramentInputApplyDataResBean>(mView) {
                     @Override
                     public void handleResult(GetArbitramentInputApplyDataResBean resBean) {
+                        mView.dismissLoadingView();
                         if (resBean == null) {
                             mView.closeCurrPage();
                             return;
@@ -50,19 +53,21 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
-
+                        mView.dismissLoadingView();
                     }
                 });
     }
 
     @Override
     public void getArbitramentCost(String iouId, String justiceId, double totalMoney) {
+        mView.showLoadingView();
         ArbitramentApi.getArbitramentCost(iouId, justiceId, totalMoney)
                 .compose(getProvider().<BaseResponse<GetArbCostResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<GetArbCostResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<GetArbCostResBean>(mView) {
                     @Override
                     public void handleResult(GetArbCostResBean bean) {
+                        mView.dismissLoadingView();
                         Logger.d("" + bean.toString());
                         mView.showArbCost(bean.getArbCost().toString());
                         mView.showArbMoney(bean.getArbMoney().toString());
@@ -70,7 +75,7 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
-
+                        mView.dismissLoadingView();
                     }
 
                     @Override
@@ -87,12 +92,14 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
 
     @Override
     public void getAgreement(String iouId, String justId) {
+        mView.showLoadingView();
         ArbitramentApi.getArbServerAgreement(iouId, justId)
                 .compose(getProvider().<BaseResponse<GetArbServerAgreementResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<GetArbServerAgreementResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<GetArbServerAgreementResBean>(mView) {
                     @Override
                     public void handleResult(GetArbServerAgreementResBean bean) {
+                        mView.dismissLoadingView();
                         if (bean == null) {
                             return;
                         }
@@ -102,6 +109,7 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
+                        mView.dismissLoadingView();
                     }
                 });
 
@@ -109,19 +117,22 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
 
     @Override
     public void createOrder(final CreateArbOrderReqBean reqBean) {
+        mView.showLoadingView();
         ArbitramentApi.createArbApplyBookOrder(reqBean)
                 .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<String>handleResponse())
                 .subscribeWith(new CommSubscriber<String>(mView) {
                     @Override
                     public void handleResult(String orderId) {
+                        mView.dismissLoadingView();
                         NavigationHelper.toPay(mContext, reqBean.getIouId(), reqBean.getJusticeId(), orderId);
+                        CacheDataUtil.clearInputApplyInfoCacheData(mContext);
                         EventBus.getDefault().post(new ClosePageEvent());
                     }
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
-
+                        mView.dismissLoadingView();
                     }
                 });
 
@@ -129,19 +140,22 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
 
     @Override
     public void resubmitOrder(CreateArbOrderReqBean reqBean) {
+        mView.showLoadingView();
         ArbitramentApi.resubmitArbApplyBookOrder(reqBean)
                 .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<String>handleResponse())
                 .subscribeWith(new CommSubscriber<String>(mView) {
                     @Override
                     public void handleResult(String orderId) {
+                        mView.dismissLoadingView();
                         NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                        CacheDataUtil.clearInputApplyInfoCacheData(mContext);
                         EventBus.getDefault().post(new ClosePageEvent());
                     }
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
-
+                        mView.dismissLoadingView();
                     }
                 });
     }

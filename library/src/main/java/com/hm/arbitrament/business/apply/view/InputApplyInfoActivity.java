@@ -19,6 +19,7 @@ import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.business.apply.InputApplyInfoContract;
 import com.hm.arbitrament.business.apply.presenter.InputApplyInfoPresenter;
+import com.hm.arbitrament.util.CacheDataUtil;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.logger.Logger;
 import com.hm.iou.tools.Md5Util;
@@ -48,6 +49,8 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
     public static final String EXTRA_KEY_JUST_ID = "just_id";
     public static final String EXTRA_KEY_LIST = "list";
     public static final String EXTRA_KEY_IS_RESUBMIT = "is_resubmit";
+    private static final String BACK_NOTHING = "全部未还";
+
 
     @BindView(R2.id.tv_total_back_money)
     TextView mTvTotalBackMoney;//合计应还
@@ -96,6 +99,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
     private boolean mIsSubmit;//是否提交
 
     private HMBottomDialog mBottomAddBackRecordDialog;//还款记录
+    private boolean mIsBackNothing = false;//是否全部未还
     private HMAlertDialog mArbitramentCostDialog;
     private CollectionProveBean mCollectionProveBean;//催收证明
     private ArrayList<BackMoneyRecordBean> mBackMoneyRecordList;//还款记录
@@ -162,6 +166,14 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        CacheDataUtil.setIsBackNothing(mContext, mIsBackNothing);
+        CacheDataUtil.setBackMoneyRecordList(mContext, mBackMoneyRecordList);
+        CacheDataUtil.setCollectionProveBean(mContext, mCollectionProveBean);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQ_INPUT_REAL_BACK_MONEY_RECORD == requestCode) {
@@ -171,6 +183,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 }
                 mIvRealBackMoney.setImageResource(R.mipmap.uikit_ic_arrow_right);
                 ArrayList<BackMoneyRecordBean> list = (ArrayList<BackMoneyRecordBean>) data.getSerializableExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_MONEY_RECORD_LIST);
+                mTvRealBackMoney.setText("");
                 //归还记录
                 showRealBackRecord(list);
                 checkValue();
@@ -245,7 +258,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                     @Override
                     public void onClick(View v) {
                         mBottomAddBackRecordDialog.dismiss();
-                        mTvRealBackMoney.setText("全部未还");
+                        mTvRealBackMoney.setText(BACK_NOTHING);
                         showRealBackRecord(null);
                         checkValue();
                     }
@@ -257,7 +270,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
             }
             //判断是否填写了实际归还记录
             String realBackMoney = mTvRealBackMoney.getText().toString();
-            if (TextUtils.isEmpty(realBackMoney) || "全部未还".equals(realBackMoney)) {
+            if (TextUtils.isEmpty(realBackMoney) || BACK_NOTHING.equals(realBackMoney)) {
                 mBottomAddBackRecordDialog.show();
             } else {
                 String strTotalMoney = mTvTotalBackMoney.getText().toString();
@@ -326,12 +339,12 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         //合同开始时间
         mContractStartTime = resBean.getContractStartDate();
         //合计应还
-        Number totalBackMoney = resBean.getAmount();
-        mTvTotalBackMoney.setText(StringUtil.doubleToString(totalBackMoney.doubleValue()));
+        Double totalBackMoney = resBean.getAmount();
+        mTvTotalBackMoney.setText(StringUtil.doubleToString(totalBackMoney));
         //利息意向
-        Number purposeInterestRate = resBean.getDailyRate();
-        if (0 != purposeInterestRate.intValue()) {
-            mTvPurposeInterestRate.setText("年利率" + purposeInterestRate.intValue() + "%");
+        Double purposeInterestRate = resBean.getDailyRate();
+        if (0 != purposeInterestRate) {
+            mTvPurposeInterestRate.setText("年利率" + purposeInterestRate + "%");
         }
         //逾期利息
         int outTimeInterestRateType = resBean.getOverdueInterestType();
@@ -341,14 +354,30 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
             mTvOutTimeInterest.setText("未还金额的万分之" + outTimeInterestRateType);
         }
         //归还记录
-        showRealBackRecord(resBean.getRepaymentRecordList());
+        ArrayList<BackMoneyRecordBean> backMoneyRecordList = resBean.getRepaymentRecordList();
+        if (backMoneyRecordList == null || backMoneyRecordList.isEmpty()) {
+            //本地缓存
+            boolean isBackNothing = CacheDataUtil.getIsBackNothing(mContext);
+            if (isBackNothing) {
+                mTvRealBackMoney.setText(BACK_NOTHING);
+            } else {
+                backMoneyRecordList = CacheDataUtil.getBackMoneyRecordList(mContext);
+            }
+        } else {
+            mTvRealBackMoney.setText("");
+        }
+        showRealBackRecord(backMoneyRecordList);
         //催收证明
         List<CollectionProveBean> list = resBean.getUrgeExidenceList();
-        if (list != null) {
-            for (int i = 0; i < list.size(); i++) {
-                showCollectionProve(list.get(i));
-            }
+        CollectionProveBean collectionProveBean = null;
+        if (list != null && list.size() > 0) {
+            collectionProveBean = list.get(0);
         }
+        if (collectionProveBean == null) {
+            //本地缓存
+            collectionProveBean = CacheDataUtil.getCollectionProveBean(mContext);
+        }
+        showCollectionProve(collectionProveBean);
         checkValue();
     }
 
@@ -374,13 +403,14 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
 
     private void showRealBackRecord(ArrayList<BackMoneyRecordBean> list) {
         mBackMoneyRecordList = list;
-        if ("全部未还".equals(mTvRealBackMoney.getText().toString())) {
+        if (BACK_NOTHING.equals(mTvRealBackMoney.getText().toString())) {
+            mIsBackNothing = true;
             mPresenter.getArbitramentCost(mIouId, mJustId, 0);
             return;
         }
+        mIsBackNothing = false;
         //初始化或者用户未添加实际归还记录
         if (list == null || list.isEmpty()) {
-            mTvRealBackMoney.setText("");
             mLlArbitramentCost.setVisibility(View.GONE);
             mLlArbitramentMoney.setVisibility(View.GONE);
             return;

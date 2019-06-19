@@ -50,6 +50,7 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
     MoneyListAdapter mAdapter;
 
     private HMAlertDialog mExitDialog;
+    private HMAlertDialog mNoCheckPayResultDialog;
 
     /**
      * 初始化
@@ -185,5 +186,30 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
                 refresh();
             }
         });
+    }
+
+    @Override
+    public void showNoCheckPayResultDialog() {
+        if (mNoCheckPayResultDialog == null) {
+            mNoCheckPayResultDialog = new HMAlertDialog.Builder(mContext)
+                    .setTitle("温馨提示")
+                    .setMessage("未检测到支付结果，请重新支付")
+                    .setMessageGravity(Gravity.CENTER)
+                    .setPositiveButton("重新支付")
+                    .setNegativeButton("取消")
+                    .setOnClickListener(new HMAlertDialog.OnClickListener() {
+                        @Override
+                        public void onPosClick() {
+                            pay();
+                        }
+
+                        @Override
+                        public void onNegClick() {
+
+                        }
+                    })
+                    .create();
+        }
+        mNoCheckPayResultDialog.show();
     }
 }

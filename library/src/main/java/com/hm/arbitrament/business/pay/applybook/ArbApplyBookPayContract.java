@@ -20,10 +20,8 @@ public class ArbApplyBookPayContract {
 
         /**
          * 通过微信进行订单支付
-         *
-         * @param orderId 订单id
          */
-        void payOrderByWeiXin(String justId, String orderId);
+        void payOrderByWeiXin(String justId);
 
     }
 }

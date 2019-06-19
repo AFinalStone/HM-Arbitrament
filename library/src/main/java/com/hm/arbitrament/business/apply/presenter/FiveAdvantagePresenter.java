@@ -34,17 +34,20 @@ public class FiveAdvantagePresenter extends BasePresenter<FiveAdvantageContract.
 
     @Override
     public void checkArbitramentApplyStatus(final String iouId, final String justId) {
+        mView.showLoadingView();
         ArbitramentApi.checkArbitramentApplyStatus(iouId, justId)
                 .compose(getProvider().<BaseResponse<List<ElecEvidenceResBean>>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<List<ElecEvidenceResBean>>handleResponse())
                 .subscribeWith(new CommSubscriber<List<ElecEvidenceResBean>>(mView) {
                     @Override
                     public void handleResult(List<ElecEvidenceResBean> elecEvidenceResBeans) {
+                        mView.dismissLoadingView();
                         NavigationHelper.toSelectValidEvidenceActivity(mContext, iouId, justId);
                     }
 
                     @Override
                     public void handleException(Throwable throwable, String code, String s1) {
+                        mView.dismissLoadingView();
                         if (CODE_IS_NOT_UP_TO_APPOINTED_TIME.equals(code)) {
                             mView.showKnowDialog("还没有到约定的还款时间哦！");
                         } else if (CODE_TIME_ARBITRAMENT_OUT_TIME.equals(code)) {

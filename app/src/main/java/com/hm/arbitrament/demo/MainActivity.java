@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
 //                        .navigation(MainActivity.this);
                 Router.getInstance()
                         .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
-                        .withString("iou_id", "4c4e721d68c54d879b5d5c763e188bc9")
-                        .withString("just_id", "190227170537000385")
+                        .withString("iou_id", "393c5b706b604c95a0cef30b24129d43")
+                        .withString("just_id", "190617143602000380")
                         .navigation(MainActivity.this);
             }
         });
@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
         String pwd = MD5.hexdigest("123456".getBytes());
         MobileLoginReqBean reqBean = new MobileLoginReqBean();
 //        reqBean.setMobile("13186975702");
-        reqBean.setMobile("15967132742");
-//        reqBean.setMobile("15267163669");
+//        reqBean.setMobile("15967132742");
+        reqBean.setMobile("15267163669");
 //        reqBean.setMobile("18337150117");
 
         reqBean.setQueryPswd(pwd);

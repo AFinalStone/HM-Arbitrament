@@ -16,15 +16,18 @@ import com.hm.arbitrament.R2;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.business.apply.SelectValidEvidenceContract;
 import com.hm.arbitrament.business.apply.presenter.SelectValidEvidencePresenter;
+import com.hm.arbitrament.event.ClosePageEvent;
+import com.hm.arbitrament.util.CacheDataUtil;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,9 +40,12 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
     public static final int REQ_SELECT_EVIDENCE_DETAIL = 100;
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUST_ID = "just_id";
+    public static final String EXTRA_KEY_IS_RESUBMIT = "is_resubmit";
+
 
     private String mIouId;
     private String mJustId;
+    private boolean mIsSubmit;//是否提交
 
     @BindView(R2.id.topBar)
     HMTopBarView mTopBar;
@@ -67,9 +73,11 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
     protected void initEventAndData(Bundle bundle) {
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
         mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
+        mIsSubmit = getIntent().getBooleanExtra(EXTRA_KEY_IS_RESUBMIT, false);
         if (bundle != null) {
-            mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
-            mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
+            mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
+            mJustId = bundle.getString(EXTRA_KEY_JUST_ID);
+            mIsSubmit = bundle.getBoolean(EXTRA_KEY_IS_RESUBMIT, false);
         }
         mTopBar.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
@@ -110,6 +118,7 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_IOU_ID, mIouId);
         outState.putString(EXTRA_KEY_JUST_ID, mJustId);
+        outState.putBoolean(EXTRA_KEY_IS_RESUBMIT, mIsSubmit);
     }
 
     @Override
@@ -129,7 +138,8 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
 
                         @Override
                         public void onNegClick() {
-                            finish();
+                            CacheDataUtil.clearInputApplyInfoCacheData(mContext);
+                            EventBus.getDefault().post(new ClosePageEvent());
                         }
                     })
                     .create();
@@ -157,7 +167,7 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
 
     @OnClick(R2.id.btn_ok)
     public void onClick() {
-        NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId, mAdapter.getSelectEvidenceIds());
+        NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId, mAdapter.getSelectEvidenceIds(), mIsSubmit);
     }
 
     private void checkValue() {

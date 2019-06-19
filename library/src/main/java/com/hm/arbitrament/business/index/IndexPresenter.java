@@ -26,6 +26,7 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
 
     @Override
     public void getArbitramentStatus(final String iouId, final String justId) {
+        mView.showLoadingView();
         ArbitramentApi.getArbitramentStatus(iouId, justId)
                 .compose(getProvider().<BaseResponse<GetArbitramentStatusResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<GetArbitramentStatusResBean>handleResponse())
@@ -41,10 +42,12 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_NOT_PAY.getCode() == flag) {
                                 //已提交嘿马帮忙制作仲裁申请书，未付款
                                 NavigationHelper.toWaitPayToMakeArbitramentApplyBook(mContext, iouId, justId, bean.getArbApplyNo(), bean.getExField());
+//                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId);
+
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_WAIT_RESULT.getCode() == flag) {
-//                                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
-                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId);
+                                NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+//                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_SUCCESS.getCode() == flag) {
                                 //成功生成仲裁书

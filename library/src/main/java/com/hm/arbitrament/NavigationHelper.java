@@ -74,11 +74,12 @@ public class NavigationHelper {
      *
      * @param context
      */
-    public static void toInputApplyInfo(Context context, String iouId, String justId, ArrayList<String> list) {
+    public static void toInputApplyInfo(Context context, String iouId, String justId, ArrayList<String> list, boolean mIsSubmit) {
         Intent intent = new Intent(context, InputApplyInfoActivity.class);
         intent.putExtra(InputApplyInfoActivity.EXTRA_KEY_IOU_ID, iouId);
         intent.putExtra(InputApplyInfoActivity.EXTRA_KEY_JUST_ID, justId);
         intent.putExtra(InputApplyInfoActivity.EXTRA_KEY_LIST, list);
+        intent.putExtra(InputApplyInfoActivity.EXTRA_KEY_IS_RESUBMIT, mIsSubmit);
         context.startActivity(intent);
     }
 
@@ -218,7 +219,6 @@ public class NavigationHelper {
         Intent intent = new Intent(context, ArbApplyBookPayActivity.class);
         intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_IOU_ID, iouId);
         intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_JUST_ID, justId);
-        intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_ORDER_ID, orderId);
         context.startActivity(intent);
     }
 

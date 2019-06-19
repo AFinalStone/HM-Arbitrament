@@ -22,7 +22,6 @@ public class PayArbApplyBookOrderReqBean {
     private int channel;
     private String justiceId;
     private String openId;
-    private String orderId;
     private String sceneCode;
     private String tradeType;
 

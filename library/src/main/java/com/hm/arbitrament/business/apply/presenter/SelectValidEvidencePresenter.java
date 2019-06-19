@@ -27,15 +27,27 @@ public class SelectValidEvidencePresenter extends BasePresenter<SelectValidEvide
 
     @Override
     public void getEvidenceList(String iouId, String justId) {
+        mView.showInit();
         ArbitramentApi.getElecEvidenceList(iouId, justId)
                 .compose(getProvider().<BaseResponse<List<ElecEvidenceResBean>>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<List<ElecEvidenceResBean>>handleResponse())
                 .subscribeWith(new CommSubscriber<List<ElecEvidenceResBean>>(mView) {
                     @Override
                     public void handleResult(List<ElecEvidenceResBean> list) {
+                        mView.dismissLoadingView();
                         if (list == null || list.isEmpty()) {
                             mView.showDataEmpty();
                             return;
+                        }
+                        for (ElecEvidenceResBean bean : list) {
+                            String createTime = bean.getCreateTime();
+                            try {
+                                createTime = createTime.replaceAll("-", "\\.");
+                                createTime = createTime.substring(0, 10);
+                                bean.setCreateTime(createTime);
+                            } catch (Exception e) {
+
+                            }
                         }
                         mView.showEvidenceList(list);
                         mView.hideInit();

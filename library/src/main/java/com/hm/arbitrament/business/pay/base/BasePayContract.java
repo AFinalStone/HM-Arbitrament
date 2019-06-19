@@ -55,6 +55,11 @@ public class BasePayContract {
          */
         void showInitLoadingFailed(String msg);
 
+        /**
+         * 显示未检测到支付结果对话框
+         */
+        void showNoCheckPayResultDialog();
+
     }
 
     public interface BasePayPresenter extends BaseContract.BasePresenter {

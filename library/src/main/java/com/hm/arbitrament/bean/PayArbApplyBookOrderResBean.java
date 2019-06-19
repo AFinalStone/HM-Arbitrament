@@ -23,11 +23,12 @@ public class PayArbApplyBookOrderResBean {
      */
 
     private String appid;
-    private String noncestr;
-    @SerializedName("package")
-    private String packageX;
     private String partnerid;
     private String prepayid;
-    private String sign;
+    @SerializedName("package")
+    private String packageX;
+    private String noncestr;
     private String timestamp;
+    private String sign;
+    private String orderId;
 }
