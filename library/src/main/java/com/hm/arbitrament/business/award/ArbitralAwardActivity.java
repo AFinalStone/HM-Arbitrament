@@ -97,14 +97,6 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
         outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mAdapter.getData() == null || mAdapter.getData().isEmpty()) {
-            finish();
-        } else {
-            mInputContainer.setVisibility(View.GONE);
-        }
-    }
 
     @Override
     public void finishRefresh() {
@@ -155,7 +147,11 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
             bottomBarView.setOnBackClickListener(new HMBottomBarView.OnBackClickListener() {
                 @Override
                 public void onClickBack() {
-                    onBackPressed();
+                    if (mAdapter.getData() == null || mAdapter.getData().isEmpty()) {
+                        finish();
+                    } else {
+                        mInputContainer.setVisibility(View.GONE);
+                    }
                 }
             });
         }
