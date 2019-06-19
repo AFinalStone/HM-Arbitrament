@@ -60,13 +60,6 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
             mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
             mJusticeId = bundle.getString(EXTRA_KEY_JUSTICE_ID);
         }
-
-        mBottomBarView.setOnTitleIconClickListener(new HMBottomBarView.OnTitleIconClickListener() {
-            @Override
-            public void onClickIcon() {
-                showMoreActionSheet();
-            }
-        });
     }
 
     @Override
@@ -95,6 +88,13 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
             @Override
             public void onClickTitle() {
                 NavigationHelper.toDocCompletionPage(AuditFailActivity.this, mIouId, mJusticeId, mArbNo);
+            }
+        });
+        mBottomBarView.setTitleIconDrawable(R.mipmap.uikit_ic_more_black);
+        mBottomBarView.setOnTitleIconClickListener(new HMBottomBarView.OnTitleIconClickListener() {
+            @Override
+            public void onClickIcon() {
+                showMoreActionSheet();
             }
         });
     }

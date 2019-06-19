@@ -15,6 +15,8 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 
 public class ArbitramentSubmitPresenter extends MvpActivityPresenter<ArbitramentSubmitContract.View> implements ArbitramentSubmitContract.Presenter {
 
+    private String mArbApplyNo;
+
     public ArbitramentSubmitPresenter(@NonNull Context context, @NonNull ArbitramentSubmitContract.View view) {
         super(context, view);
     }
@@ -22,6 +24,7 @@ public class ArbitramentSubmitPresenter extends MvpActivityPresenter<Arbitrament
     @Override
     public void getArbApplyDoc(String arbApplyNo) {
         mView.showLoadingView();
+        mArbApplyNo = arbApplyNo;
         ArbitramentApi.getArbApplyDoc(arbApplyNo)
                 .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<String>handleResponse())
@@ -93,10 +96,7 @@ public class ArbitramentSubmitPresenter extends MvpActivityPresenter<Arbitrament
                 .subscribeWith(new CommSubscriber<Object>(mView) {
                     @Override
                     public void handleResult(Object o) {
-                        mView.dismissLoadingView();
-
-                        //TODO 跳转到支付页面
-
+                        createOrder();
                     }
 
                     @Override
@@ -105,4 +105,26 @@ public class ArbitramentSubmitPresenter extends MvpActivityPresenter<Arbitrament
                     }
                 });
     }
+
+    /**
+     * 创建订单
+     */
+    private void createOrder() {
+        ArbitramentApi.createApplyOrder(mArbApplyNo)
+                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<String>handleResponse())
+                .subscribeWith(new CommSubscriber<String>(mView) {
+                    @Override
+                    public void handleResult(String orderId) {
+                        mView.dismissLoadingView();
+                        mView.toPay(orderId);
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+                        mView.dismissLoadingView();
+                    }
+                });
+    }
+
 }

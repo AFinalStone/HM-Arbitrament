@@ -16,8 +16,10 @@ import com.hm.arbitrament.business.apply.view.InputRealBackMoneyActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceDetailActivity;
 import com.hm.arbitrament.business.apply.view.WaitMakeArbApplyBookActivity;
+import com.hm.arbitrament.business.award.ArbitralAwardActivity;
 import com.hm.arbitrament.business.fail.AuditFailActivity;
 import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
+import com.hm.arbitrament.business.pay.applysubmit.ArbApplySubmitPayActivity;
 import com.hm.arbitrament.business.progress.view.ArbitramentProgressActivity;
 import com.hm.arbitrament.business.progress.view.MoneyBackProgressActivity;
 import com.hm.arbitrament.business.submit.ArbitramentSubmitActivity;
@@ -163,9 +165,14 @@ public class NavigationHelper {
      * 仲裁申请书详情页面，准备正式提交申请
      *
      * @param activity
+     * @param iouId
+     * @param justId
+     * @param arbNo
      */
-    public static void toArbitramentApplyBookDetail(Context activity, String arbNo) {
+    public static void toArbitramentApplyBookDetail(Context activity, String iouId, String justId, String arbNo) {
         Intent intent = new Intent(activity, ArbitramentSubmitActivity.class);
+        intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_IOU_ID, iouId);
+        intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_JUSTICE_ID, justId);
         intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_ARB_NO, arbNo);
         activity.startActivity(intent);
     }
@@ -311,6 +318,36 @@ public class NavigationHelper {
      */
     public static void toDocCompletionPage(Context context, String iouId, String justiceId, String arbApplyNo) {
 
+    }
+
+    /**
+     * 进入仲裁申请支付页面
+     *
+     * @param context
+     * @param iouId
+     * @param justId
+     * @param arbApplyNo
+     * @param orderId
+     */
+    public static void toArbApplyPayPage(Context context, String iouId, String justId, String arbApplyNo, String orderId) {
+        Intent intent = new Intent(context, ArbApplySubmitPayActivity.class);
+        intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_ARB_NO, arbApplyNo);
+        intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_IOU_ID, iouId);
+        intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_JUST_ID, justId);
+        intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_ORDER_ID, orderId);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 进入裁决书申请页面
+     *
+     * @param context
+     * @param arbNo
+     */
+    public static void toArbAwardPage(Context context, String arbNo) {
+        Intent intent = new Intent(context, ArbitralAwardActivity.class);
+        intent.putExtra(ArbitralAwardActivity.EXTRA_KEY_ARB_NO, arbNo);
+        context.startActivity(intent);
     }
 
 }
