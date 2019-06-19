@@ -110,7 +110,6 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
         PayArbApplyBookOrderReqBean reqBean = new PayArbApplyBookOrderReqBean();
         reqBean.setChannel(1);//微信支付
         reqBean.setJusticeId(mJustId);
-        reqBean.setOrderId(mOrderId);
         ArbitramentApi.payArbApplyBookOrder(reqBean)
                 .compose(getProvider().<BaseResponse<PayArbApplyBookOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<PayArbApplyBookOrderResBean>handleResponse())

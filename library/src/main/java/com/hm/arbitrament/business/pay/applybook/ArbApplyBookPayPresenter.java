@@ -97,6 +97,7 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
     public void payOrderByWeiXin(String justId) {
         if (mHavePaySuccess) {
             checkPayResult();
+            return;
         }
         boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
         if (flag) {

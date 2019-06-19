@@ -62,10 +62,20 @@ public class MainActivity extends AppCompatActivity {
 //                        .withString("just_id", "190523143827000448")
 //                        .withString("is_borrower", "0")
 //                        .navigation(MainActivity.this);
+//                Router.getInstance()
+//                        .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
+//                        .withString("iou_id", "393c5b706b604c95a0cef30b24129d43")
+//                        .withString("just_id", "190617143602000380")
+//                        .navigation(MainActivity.this);
+//                Router.getInstance()
+//                        .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
+//                        .withString("iou_id", "ed34f50629ab41c59253d32ca59cec18")
+//                        .withString("just_id", "190617160409000443")
+//                        .navigation(MainActivity.this);
                 Router.getInstance()
                         .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
-                        .withString("iou_id", "393c5b706b604c95a0cef30b24129d43")
-                        .withString("just_id", "190617143602000380")
+                        .withString("iou_id", "2343f6ca9de44b63b4433c6ec84b40c8")
+                        .withString("just_id", "190617161752000443")
                         .navigation(MainActivity.this);
             }
         });
