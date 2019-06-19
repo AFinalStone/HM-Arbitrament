@@ -1,7 +1,7 @@
 package com.hm.arbitrament.business.apply.view;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -19,14 +19,17 @@ import com.hm.arbitrament.business.apply.presenter.SelectValidEvidencePresenter;
 import com.hm.arbitrament.event.ClosePageEvent;
 import com.hm.arbitrament.util.CacheDataUtil;
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.router.Router;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,7 +40,6 @@ import butterknife.OnClick;
  */
 public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidencePresenter> implements SelectValidEvidenceContract.View {
 
-    public static final int REQ_SELECT_EVIDENCE_DETAIL = 100;
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUST_ID = "just_id";
     public static final String EXTRA_KEY_IS_RESUBMIT = "is_resubmit";
@@ -49,6 +51,8 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
 
     @BindView(R2.id.topBar)
     HMTopBarView mTopBar;
+    @BindView(R2.id.refreshLayout)
+    SmartRefreshLayout mRefreshLayout;
     @BindView(R2.id.init_loading)
     HMLoadingView mInitLoading;
     @BindView(R2.id.rv_evidence)
@@ -92,25 +96,45 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
         });
         mAdapter = new EvidenceAdapter();
         mRvEvidence.setLayoutManager(new LinearLayoutManager(mContext));
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                ElecEvidenceResBean item = mAdapter.getItem(position);
-                if (item == null) {
-                    return;
-                }
-                if (R.id.rl_content == view.getId()) {
-                    NavigationHelper.toSelectValidEvidenceDetailActivity(mContext, REQ_SELECT_EVIDENCE_DETAIL
-                            , item, mAdapter.isSelectItem(item));
-                } else if (R.id.iv_select == view.getId()) {
-                    mAdapter.addOrRemoveCheck(item);
-                    checkValue();
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                List<ElecEvidenceResBean> list = mAdapter.getData();
+                if (list != null) {
+                    ElecEvidenceResBean bean = list.get(position);
+                    if (bean != null) {
+                        if (1 == bean.getFileType()) {
+                            Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/iou/contract_evidence_image_detail")
+                                    .withString("iou_id", mIouId)
+                                    .withString("url", bean.getUrl())
+                                    .withString("evidence_name", bean.getName())
+                                    .withString("evidence_id", bean.getExEvidenceAutoId())
+                                    .navigation(mContext);
+                        } else if (2 == bean.getFileType()) {
+                            Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/iou/contract_evidence_pdf_detail")
+                                    .withString("pdf_url", bean.getUrl())
+                                    .withString("evidence_name", bean.getName())
+                                    .withString("evidence_id", bean.getExEvidenceAutoId())
+                                    .navigation(mContext);
+                        }
+                    }
                 }
             }
         });
         mRvEvidence.setAdapter(mAdapter);
         mInitLoading.showDataLoading();
-        mPresenter.getEvidenceList(mIouId, mJustId);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mPresenter.refresh(mIouId, mJustId);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.init(mIouId, mJustId);
     }
 
     @Override
@@ -147,31 +171,10 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
         mExitDialog.show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (REQ_SELECT_EVIDENCE_DETAIL == requestCode) {
-            ElecEvidenceResBean item = (ElecEvidenceResBean) data.getSerializableExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_ITEM);
-            if (item == null) {
-                return;
-            }
-            if (RESULT_OK == resultCode) {
-                mAdapter.addSelectObject(item);
-            } else {
-                mAdapter.removeSelectObject(item);
-            }
-            mAdapter.notifyDataSetChanged();
-            checkValue();
-        }
-    }
 
     @OnClick(R2.id.btn_ok)
     public void onClick() {
-        NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId, mAdapter.getSelectEvidenceIds(), mIsSubmit);
-    }
-
-    private void checkValue() {
-        mBtnOk.setEnabled(mAdapter.isSelectItems());
+        NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId, mAdapter.getIdList(), mIsSubmit);
     }
 
     @Override
@@ -192,7 +195,7 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
         mInitLoading.showDataFail(msg, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.getEvidenceList(mIouId, mJustId);
+                mPresenter.refresh(mIouId, mJustId);
             }
         });
     }
@@ -204,13 +207,16 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
     }
 
     @Override
+    public void hidePullDownView() {
+        mRefreshLayout.finishRefresh();
+    }
+
+    @Override
     public void showEvidenceList(List<ElecEvidenceResBean> listEvidence) {
         mAdapter.setNewData(listEvidence);
     }
 
     public static class EvidenceAdapter extends BaseQuickAdapter<ElecEvidenceResBean, BaseViewHolder> {
-
-        private HashMap<String, ElecEvidenceResBean> mSelectObject = new HashMap<String, ElecEvidenceResBean>();
 
         public EvidenceAdapter() {
             super(R.layout.arbitrament_item_select_valid_evidence);
@@ -219,45 +225,24 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
         @Override
         protected void convert(BaseViewHolder helper, ElecEvidenceResBean item) {
             helper.setText(R.id.tv_name, item.getName());
-            helper.setText(R.id.tv_time, "上传时间：" + item.getCreateTime());
-            if (mSelectObject.containsKey(item.getExEvidenceId())) {
-                helper.setImageResource(R.id.iv_select, R.mipmap.uikit_icon_check_black);
+            helper.setText(R.id.tv_time, item.getCreateTime());
+            if (1 == item.getFileType()) {
+                helper.setImageResource(R.id.iv_logo, R.mipmap.arbitrament_ic_elec_evidence_flag_image);
             } else {
-                helper.setImageResource(R.id.iv_select, R.mipmap.uikit_icon_check_default);
+                helper.setImageResource(R.id.iv_logo, R.mipmap.arbitrament_ic_elec_evidence_flag_pdf);
             }
-            helper.addOnClickListener(R.id.iv_select);
-            helper.addOnClickListener(R.id.rl_content);
         }
 
-        public void addOrRemoveCheck(ElecEvidenceResBean bean) {
-            if (mSelectObject.containsKey(bean.getExEvidenceId())) {
-                mSelectObject.remove(bean.getExEvidenceId());
-            } else {
-                mSelectObject.put(bean.getExEvidenceId(), bean);
+        public ArrayList<String> getIdList() {
+            ArrayList<String> idList = new ArrayList<>();
+            List<ElecEvidenceResBean> list = getData();
+            if (list != null) {
+                for (ElecEvidenceResBean bean : list) {
+                    idList.add(bean.getExEvidenceId());
+                }
             }
-            notifyDataSetChanged();
+            return idList;
         }
 
-        public void addSelectObject(ElecEvidenceResBean bean) {
-            mSelectObject.put(bean.getExEvidenceId(), bean);
-        }
-
-        public void removeSelectObject(ElecEvidenceResBean bean) {
-            mSelectObject.remove(bean.getExEvidenceId());
-        }
-
-        public boolean isSelectItems() {
-            return !mSelectObject.isEmpty();
-        }
-
-        public boolean isSelectItem(ElecEvidenceResBean bean) {
-            return mSelectObject.containsKey(bean.getExEvidenceId());
-        }
-
-        public ArrayList<String> getSelectEvidenceIds() {
-            ArrayList<String> list = new ArrayList<>();
-            list.addAll(mSelectObject.keySet());
-            return list;
-        }
     }
 }

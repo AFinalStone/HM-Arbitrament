@@ -14,32 +14,49 @@
         app:titleBackground="@color/transparent"
         app:titleText="有效凭证" />
 
-    <LinearLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/topBar"
-        android:orientation="vertical"
-        android:paddingBottom="20dp">
+        android:paddingBottom="20dp"
+        app:srlEnableLoadMore="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:gravity="center">
+
+            <com.hm.iou.uikit.PullDownRefreshImageView
+                android:layout_width="40dip"
+                android:layout_height="40dip" />
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_evidence"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:paddingEnd="14dp"
+            android:paddingStart="14dp" />
 
-        <Button
-            android:id="@+id/btn_ok"
-            style="@style/UikitHMButton.Large.Main"
-            android:layout_height="48dp"
-            android:layout_marginEnd="38dp"
-            android:layout_marginStart="38dp"
-            android:layout_marginTop="20dp"
-            android:enabled="false"
-            android:text="确认信息" />
-    </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/UikitHMButton.Large.Main"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="20dp"
+        android:enabled="false"
+        android:text="确认信息" />
 
     <com.hm.iou.uikit.HMLoadingView
         android:id="@+id/init_loading"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/topBar"
+        android:background="@color/uikit_background" />
 </RelativeLayout>

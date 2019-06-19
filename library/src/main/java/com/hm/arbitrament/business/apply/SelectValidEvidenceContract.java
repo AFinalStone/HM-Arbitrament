@@ -21,6 +21,8 @@ public class SelectValidEvidenceContract {
 
         void showDataEmpty();
 
+        void hidePullDownView();
+
         /**
          * 显示凭证列表
          */
@@ -29,9 +31,9 @@ public class SelectValidEvidenceContract {
 
     public interface Presenter extends BaseContract.BasePresenter {
 
-        /**
-         * 凭证列表
-         */
-        void getEvidenceList(String iouId, String justId);
+        void init(String iouId, String justId);
+
+
+        void refresh(String iouId, String justId);
     }
 }

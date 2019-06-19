@@ -34,4 +34,6 @@ dependencies {
     compile 'com.heima.iou:hmsignaturelocal:1.0.0'
     //图片选择
     compile 'com.heima.iou:hmselectpiclocal:1.0.0'
+    //借条
+    compile 'com.heima.iou:hmjietiaolocal:1.0.0'
 }

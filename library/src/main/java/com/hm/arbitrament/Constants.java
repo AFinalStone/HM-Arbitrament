@@ -15,8 +15,10 @@ public class Constants {
     //协助仲裁
     public static final String H5_URL_XIEZHU_ZHONGCAI = "https://h5.54jietiao.com/appTopic/articleDetail.html?articleId=27";
     //冲裁须知
-    public static final String H5_URL_ZHONGCAI_XUZHI= "https://h5.54jietiao.com/appTopic/articleDetail.html?articleId=25";
+    public static final String H5_URL_ZHONGCAI_XUZHI = "https://h5.54jietiao.com/appTopic/articleDetail.html?articleId=25";
 
     //总共 5 个进度，progress 取值范围[0, 4]，分别代表从第一到第五个进度
     public static final String H5_URL_RETURN_MONEY_RULE = "/returnMoney/index.html?progress=";
+
+
 }

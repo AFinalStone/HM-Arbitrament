@@ -21,7 +21,8 @@ public class ElecEvidenceResBean implements Serializable {
      */
 
     private String exEvidenceId;
-    private int fileType;
+    private String exEvidenceAutoId;
+    private int fileType;//1图片2pdf
     private String name;
     private String url;
     private String createTime;

@@ -354,6 +354,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
             mTvOutTimeInterest.setText("未还金额的万分之" + outTimeInterestRateType);
         }
         //归还记录
+        mTvRealBackMoney.setText("");
         ArrayList<BackMoneyRecordBean> backMoneyRecordList = resBean.getRepaymentRecordList();
         if (backMoneyRecordList == null || backMoneyRecordList.isEmpty()) {
             //本地缓存
@@ -362,9 +363,12 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 mTvRealBackMoney.setText(BACK_NOTHING);
             } else {
                 backMoneyRecordList = CacheDataUtil.getBackMoneyRecordList(mContext);
+                if (mIsSubmit) {//如果是重复提交
+                    if (backMoneyRecordList == null || backMoneyRecordList.isEmpty()) {
+                        mTvRealBackMoney.setText(BACK_NOTHING);
+                    }
+                }
             }
-        } else {
-            mTvRealBackMoney.setText("");
         }
         showRealBackRecord(backMoneyRecordList);
         //催收证明
