@@ -74,7 +74,7 @@
                         android:layout_marginStart="6dp"
                         android:background="@drawable/arbitrament_bg_discount"
                         android:gravity="center"
-                        android:text="限时5折"
+                        tools:text="限时5折"
                         android:textColor="@color/white"
                         android:textSize="@dimen/textFontSize_9" />
 
@@ -86,14 +86,15 @@
                     <TextView
                         android:id="@+id/tv_total_pay_money"
                         style="@style/UikitTextView.Auxiliary"
-                        android:text="¥60" />
+                        />
 
                     <TextView
                         android:id="@+id/tv_real_total_pay_money"
                         style="@style/UikitTextView"
                         android:layout_marginStart="10dp"
-                        android:text="20元"
-                        android:textSize="@dimen/textFontSize_30" />
+                        android:textSize="@dimen/textFontSize_30"
+                        tools:text="20元"
+                        />
                 </LinearLayout>
 
                 <TextView

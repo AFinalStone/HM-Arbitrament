@@ -1,15 +1,14 @@
-package com.hm.arbitrament.business.pay.applybook;
+package com.hm.arbitrament.business.pay.award;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
-import com.hm.arbitrament.bean.req.PayArbApplyBookOrderReqBean;
 import com.hm.arbitrament.business.pay.base.IMoneyItem;
 import com.hm.arbitrament.dict.OrderPayStatusEnumBean;
+import com.hm.arbitrament.event.AwardPaySuccEvent;
 import com.hm.iou.base.event.OpenWxResultEvent;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
@@ -31,20 +30,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author syl
- * @time 2018/5/30 下午6:47
+ * @author hjy
+ * @time 2019/6/19
  */
-public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookPayActivity> implements ArbApplyBookPayContract.Presenter {
+public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> implements AwardPayContract.Presenter {
 
-    private static final String KEY_WX_PAY_CODE = "arbapplybookpay.wxpay";
+    private static final String KEY_WX_PAY_CODE = "awardpay.wxpay";
     private static final String PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm";
 
     private IWXAPI mWXApi;
-    private String mJustId;//订单公证id
-    private String mOrderId;//订单id
+
+    private String mOrderId;
     private boolean mHavePaySuccess = false;
 
-    public ArbApplyBookPayPresenter(@NonNull Context context, @NonNull ArbApplyBookPayActivity view) {
+    private PayArbApplyBookOrderResBean mPayInfo;
+
+    public AwardPayPresenter(@NonNull Context context, @NonNull AwardPayActivity view) {
         super(context, view);
         EventBus.getDefault().register(this);
     }
@@ -59,9 +60,9 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
     }
 
     @Override
-    public void getArbApplyBookOrderInfo(String iouId, String justId) {
+    public void getArbPaperApplyOrderInfo() {
         mView.showInitLoadingView();
-        ArbitramentApi.getArbApplyBookOrderDetail(iouId, justId)
+        ArbitramentApi.getArbPaperPackage()
                 .compose(getProvider().<BaseResponse<GetArbApplyBookOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<GetArbApplyBookOrderResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<GetArbApplyBookOrderResBean>(mView) {
@@ -93,32 +94,34 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
                     }
 
                     @Override
-                    public boolean isShowCommError() {
+                    public boolean isShowBusinessError() {
                         return false;
                     }
 
                     @Override
-                    public boolean isShowBusinessError() {
+                    public boolean isShowCommError() {
                         return false;
                     }
                 });
     }
 
     @Override
-    public void payOrderByWeiXin(String justId) {
+    public void payOrderByWeiXin(String orderId) {
         if (mHavePaySuccess) {
             checkPayResult();
             return;
         }
         boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
         if (flag) {
-            mJustId = justId;
-            payOrder();
+            mOrderId = orderId;
+            if (mPayInfo != null) {
+                payByWx(mPayInfo);
+            } else {
+                payOrder();
+            }
         } else {
             mView.toastMessage("当前手机未安装微信");
         }
-
-        return;
     }
 
     private String getAppId() {
@@ -128,35 +131,21 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
 
     private void payOrder() {
         mView.showLoadingView();
-        PayArbApplyBookOrderReqBean reqBean = new PayArbApplyBookOrderReqBean();
-        reqBean.setChannel(1);//微信支付
-        reqBean.setJusticeId(mJustId);
-        ArbitramentApi.payArbApplyBookOrder(reqBean)
+        ArbitramentApi.createPreparePayOrder(1, mOrderId)
                 .compose(getProvider().<BaseResponse<PayArbApplyBookOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<PayArbApplyBookOrderResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<PayArbApplyBookOrderResBean>(mView) {
                     @Override
                     public void handleResult(PayArbApplyBookOrderResBean bean) {
                         mView.dismissLoadingView();
-                        if (mWXApi == null) {
-                            mWXApi = WXAPIFactory.createWXAPI(mContext.getApplicationContext(), null);
-                            mWXApi.registerApp(getAppId());
-                        }
-                        String partnerId = bean.getPartnerid();
-                        String prepayid = bean.getPrepayid();
-                        String packageValue = bean.getPackageX();
-                        String nonceStr = bean.getNoncestr();
-                        String timeStamp = bean.getTimestamp();
-                        String sign = bean.getSign();
-                        mOrderId = bean.getOrderId();
-                        wxPay(mWXApi, partnerId, prepayid, packageValue, nonceStr, timeStamp, sign, KEY_WX_PAY_CODE);
+                        mPayInfo = bean;
+                        payByWx(bean);
                     }
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
                         mView.dismissLoadingView();
                     }
-
                 });
     }
 
@@ -171,7 +160,7 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
                     public void handleResult(String code) {
                         mView.dismissLoadingView();
                         if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
-                            NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                            EventBus.getDefault().post(new AwardPaySuccEvent());
                             mView.closeCurrPage();
                         } else {
                             mView.showNoCheckPayResultDialog();
@@ -190,7 +179,19 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
                 });
     }
 
-    private void wxPay(IWXAPI wxApi, String partnerId, String prepayid, String packageValue, String nonceStr, String timeStamp, String sign, String key) {
+    private void payByWx(PayArbApplyBookOrderResBean bean) {
+        if (mWXApi == null) {
+            mWXApi = WXAPIFactory.createWXAPI(mContext.getApplicationContext(), null);
+            mWXApi.registerApp(getAppId());
+        }
+
+        String partnerId = bean.getPartnerid();
+        String prepayid = bean.getPrepayid();
+        String packageValue = bean.getPackageX();
+        String nonceStr = bean.getNoncestr();
+        String timeStamp = bean.getTimestamp();
+        String sign = bean.getSign();
+
         PayReq request = new PayReq();
         request.appId = getAppId();
         request.partnerId = partnerId;
@@ -199,8 +200,8 @@ public class ArbApplyBookPayPresenter extends MvpActivityPresenter<ArbApplyBookP
         request.nonceStr = nonceStr;
         request.timeStamp = timeStamp;
         request.sign = sign;
-        request.extData = key;
-        wxApi.sendReq(request);
+        request.extData = KEY_WX_PAY_CODE;
+        mWXApi.sendReq(request);
     }
 
     private List<IMoneyItem> changeData(List<GetArbApplyBookOrderResBean.ItemListBean> list) {

@@ -16,6 +16,8 @@ import com.hm.arbitrament.bean.req.CancelArbReqBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
 import com.hm.arbitrament.bean.req.CreateApplyOrderReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
+import com.hm.arbitrament.bean.req.CreateArbPaperOrderReqBean;
+import com.hm.arbitrament.bean.req.CreatePreparePayReqBean;
 import com.hm.arbitrament.bean.req.GetArbApplyBookOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbCostReqBean;
 import com.hm.arbitrament.bean.req.GetArbServerAgreementReqBean;
@@ -102,5 +104,14 @@ public interface ArbitramentServer {
 
     @POST("/api/arb/v1/order/createApplyOrder")
     Flowable<BaseResponse<String>> createApplyOrder(@Body CreateApplyOrderReqBean reqBean);
+
+    @GET("/api/arb/v1/order/getArbPaperPackage")
+    Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbPaperPackage();
+
+    @POST("/api/arb/v1/order/createArbPaperOrder")
+    Flowable<BaseResponse<String>> createArbPaperOrder(@Body CreateArbPaperOrderReqBean reqBean);
+
+    @POST("/pay/iou/v1/unifiedOrder")
+    Flowable<BaseResponse<PayArbApplyBookOrderResBean>> createPreparePayOrder(@Body CreatePreparePayReqBean reqBean);
 
 }
