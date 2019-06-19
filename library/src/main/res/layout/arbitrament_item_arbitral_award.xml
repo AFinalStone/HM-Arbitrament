@@ -18,7 +18,7 @@
         android:id="@+id/tv_award_status"
         android:textColor="@color/uikit_function_remind"
         android:layout_alignParentRight="true"
-        tools:text="申请成功"
+        android:text="申请成功"
         />
 
     <LinearLayout

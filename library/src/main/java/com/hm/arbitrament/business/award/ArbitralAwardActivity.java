@@ -98,6 +98,15 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
     }
 
     @Override
+    public void onBackPressed() {
+        if (mAdapter.getData() == null || mAdapter.getData().isEmpty()) {
+            finish();
+        } else {
+            mInputContainer.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     public void finishRefresh() {
         mRefreshLayout.finishRefresh();
     }
@@ -146,11 +155,7 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
             bottomBarView.setOnBackClickListener(new HMBottomBarView.OnBackClickListener() {
                 @Override
                 public void onClickBack() {
-                    if (mAdapter.getData() == null || mAdapter.getData().isEmpty()) {
-                        finish();
-                    } else {
-                        mInputContainer.setVisibility(View.GONE);
-                    }
+                    onBackPressed();
                 }
             });
         }

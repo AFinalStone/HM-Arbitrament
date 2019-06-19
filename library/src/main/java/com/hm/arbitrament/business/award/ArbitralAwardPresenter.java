@@ -133,8 +133,8 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
             public String getTime() {
                 if (TextUtils.isEmpty(time)) {
                     time = data.getCreateTime();
-                    if (time != null && time.length() >= 10) {
-                        time = time.replace("-", ".").substring(0, 10);
+                    if (time != null && time.length() >= 16) {
+                        time = time.replace("-", ".").substring(0, 16);
                     }
                 }
                 return time;
@@ -142,7 +142,7 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
 
             @Override
             public String getStatus() {
-                return null;
+                return "申请成功";
             }
 
             @Override
@@ -157,7 +157,7 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
 
             @Override
             public String getAddress() {
-                return data.getDetailAddress();
+                return data.getCityDetail() +  data.getDetailAddress();
             }
         };
     }

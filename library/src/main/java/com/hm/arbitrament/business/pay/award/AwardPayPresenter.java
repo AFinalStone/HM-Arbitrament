@@ -130,6 +130,7 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
     }
 
     private void payOrder() {
+        mView.showLoadingView();
         ArbitramentApi.createPreparePayOrder(1, mOrderId)
                 .compose(getProvider().<BaseResponse<PayArbApplyBookOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<PayArbApplyBookOrderResBean>handleResponse())
