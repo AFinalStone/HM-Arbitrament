@@ -2,7 +2,6 @@ package com.hm.arbitrament.business.pay.applysubmit;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
@@ -15,6 +14,7 @@ import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.sharedata.model.BaseResponse;
+import com.hm.iou.tools.SystemUtil;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -34,11 +34,13 @@ import java.util.List;
  */
 public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySubmitPayActivity> implements ArbApplySubmitPayContract.Presenter {
 
+    private static final String KEY_WX_PAY_CODE = "arbapplysubmitpay.wxpay";
+    private static final String PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm";
 
     private IWXAPI mWXApi;
-    private static final String KEY_WX_PAY_CODE = "arbapplysubmitpay.wxpay";
-    private String mJustId;//订单公证id
-    private String mOrderId;//订单id
+    private String mJustId;         //订单公证id
+    private String mOrderId;        //订单id
+    private boolean mHavePaySuccess = false;
 
     public ArbApplySubmitPayPresenter(@NonNull Context context, @NonNull ArbApplySubmitPayActivity view) {
         super(context, view);
@@ -87,18 +89,34 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
                     public void handleException(Throwable throwable, String s, String s1) {
                         mView.showInitLoadingFailed(s1);
                     }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isShowCommError() {
+                        return false;
+                    }
                 });
     }
 
     @Override
     public void payOrderByWeiXin(String justId, String orderId) {
-        if (TextUtils.isEmpty(mJustId) || TextUtils.isEmpty(orderId)) {
-            mJustId = justId;
-            mOrderId = orderId;
-            payOrder();
+        if (mHavePaySuccess) {
+            checkPayResult();
             return;
         }
-        checkPayResult();
+        boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
+        if (flag) {
+            mJustId = justId;
+            payOrder();
+        } else {
+            mView.toastMessage("当前手机未安装微信");
+        }
+
+        return;
     }
 
     private String getAppId() {
@@ -107,17 +125,17 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
     }
 
     private void payOrder() {
+        mView.showLoadingView();
         PayArbApplyBookOrderReqBean reqBean = new PayArbApplyBookOrderReqBean();
         reqBean.setChannel(1);//微信支付
         reqBean.setJusticeId(mJustId);
-        reqBean.setOrderId(mOrderId);
         ArbitramentApi.payArbApplyBookOrder(reqBean)
                 .compose(getProvider().<BaseResponse<PayArbApplyBookOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<PayArbApplyBookOrderResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<PayArbApplyBookOrderResBean>(mView) {
                     @Override
                     public void handleResult(PayArbApplyBookOrderResBean bean) {
-
+                        mView.dismissLoadingView();
                         if (mWXApi == null) {
                             mWXApi = WXAPIFactory.createWXAPI(mContext.getApplicationContext(), null);
                             mWXApi.registerApp(getAppId());
@@ -128,19 +146,20 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
                         String nonceStr = bean.getNoncestr();
                         String timeStamp = bean.getTimestamp();
                         String sign = bean.getSign();
+                        mOrderId = bean.getOrderId();
                         wxPay(mWXApi, partnerId, prepayid, packageValue, nonceStr, timeStamp, sign, KEY_WX_PAY_CODE);
                     }
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
-
+                        mView.dismissLoadingView();
                     }
 
                 });
     }
 
-
     private void checkPayResult() {
+        mView.showLoadingView();
         ArbitramentApi.queryOrderPayState(mOrderId)
                 .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<String>handleResponse())
@@ -151,23 +170,19 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
                         if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
                             mView.toProgressPage();
                             mView.closeCurrPage();
-                        } else if (OrderPayStatusEnumBean.PayFailed.getStatus().equals(code)) {
-
-                        } else if (OrderPayStatusEnumBean.PayWait.getStatus().equals(code)
-                                || OrderPayStatusEnumBean.Paying.getStatus().equals(code)) {
-                            payOrder();
-                        } else if (OrderPayStatusEnumBean.PayFinish.getStatus().equals(code)) {
-                            mView.toastMessage("订单已经关闭...");
-                        } else if (OrderPayStatusEnumBean.RefundMoney.getStatus().equals(code)) {
-                            mView.toastMessage("订单已经退款...");
                         } else {
-                            mView.toastMessage("发生未知异常...");
+                            mView.showNoCheckPayResultDialog();
                         }
                     }
 
                     @Override
                     public void handleException(Throwable throwable, String code, String errorMsg) {
                         mView.dismissLoadingView();
+                    }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
                     }
                 });
     }
@@ -222,6 +237,7 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
     public void onEvenBusOpenWXResult(OpenWxResultEvent openWxResultEvent) {
         if (KEY_WX_PAY_CODE.equals(openWxResultEvent.getKey())) {
             if (openWxResultEvent.getIfPaySuccess()) {
+                mHavePaySuccess = true;
                 checkPayResult();
             }
         }

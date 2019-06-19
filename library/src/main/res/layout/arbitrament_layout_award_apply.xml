@@ -31,7 +31,7 @@
                 android:id="@+id/et_award_name"
                 style="@style/UikitEditText.Normal"
                 android:hint="请输入收件人姓名"
-                android:maxLength="16"
+                android:maxLength="8"
                 android:singleLine="true"
                 />
 
@@ -91,7 +91,9 @@
             <EditText
                 android:id="@+id/et_award_addr"
                 style="@style/UikitEditText.Normal"
-                android:hint="需要填写楼栋楼层或房间号信息" />
+                android:hint="需要填写楼栋楼层或房间号信息"
+                android:maxLength="40"
+                />
 
         </LinearLayout>
 
@@ -101,15 +103,23 @@
         android:id="@+id/tv_apply_tip1"
         style="@style/UikitTextView.Auxiliary.Small"
         android:paddingLeft="15dip"
-        android:text="*申请纸质裁决书将收取10元快递费用"
+        android:text="*依照衢州仲裁委规定要求纸质结案文书的案件按10元/件收取 "
         android:layout_below="@id/ll_apply_input"
         />
+
+    <TextView
+        android:id="@+id/tv_apply_tip2"
+        style="@style/UikitTextView.Auxiliary.Small"
+        android:layout_marginTop="5dip"
+        android:paddingLeft="15dip"
+        android:layout_below="@id/tv_apply_tip1"
+        android:text="*裁决书快递费用20/件" />
 
     <TextView
         style="@style/UikitTextView.Auxiliary.Small"
         android:layout_marginTop="5dip"
         android:paddingLeft="15dip"
-        android:layout_below="@id/tv_apply_tip1"
+        android:layout_below="@id/tv_apply_tip2"
         android:text="*申请成功后不可取消，不可修改" />
 
     <com.hm.iou.uikit.HMBottomBarView

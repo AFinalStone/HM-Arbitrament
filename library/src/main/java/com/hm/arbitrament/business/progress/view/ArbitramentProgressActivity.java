@@ -15,7 +15,6 @@ import com.hm.arbitrament.R2;
 import com.hm.arbitrament.business.CancelArbDialog;
 import com.hm.arbitrament.business.progress.ArbitramentProgressContract;
 import com.hm.arbitrament.business.progress.presenter.ArbitramentProgressPresenter;
-import com.hm.arbitrament.business.submit.ArbitramentSubmitActivity;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.uikit.HMBottomBarView;
 import com.hm.iou.uikit.HMLoadingView;

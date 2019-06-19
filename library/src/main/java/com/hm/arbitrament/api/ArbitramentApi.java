@@ -16,6 +16,8 @@ import com.hm.arbitrament.bean.req.CancelArbReqBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
 import com.hm.arbitrament.bean.req.CreateApplyOrderReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
+import com.hm.arbitrament.bean.req.CreateArbPaperOrderReqBean;
+import com.hm.arbitrament.bean.req.CreatePreparePayReqBean;
 import com.hm.arbitrament.bean.req.GetArbApplyBookOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbCostReqBean;
 import com.hm.arbitrament.bean.req.GetArbServerAgreementReqBean;
@@ -264,5 +266,31 @@ public class ArbitramentApi {
         reqBean.setArbApplyNo(arbNo);
         return getService().createApplyOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
+    public static Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbPaperPackage() {
+        return getService().getArbPaperPackage().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Flowable<BaseResponse<String>> createArbPaperOrder(String arbNo, String arbPaperId) {
+        CreateArbPaperOrderReqBean reqBean = new CreateArbPaperOrderReqBean();
+        reqBean.setArbApplyNo(arbNo);
+        reqBean.setArbPaperId(arbPaperId);
+        return getService().createArbPaperOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 创建预付款订单
+     *
+     * @param chanel  平台 1微信支付 2苹果支付
+     * @param orderId
+     * @return
+     */
+    public static Flowable<BaseResponse<PayArbApplyBookOrderResBean>> createPreparePayOrder(int chanel, String orderId) {
+        CreatePreparePayReqBean reqBean = new CreatePreparePayReqBean();
+        reqBean.setChannel(1);
+        reqBean.setOrderId(orderId);
+        return getService().createPreparePayOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
 
 }

@@ -145,8 +145,8 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
             msp.setSpan(new StrikethroughSpan(), 0, totalPayMoney.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             mTvTotalPayMoney.setText(msp);
         }
-        if (!TextUtils.isEmpty(totalPayMoney)) {
-            tvRealTotalPayMoney.setText(totalPayMoney);
+        if (!TextUtils.isEmpty(realPayMoney)) {
+            tvRealTotalPayMoney.setText(realPayMoney);
         }
     }
 

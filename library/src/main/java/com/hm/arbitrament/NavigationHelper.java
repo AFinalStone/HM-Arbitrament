@@ -20,6 +20,7 @@ import com.hm.arbitrament.business.award.ArbitralAwardActivity;
 import com.hm.arbitrament.business.fail.AuditFailActivity;
 import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
 import com.hm.arbitrament.business.pay.applysubmit.ArbApplySubmitPayActivity;
+import com.hm.arbitrament.business.pay.award.AwardPayActivity;
 import com.hm.arbitrament.business.progress.view.ArbitramentProgressActivity;
 import com.hm.arbitrament.business.progress.view.MoneyBackProgressActivity;
 import com.hm.arbitrament.business.submit.ArbitramentSubmitActivity;
@@ -347,6 +348,18 @@ public class NavigationHelper {
     public static void toArbAwardPage(Context context, String arbNo) {
         Intent intent = new Intent(context, ArbitralAwardActivity.class);
         intent.putExtra(ArbitralAwardActivity.EXTRA_KEY_ARB_NO, arbNo);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 进入裁决书申请支付页面
+     *
+     * @param context
+     * @param orderId
+     */
+    public static void toAwardPagePage(Context context, String orderId) {
+        Intent intent = new Intent(context, AwardPayActivity.class);
+        intent.putExtra(AwardPayActivity.EXTRA_KEY_ORDER_ID, orderId);
         context.startActivity(intent);
     }
 
