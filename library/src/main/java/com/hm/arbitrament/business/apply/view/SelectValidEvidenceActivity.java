@@ -213,6 +213,11 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
 
     @Override
     public void showEvidenceList(List<ElecEvidenceResBean> listEvidence) {
+        if (listEvidence == null || listEvidence.isEmpty()) {
+            mBtnOk.setEnabled(false);
+        } else {
+            mBtnOk.setEnabled(true);
+        }
         mAdapter.setNewData(listEvidence);
     }
 

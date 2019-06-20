@@ -33,6 +33,7 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                 .subscribeWith(new CommSubscriber<GetArbitramentStatusResBean>(mView) {
                     @Override
                     public void handleResult(GetArbitramentStatusResBean bean) {
+                        mView.dismissLoadingView();
                         if (bean != null) {
                             int flag = bean.getRoute();
                             if (ArbitramentStatusEnum.HAVE_NOT_APPLY.getCode() == flag) {
@@ -88,6 +89,7 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
+                        mView.dismissLoadingView();
                         mView.closeCurrPage();
                     }
                 });
