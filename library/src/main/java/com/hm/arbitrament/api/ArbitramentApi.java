@@ -4,6 +4,7 @@ import com.hm.arbitrament.bean.ArbPaperApplyInfo;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.bean.FailReasonResBean;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
+import com.hm.arbitrament.bean.GetArbApplyDocResBean;
 import com.hm.arbitrament.bean.GetArbCostResBean;
 import com.hm.arbitrament.bean.GetArbServerAgreementResBean;
 import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
@@ -192,7 +193,7 @@ public class ArbitramentApi {
      * @param arbApplyNo
      * @return
      */
-    public static Flowable<BaseResponse<String>> getArbApplyDoc(String arbApplyNo) {
+    public static Flowable<BaseResponse<GetArbApplyDocResBean>> getArbApplyDoc(String arbApplyNo) {
         return getService().getArbApplyDoc(arbApplyNo).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 

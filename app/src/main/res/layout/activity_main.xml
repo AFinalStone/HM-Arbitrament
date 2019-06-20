@@ -70,4 +70,10 @@
         android:layout_height="wrap_content"
         android:text="修改仲裁状态" />
 
+    <Button
+        android:id="@+id/btn_arb_server_agreement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="仲裁服务协议" />
+
 </LinearLayout>

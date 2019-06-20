@@ -4,6 +4,7 @@ import com.hm.arbitrament.bean.ArbPaperApplyInfo;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.bean.FailReasonResBean;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
+import com.hm.arbitrament.bean.GetArbApplyDocResBean;
 import com.hm.arbitrament.bean.GetArbCostResBean;
 import com.hm.arbitrament.bean.GetArbServerAgreementResBean;
 import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
@@ -79,7 +80,7 @@ public interface ArbitramentServer {
     Flowable<BaseResponse<ProgressResBean>> getProgress(@Query("arbApplyNo") String arbApplyNo);
 
     @GET("/api/arb/v1/getArbApplyDoc")
-    Flowable<BaseResponse<String>> getArbApplyDoc(@Query("arbApplyNo") String arbApplyNo);
+    Flowable<BaseResponse<GetArbApplyDocResBean>> getArbApplyDoc(@Query("arbApplyNo") String arbApplyNo);
 
     @POST("/api/arb/v1/cancel")
     Flowable<BaseResponse<Object>> cancelArbitrament(@Body CancelArbReqBean reqBean);

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.hm.arbitrament.NavigationHelper;
+import com.hm.arbitrament.business.apply.view.ArbitramentServerAgreementActivity;
 import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
 import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.award.ArbitralAwardActivity;
@@ -67,16 +68,16 @@ public class MainActivity extends AppCompatActivity {
 //                        .withString("iou_id", "393c5b706b604c95a0cef30b24129d43")
 //                        .withString("just_id", "190617143602000380")
 //                        .navigation(MainActivity.this);
-//                Router.getInstance()
-//                        .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
-//                        .withString("iou_id", "ed34f50629ab41c59253d32ca59cec18")
-//                        .withString("just_id", "190617160409000443")
-//                        .navigation(MainActivity.this);
                 Router.getInstance()
                         .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
-                        .withString("iou_id", "2343f6ca9de44b63b4433c6ec84b40c8")
-                        .withString("just_id", "190617161752000443")
+                        .withString("iou_id", "ed34f50629ab41c59253d32ca59cec18")
+                        .withString("just_id", "190617160409000443")
                         .navigation(MainActivity.this);
+//                Router.getInstance()
+//                        .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
+//                        .withString("iou_id", "2343f6ca9de44b63b4433c6ec84b40c8")
+//                        .withString("just_id", "190617161752000443")
+//                        .navigation(MainActivity.this);
             }
         });
         findViewById(R.id.btn_collection_prove).setOnClickListener(new View.OnClickListener() {
@@ -90,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 test();
+            }
+        });
+        findViewById(R.id.btn_arb_server_agreement).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ArbitramentServerAgreementActivity.class);
+                intent.putExtra(ArbitramentServerAgreementActivity.EXTRA_KEY_URL, "http://filetest.arbexpress.cn/150217103521/15559023585432/1560936440729/0D9DC1914A90FA29BCDD680F3BDBD011.pdf");
+                startActivity(intent);
             }
         });
     }
