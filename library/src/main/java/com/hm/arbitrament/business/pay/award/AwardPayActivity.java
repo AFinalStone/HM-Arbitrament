@@ -41,6 +41,6 @@ public class AwardPayActivity extends BasePayActivity<AwardPayPresenter> impleme
 
     @Override
     protected void pay() {
-        mPresenter.payOrderByWeiXin(mOrderId);
+        mPresenter.payOrder(mOrderId);
     }
 }

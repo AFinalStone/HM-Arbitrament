@@ -3,6 +3,7 @@ package com.hm.arbitrament.business.pay.award;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
@@ -25,9 +26,16 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.reactivestreams.Publisher;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author hjy
@@ -41,7 +49,7 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
     private IWXAPI mWXApi;
 
     private String mOrderId;
-    private boolean mHavePaySuccess = false;
+    private boolean mWeiXinCallBackPaySuccess = false;
 
     private PayArbApplyBookOrderResBean mPayInfo;
 
@@ -106,8 +114,8 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
     }
 
     @Override
-    public void payOrderByWeiXin(String orderId) {
-        if (mHavePaySuccess) {
+    public void payOrder(String orderId) {
+        if (mWeiXinCallBackPaySuccess) {
             checkPayResult();
             return;
         }
@@ -115,9 +123,9 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
         if (flag) {
             mOrderId = orderId;
             if (mPayInfo != null) {
-                payByWx(mPayInfo);
+                callWxPay(mPayInfo);
             } else {
-                payOrder();
+                payOrderByWeiXin();
             }
         } else {
             mView.toastMessage("当前手机未安装微信");
@@ -129,7 +137,7 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
         return weixin.appId;
     }
 
-    private void payOrder() {
+    private void payOrderByWeiXin() {
         mView.showLoadingView();
         ArbitramentApi.createPreparePayOrder(1, mOrderId)
                 .compose(getProvider().<BaseResponse<PayArbApplyBookOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
@@ -139,7 +147,7 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
                     public void handleResult(PayArbApplyBookOrderResBean bean) {
                         mView.dismissLoadingView();
                         mPayInfo = bean;
-                        payByWx(bean);
+                        callWxPay(bean);
                     }
 
                     @Override
@@ -179,7 +187,14 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
                 });
     }
 
-    private void payByWx(PayArbApplyBookOrderResBean bean) {
+
+    /**
+     * 唤起微信支付
+     *
+     * @param bean
+     */
+    private void callWxPay(PayArbApplyBookOrderResBean bean) {
+        mWeiXinCallBackPaySuccess = false;
         if (mWXApi == null) {
             mWXApi = WXAPIFactory.createWXAPI(mContext.getApplicationContext(), null);
             mWXApi.registerApp(getAppId());
@@ -202,6 +217,47 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
         request.sign = sign;
         request.extData = KEY_WX_PAY_CODE;
         mWXApi.sendReq(request);
+    }
+
+    /**
+     * 微信回调提示支付成功，这里调用接口再检验一遍
+     */
+    private void checkWeiXinCallBackResult() {
+        mView.showLoadingView();
+        Flowable.just(mOrderId)
+                .delay(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Function<String, Publisher<BaseResponse<String>>>() {
+                    @Override
+                    public Publisher<BaseResponse<String>> apply(String orderId) throws Exception {
+                        return ArbitramentApi.queryOrderPayState(orderId);
+                    }
+                })
+                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<String>handleResponse())
+                .subscribeWith(new CommSubscriber<String>(mView) {
+                    @Override
+                    public void handleResult(String code) {
+                        mView.dismissLoadingView();
+                        if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
+                            NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                            mView.closeCurrPage();
+                        } else {
+                            mView.showNoCheckPayResultDialog();
+                        }
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String code, String errorMsg) {
+                        mView.dismissLoadingView();
+                    }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
+                    }
+                });
     }
 
     private List<IMoneyItem> changeData(List<GetArbApplyBookOrderResBean.ItemListBean> list) {
@@ -241,8 +297,8 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
     public void onEvenBusOpenWXResult(OpenWxResultEvent openWxResultEvent) {
         if (KEY_WX_PAY_CODE.equals(openWxResultEvent.getKey())) {
             if (openWxResultEvent.getIfPaySuccess()) {
-                mHavePaySuccess = true;
-                checkPayResult();
+                mWeiXinCallBackPaySuccess = true;
+                checkWeiXinCallBackResult();
             }
         }
     }

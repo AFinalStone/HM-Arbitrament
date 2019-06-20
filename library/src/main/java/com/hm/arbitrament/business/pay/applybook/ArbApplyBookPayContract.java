@@ -19,9 +19,9 @@ public class ArbApplyBookPayContract {
         void getArbApplyBookOrderInfo(String iouId, String justId);
 
         /**
-         * 通过微信进行订单支付
+         * 进行订单支付
          */
-        void payOrderByWeiXin(String justId);
+        void payOrder(String justId);
 
     }
 }

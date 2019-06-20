@@ -46,6 +46,6 @@ public class ArbApplyBookPayActivity extends BasePayActivity<ArbApplyBookPayPres
 
     @Override
     protected void pay() {
-        mPresenter.payOrderByWeiXin(mJustId);
+        mPresenter.payOrder(mJustId);
     }
 }

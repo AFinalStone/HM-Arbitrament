@@ -16,7 +16,10 @@ public class AwardPayContract {
 
         void getArbPaperApplyOrderInfo();
 
-        void payOrderByWeiXin(String orderId);
+        /**
+         * 进行订单支付
+         */
+        void payOrder(String orderId);
 
     }
 }

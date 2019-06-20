@@ -318,7 +318,11 @@ public class NavigationHelper {
      * @param arbApplyNo
      */
     public static void toDocCompletionPage(Context context, String iouId, String justiceId, String arbApplyNo) {
-
+        Intent intent = new Intent(context, SelectValidEvidenceActivity.class);
+        intent.putExtra(SelectValidEvidenceActivity.EXTRA_KEY_IOU_ID, iouId);
+        intent.putExtra(SelectValidEvidenceActivity.EXTRA_KEY_JUST_ID, justiceId);
+        intent.putExtra(SelectValidEvidenceActivity.EXTRA_KEY_IS_RESUBMIT, true);
+        context.startActivity(intent);
     }
 
     /**
