@@ -293,5 +293,8 @@ public class ArbitramentApi {
         return getService().createPreparePayOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    public static Flowable<BaseResponse<Object>> revokeArbPaper(String arbPaperId) {
+        return getService().revokeArbPaper(arbPaperId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 
 }

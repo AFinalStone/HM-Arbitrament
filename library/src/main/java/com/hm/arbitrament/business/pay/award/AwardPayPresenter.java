@@ -3,7 +3,6 @@ package com.hm.arbitrament.business.pay.award;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
@@ -241,7 +240,7 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
                     public void handleResult(String code) {
                         mView.dismissLoadingView();
                         if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
-                            NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                            EventBus.getDefault().post(new AwardPaySuccEvent());
                             mView.closeCurrPage();
                         } else {
                             mView.showNoCheckPayResultDialog();

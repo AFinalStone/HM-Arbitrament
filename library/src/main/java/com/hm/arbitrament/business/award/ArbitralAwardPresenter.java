@@ -26,6 +26,8 @@ import java.util.List;
 
 public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardContract.View> implements ArbitralAwardContract.Presenter {
 
+    private String mArbNo;
+
     public ArbitralAwardPresenter(@NonNull Context context, @NonNull ArbitralAwardContract.View view) {
         super(context, view);
         EventBus.getDefault().register(this);
@@ -39,6 +41,7 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
 
     @Override
     public void refreshApplyHistoryList(String arbNo) {
+        mArbNo = arbNo;
         ArbitramentApi.getArbPaperList(arbNo)
                 .compose(getProvider().<BaseResponse<List<ArbPaperApplyInfo>>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<List<ArbPaperApplyInfo>>handleResponse())
@@ -106,6 +109,32 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
                 });
     }
 
+    @Override
+    public void toCancelApply(final String applyId) {
+        mView.showLoadingView();
+        ArbitramentApi.revokeArbPaper(applyId)
+                .compose(getProvider().<BaseResponse<Object>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.handleResponse())
+                .subscribeWith(new CommSubscriber<Object>(mView) {
+                    @Override
+                    public void handleResult(Object o) {
+                        mView.dismissLoadingView();
+                        mView.removeData(applyId);
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+                        mView.dismissLoadingView();
+                    }
+                });
+    }
+
+    @Override
+    public void toPayApply(String applyId) {
+        mView.showLoadingView();
+        createOrder(mArbNo, applyId);
+    }
+
     private void createOrder(String arbApplyNo, String arbPaperId) {
         ArbitramentApi.createArbPaperOrder(arbApplyNo, arbPaperId)
                 .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
@@ -130,6 +159,11 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
             String time;
 
             @Override
+            public String getApplyId() {
+                return data.getArbPaperId();
+            }
+
+            @Override
             public String getTime() {
                 if (TextUtils.isEmpty(time)) {
                     time = data.getCreateTime();
@@ -141,8 +175,33 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
             }
 
             @Override
-            public String getStatus() {
-                return "申请成功";
+            public String getStatusStr() {
+                if (data.getStatus() == 1) {
+                    return "申请成功";
+                } else if (data.getStatus() == 2) {
+                    return "申领完成";
+                }
+                return "等待支付";
+            }
+
+            @Override
+            public int getStatus() {
+                return data.getStatus();
+            }
+
+            @Override
+            public int getStatusColor() {
+                if (data.getStatus() == 1) {
+                    return 0xff2782e2;
+                } else if (data.getStatus() == 2) {
+                    return 0xff111111;
+                }
+                return 0xffef5350;
+            }
+
+            @Override
+            public String getDesc() {
+                return data.getDescription();
             }
 
             @Override
@@ -157,7 +216,7 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
 
             @Override
             public String getAddress() {
-                return data.getCityDetail() +  data.getDetailAddress();
+                return data.getCityDetail() + data.getDetailAddress();
             }
         };
     }

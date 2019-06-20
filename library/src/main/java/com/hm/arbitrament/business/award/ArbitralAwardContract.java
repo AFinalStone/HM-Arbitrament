@@ -21,6 +21,8 @@ public interface ArbitralAwardContract {
         void showApplyInputView();
 
         void applySucc();
+
+        void removeData(String applyPaperId);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -42,6 +44,10 @@ public interface ArbitralAwardContract {
          * @param addr
          */
         void submitApplyInfo(String arbNo, String name, String mobile, String city, String addr);
+
+        void toCancelApply(String applyId);
+
+        void toPayApply(String applyId);
     }
 
 }

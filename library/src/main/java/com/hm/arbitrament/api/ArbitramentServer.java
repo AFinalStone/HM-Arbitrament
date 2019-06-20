@@ -115,4 +115,7 @@ public interface ArbitramentServer {
     @POST("/pay/iou/v1/unifiedOrder")
     Flowable<BaseResponse<PayArbApplyBookOrderResBean>> createPreparePayOrder(@Body CreatePreparePayReqBean reqBean);
 
+    @GET("/api/arb/v1/revokeArbPaper")
+    Flowable<BaseResponse<Object>> revokeArbPaper(@Query("arbPaperId") String arbPaperId);
+
 }

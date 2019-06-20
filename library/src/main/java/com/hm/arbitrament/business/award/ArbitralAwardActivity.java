@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
 import com.hm.iou.base.BaseActivity;
@@ -16,6 +18,7 @@ import com.hm.iou.tools.KeyboardUtil;
 import com.hm.iou.uikit.HMBottomBarView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.datepicker.CityPickerDialog;
+import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -85,6 +88,17 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 mPresenter.refreshApplyHistoryList(mArbNo);
+            }
+        });
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                ArbitralAwardListAdapter.IArbitralAwardListItem item = (ArbitralAwardListAdapter.IArbitralAwardListItem) adapter.getItem(position);
+                if (view.getId() == R.id.tv_award_cancel) {
+                    showCancelConfirmDialog(item.getApplyId());
+                } else if (view.getId() == R.id.tv_award_pay) {
+                    mPresenter.toPayApply(item.getApplyId());
+                }
             }
         });
 
@@ -168,6 +182,37 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
             mInputContainer.setVisibility(View.GONE);
             mRefreshLayout.autoRefresh();
         }
+    }
+
+    @Override
+    public void removeData(String applyPaperId) {
+        mAdapter.removeData(applyPaperId);
+    }
+
+    /**
+     * 显示删除弹窗确认框
+     *
+     * @param applyId
+     */
+    private void showCancelConfirmDialog(final String applyId) {
+        new HMAlertDialog.Builder(this)
+                .setTitle("温馨提示")
+                .setMessage("确定需要撤销申请么")
+                .setMessageGravity(Gravity.CENTER)
+                .setPositiveButton("取消")
+                .setNegativeButton("确定")
+                .setOnClickListener(new HMAlertDialog.OnClickListener() {
+                    @Override
+                    public void onPosClick() {
+
+                    }
+
+                    @Override
+                    public void onNegClick() {
+                        mPresenter.toCancelApply(applyId);
+                    }
+                })
+                .create().show();
     }
 
 }

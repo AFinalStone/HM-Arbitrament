@@ -46,12 +46,69 @@
     </LinearLayout>
 
     <TextView
-        style="@style/UikitTextView"
         android:id="@+id/tv_award_address"
+        style="@style/UikitTextView"
         tools:text="浙江省 杭州市 余杭区 天目山西路222号竹海水韵7幢2单元1111"
         android:layout_below="@id/ll_award_user"
         android:layout_marginTop="10dp"
         />
 
+    <LinearLayout
+        android:id="@+id/ll_award_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_award_address"
+        android:gravity="right"
+        android:paddingTop="15dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="5dp"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/tv_award_cancel"
+            style="@style/UikitTextView.Auxiliary.Normal"
+            android:layout_width="78dp"
+            android:layout_height="28dp"
+            android:text="撤销申请"
+            android:background="@drawable/arbitrament_bg_award_cancel"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/tv_award_pay"
+            style="@style/UikitTextView"
+            android:layout_width="78dp"
+            android:layout_height="28dp"
+            android:textColor="@color/uikit_text_sub_content"
+            android:background="@drawable/arbitrament_bg_award_pay"
+            android:text="立即支付"
+            android:gravity="center"
+            android:layout_marginLeft="8dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_award_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/tv_award_address"
+        android:visibility="gone"
+        >
+        <View
+            style="@style/UikitDivider.Horizontal"
+            android:layout_marginTop="14dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_award_desc"
+            style="@style/UikitTextView.Auxiliary.Normal"
+            android:layout_height="40dp"
+            tools:text="正在为您申请获取纸质裁决书"
+            />
+
+    </LinearLayout>
 
 </RelativeLayout>
