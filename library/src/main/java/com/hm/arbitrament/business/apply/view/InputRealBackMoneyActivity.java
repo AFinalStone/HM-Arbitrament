@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -16,11 +17,11 @@ import com.hm.arbitrament.business.apply.ArbitramentServerAgreementContract;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.logger.Logger;
+import com.hm.iou.tools.StringUtil;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -40,6 +41,8 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
     HMTopBarView mTopBar;
     @BindView(R2.id.rv_back_record)
     RecyclerView mRvBackRecord;
+    @BindView(R2.id.tv_total_back_money)
+    TextView mTvTotalBackMoney;
 
     BackMoneyRecordProveAdapter mAdapter;
     ArrayList<BackMoneyRecordBean> mListData;
@@ -166,6 +169,19 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
 
     private void updateListData() {
         mAdapter.setNewData(mListData);
+        double totalMoney = 0;
+        if (mListData != null) {
+            for (BackMoneyRecordBean bean : mListData) {
+                totalMoney = totalMoney + bean.getAmount();
+            }
+        }
+        if (totalMoney == 0) {
+            mTvTotalBackMoney.setVisibility(View.INVISIBLE);
+        } else {
+            mTvTotalBackMoney.setVisibility(View.VISIBLE);
+            String strTotalMoney = StringUtil.doubleToString(totalMoney, ",###.##");
+            mTvTotalBackMoney.setText("合计归还：" + strTotalMoney);
+        }
     }
 
     @OnClick(R2.id.btn_ok)
@@ -178,8 +194,6 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
 
     public static class BackMoneyRecordProveAdapter extends BaseQuickAdapter<BackMoneyRecordBean, BaseViewHolder> {
 
-        DecimalFormat mDecimalFormat = new DecimalFormat("¥ ,###");
-
         public BackMoneyRecordProveAdapter() {
             super(R.layout.arbitrament_item_real_back_money_record_list);
         }
@@ -187,7 +201,7 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
         @Override
         protected void convert(BaseViewHolder helper, BackMoneyRecordBean item) {
             try {
-                String strMoney = mDecimalFormat.format(item.getAmount());
+                String strMoney = StringUtil.doubleToString(item.getAmount(), "¥ ,###.##");
                 helper.setText(R.id.tv_money, strMoney);
             } catch (Exception e) {
 

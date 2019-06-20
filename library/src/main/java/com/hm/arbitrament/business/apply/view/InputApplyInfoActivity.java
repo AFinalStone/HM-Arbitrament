@@ -340,7 +340,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         mContractStartTime = resBean.getContractStartDate();
         //合计应还
         Double totalBackMoney = resBean.getAmount();
-        mTvTotalBackMoney.setText(StringUtil.doubleToString(totalBackMoney));
+        mTvTotalBackMoney.setText(StringUtil.doubleToString01(totalBackMoney));
         //利息意向
         Double purposeInterestRate = resBean.getDailyRate();
         if (0 != purposeInterestRate) {
@@ -430,7 +430,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
             backTime = backTime.replaceAll("\\.", "-");
             bean.setRepaymentDate(backTime);
         }
-        mTvRealBackMoney.setText(String.valueOf(realBackMoney));
+        mTvRealBackMoney.setText(StringUtil.doubleToString01(realBackMoney));
         mPresenter.getArbitramentCost(mIouId, mJustId, 0);
     }
 
