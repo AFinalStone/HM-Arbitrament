@@ -12,6 +12,7 @@ public class ProgressResBean {
     private String pageOperName;                    //页面的操作按钮名称：如【取消仲裁】
     private int pageOperType;                       //0-无操作，1-取消仲裁，2-退款规则，3-退款进度
     private List<ProgressItem> progressItemList;
+    private String exField;                         //pageOperType =2,返回退款时的步骤
 
     @Data
     public static class ProgressItem {
