@@ -17,6 +17,7 @@ import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
 import com.hm.arbitrament.business.CancelArbDialog;
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.logger.Logger;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.tools.KeyboardUtil;
 import com.hm.iou.tools.StatusBarUtil;
@@ -38,6 +39,8 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUSTICE_ID = "justice_id";
 
+    @BindView(R2.id.view_statusbar_placeholder)
+    View mViewStatusBarPlaceHolder;
     @BindView(R2.id.wv_pdf)
     WebView mWebView;
     @BindView(R2.id.bottomBar)
@@ -76,7 +79,12 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
             mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
             mJusticeId = bundle.getString(EXTRA_KEY_JUSTICE_ID);
         }
-
+        int statusBarHeight = StatusBarUtil.getStatusBarHeight(mContext);
+        if (statusBarHeight > 0) {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mViewStatusBarPlaceHolder.getLayoutParams();
+            params.height = statusBarHeight;
+            mViewStatusBarPlaceHolder.setLayoutParams(params);
+        }
         initWebView();
         mBottomBarView.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
@@ -111,10 +119,6 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setBuiltInZoomControls(true);
         mWebView.setWebViewClient(new WebViewClient());
-
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mWebView.getLayoutParams();
-        params.topMargin = StatusBarUtil.getStatusBarHeight(this);
-        mWebView.setLayoutParams(params);
 
         String ua = settings.getUserAgentString();
         settings.setUserAgentString(ua + ";HMAndroidWebView");
@@ -221,8 +225,20 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
 
     @Override
     public void showArbApplyDoc(String pdfUrl) {
+        Logger.d("pdfurl == " + pdfUrl);
         mPdfUrl = pdfUrl;
-        mWebView.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + Uri.encode(mPdfUrl));
+        //文件内容
+        if (!TextUtils.isEmpty(mPdfUrl)) {
+            Uri uri = Uri.parse(mPdfUrl);
+            String path = uri.getPath();
+            if (path.endsWith(".pdf")) {
+                //如果是 pdf 文件地址，则用加载pdf的方式来打开
+                mWebView.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + Uri.encode(mPdfUrl));
+            } else {
+                //如果是普通文件地址，则直接用WebView加载
+                mWebView.loadUrl(mPdfUrl);
+            }
+        }
     }
 
     @Override

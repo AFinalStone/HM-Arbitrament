@@ -18,6 +18,7 @@ import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.logger.Logger;
 import com.hm.iou.sharedata.model.BaseResponse;
+import com.hm.iou.tools.StringUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -68,9 +69,20 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
                     @Override
                     public void handleResult(GetArbCostResBean bean) {
                         mView.dismissLoadingView();
+                        if (bean == null) {
+                            return;
+                        }
                         Logger.d("" + bean.toString());
-                        mView.showArbCost(bean.getArbCost().toString());
-                        mView.showArbMoney(bean.getArbMoney().toString());
+                        //仲裁费用
+                        Double arbCost = bean.getArbCost();
+                        if (arbCost != null) {
+                            mView.showArbCost(StringUtil.doubleToString01(arbCost));
+                        }
+                        //仲裁金额
+                        Double arbMoney = bean.getArbMoney();
+                        if (arbMoney != null) {
+                            mView.showArbCost(StringUtil.doubleToString01(arbMoney));
+                        }
                     }
 
                     @Override

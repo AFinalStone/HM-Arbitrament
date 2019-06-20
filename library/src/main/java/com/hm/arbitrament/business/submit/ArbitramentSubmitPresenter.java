@@ -2,9 +2,11 @@ package com.hm.arbitrament.business.submit;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
+import com.hm.arbitrament.bean.GetArbApplyDocResBean;
 import com.hm.iou.base.comm.CommApi;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
@@ -26,13 +28,15 @@ public class ArbitramentSubmitPresenter extends MvpActivityPresenter<Arbitrament
         mView.showLoadingView();
         mArbApplyNo = arbApplyNo;
         ArbitramentApi.getArbApplyDoc(arbApplyNo)
-                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.<String>handleResponse())
-                .subscribeWith(new CommSubscriber<String>(mView) {
+                .compose(getProvider().<BaseResponse<GetArbApplyDocResBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<GetArbApplyDocResBean>handleResponse())
+                .subscribeWith(new CommSubscriber<GetArbApplyDocResBean>(mView) {
                     @Override
-                    public void handleResult(String pdfUrl) {
+                    public void handleResult(GetArbApplyDocResBean resBean) {
                         mView.dismissLoadingView();
-                        mView.showArbApplyDoc(pdfUrl);
+                        if (resBean != null && !TextUtils.isEmpty(resBean.getDocUrl())) {
+                            mView.showArbApplyDoc(resBean.getDocUrl());
+                        }
                     }
 
                     @Override
