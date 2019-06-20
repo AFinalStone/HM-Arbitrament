@@ -60,6 +60,11 @@ public class FiveAdvantagePresenter extends BasePresenter<FiveAdvantageContract.
                             mView.showNeedUpdateIDCardDialog();
                         }
                     }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
+                    }
                 });
     }
 }

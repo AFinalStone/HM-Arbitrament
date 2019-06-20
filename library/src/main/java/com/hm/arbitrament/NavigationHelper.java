@@ -14,7 +14,6 @@ import com.hm.arbitrament.business.apply.view.InputApplyInfoActivity;
 import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.apply.view.InputRealBackMoneyActivity;
 import com.hm.arbitrament.business.apply.view.SelectValidEvidenceActivity;
-import com.hm.arbitrament.business.apply.view.SelectValidEvidenceDetailActivity;
 import com.hm.arbitrament.business.apply.view.WaitMakeArbApplyBookActivity;
 import com.hm.arbitrament.business.award.ArbitralAwardActivity;
 import com.hm.arbitrament.business.fail.AuditFailActivity;
@@ -96,18 +95,6 @@ public class NavigationHelper {
         intent.putExtra(SelectValidEvidenceActivity.EXTRA_KEY_IOU_ID, iouId);
         intent.putExtra(SelectValidEvidenceActivity.EXTRA_KEY_JUST_ID, justId);
         context.startActivity(intent);
-    }
-
-    /**
-     * 有效凭证详情
-     *
-     * @param activity
-     */
-    public static void toSelectValidEvidenceDetailActivity(Activity activity, int requestCode, ElecEvidenceResBean item, boolean isSelect) {
-        Intent intent = new Intent(activity, SelectValidEvidenceDetailActivity.class);
-        intent.putExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_ITEM, item);
-        intent.putExtra(SelectValidEvidenceDetailActivity.EXTRA_KEY_IS_SELECT, isSelect);
-        activity.startActivityForResult(intent, requestCode);
     }
 
     /**
@@ -318,7 +305,11 @@ public class NavigationHelper {
      * @param arbApplyNo
      */
     public static void toDocCompletionPage(Context context, String iouId, String justiceId, String arbApplyNo) {
-
+        Intent intent = new Intent(context, SelectValidEvidenceActivity.class);
+        intent.putExtra(SelectValidEvidenceActivity.EXTRA_KEY_IOU_ID, iouId);
+        intent.putExtra(SelectValidEvidenceActivity.EXTRA_KEY_JUST_ID, justiceId);
+        intent.putExtra(SelectValidEvidenceActivity.EXTRA_KEY_IS_RESUBMIT, true);
+        context.startActivity(intent);
     }
 
     /**
