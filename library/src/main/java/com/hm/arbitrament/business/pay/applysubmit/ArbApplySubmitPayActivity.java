@@ -12,14 +12,10 @@ import com.hm.arbitrament.business.pay.base.BasePayActivity;
 public class ArbApplySubmitPayActivity extends BasePayActivity<ArbApplySubmitPayPresenter> implements ArbApplySubmitPayContract.View {
 
     public static final String EXTRA_KEY_ARB_NO = "arb_no";
-    public static final String EXTRA_KEY_IOU_ID = "iou_id";
-    public static final String EXTRA_KEY_JUST_ID = "just_id";
-    public static final String EXTRA_KEY_ORDER_ID = "order_id";
+    public static final String EXTRA_KEY_MESSAGE_CODE = "msg_code";
 
     private String mArbNo;
-    private String mIouId;
-    private String mJustId;
-    private String mOrderId;
+    private String mMsgCode;
 
     @Override
     protected ArbApplySubmitPayPresenter initPresenter() {
@@ -29,35 +25,29 @@ public class ArbApplySubmitPayActivity extends BasePayActivity<ArbApplySubmitPay
     @Override
     protected void init(Bundle bundle) {
         mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
-        mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
-        mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
-        mOrderId = getIntent().getStringExtra(EXTRA_KEY_ORDER_ID);
+        mMsgCode = getIntent().getStringExtra(EXTRA_KEY_MESSAGE_CODE);
         if (bundle != null) {
             mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
-            mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
-            mJustId = bundle.getString(EXTRA_KEY_JUST_ID);
-            mOrderId = bundle.getString(EXTRA_KEY_ORDER_ID);
+            mMsgCode = bundle.getString(EXTRA_KEY_MESSAGE_CODE);
         }
-        mPresenter.getArbApplySubmitOrderInfo(mIouId, mJustId);
+        mPresenter.createApplyOrderInfo(mArbNo, mMsgCode);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
-        outState.putString(EXTRA_KEY_IOU_ID, mIouId);
-        outState.putString(EXTRA_KEY_JUST_ID, mJustId);
-        outState.putString(EXTRA_KEY_ORDER_ID, mOrderId);
+        outState.putString(EXTRA_KEY_MESSAGE_CODE, mMsgCode);
     }
 
     @Override
     protected void refresh() {
-        mPresenter.getArbApplySubmitOrderInfo(mIouId, mJustId);
+        mPresenter.createApplyOrderInfo(mArbNo, mMsgCode);
     }
 
     @Override
     protected void pay() {
-        mPresenter.payOrderByWeiXin(mJustId, mOrderId);
+        mPresenter.payOrder();
     }
 
     @Override

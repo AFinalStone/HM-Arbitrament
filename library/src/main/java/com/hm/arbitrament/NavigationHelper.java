@@ -6,7 +6,6 @@ import android.content.Intent;
 
 import com.hm.arbitrament.bean.BackMoneyRecordBean;
 import com.hm.arbitrament.bean.CollectionProveBean;
-import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.business.apply.view.ArbApplyBookWaitPayActivity;
 import com.hm.arbitrament.business.apply.view.ArbitramentServerAgreementActivity;
 import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
@@ -319,14 +318,12 @@ public class NavigationHelper {
      * @param iouId
      * @param justId
      * @param arbApplyNo
-     * @param orderId
+     * @param msgCode
      */
-    public static void toArbApplyPayPage(Context context, String iouId, String justId, String arbApplyNo, String orderId) {
+    public static void toArbApplyPayPage(Context context, String iouId, String justId, String arbApplyNo, String msgCode) {
         Intent intent = new Intent(context, ArbApplySubmitPayActivity.class);
         intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_ARB_NO, arbApplyNo);
-        intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_IOU_ID, iouId);
-        intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_JUST_ID, justId);
-        intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_ORDER_ID, orderId);
+        intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_MESSAGE_CODE, msgCode);
         context.startActivity(intent);
     }
 

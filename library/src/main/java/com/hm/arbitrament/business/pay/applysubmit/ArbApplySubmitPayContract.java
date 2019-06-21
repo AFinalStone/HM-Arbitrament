@@ -16,16 +16,15 @@ public class ArbApplySubmitPayContract {
 
     public interface Presenter extends BaseContract.BasePresenter {
         /**
-         * 获取仲裁提交订单信息
+         * 更加仲裁编号和短信验证码，创建订单
+         * String arbApplyNo 仲裁编号
          */
-        void getArbApplySubmitOrderInfo(String iouId, String justId);
+        void createApplyOrderInfo(String arbApplyNo, String msgCode);
 
         /**
-         * 通过微信进行订单支付
-         *
-         * @param orderId 订单id
+         * 进行订单支付
          */
-        void payOrderByWeiXin(String justId, String orderId);
+        void payOrder();
 
     }
 }

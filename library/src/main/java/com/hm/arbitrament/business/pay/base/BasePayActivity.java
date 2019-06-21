@@ -212,4 +212,5 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
         }
         mNoCheckPayResultDialog.show();
     }
+
 }

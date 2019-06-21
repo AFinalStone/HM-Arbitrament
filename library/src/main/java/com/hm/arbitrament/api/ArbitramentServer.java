@@ -1,6 +1,7 @@
 package com.hm.arbitrament.api;
 
 import com.hm.arbitrament.bean.ArbPaperApplyInfo;
+import com.hm.arbitrament.bean.CreateArbApplyOrderResBean;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.bean.FailReasonResBean;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
@@ -104,7 +105,7 @@ public interface ArbitramentServer {
     Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getApplyPackage(@Body GetArbApplyBookOrderReqBean reqBean);
 
     @POST("/api/arb/v1/order/createApplyOrder")
-    Flowable<BaseResponse<String>> createApplyOrder(@Body CreateApplyOrderReqBean reqBean);
+    Flowable<BaseResponse<CreateArbApplyOrderResBean>> createArbApplyOrder(@Body CreateApplyOrderReqBean reqBean);
 
     @GET("/api/arb/v1/order/getArbPaperPackage")
     Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbPaperPackage();

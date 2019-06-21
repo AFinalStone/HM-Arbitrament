@@ -3,10 +3,9 @@ package com.hm.arbitrament.business.pay.applysubmit;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
-import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
-import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
-import com.hm.arbitrament.bean.req.PayArbApplyBookOrderReqBean;
+import com.hm.arbitrament.bean.CreateArbApplyOrderResBean;
 import com.hm.arbitrament.business.pay.base.IMoneyItem;
 import com.hm.arbitrament.dict.OrderPayStatusEnumBean;
 import com.hm.iou.base.event.OpenWxResultEvent;
@@ -25,9 +24,16 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.reactivestreams.Publisher;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author hjy
@@ -38,9 +44,9 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
     private static final String PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm";
 
     private IWXAPI mWXApi;
-    private String mJustId;         //订单公证id
     private String mOrderId;        //订单id
-    private boolean mHavePaySuccess = false;
+    private boolean mWeiXinCallBackPaySuccess = false;
+    private CreateArbApplyOrderResBean.WxPayAppParamRespBean mWxPayAppParamRespBean;
 
     public ArbApplySubmitPayPresenter(@NonNull Context context, @NonNull ArbApplySubmitPayActivity view) {
         super(context, view);
@@ -57,107 +63,97 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
     }
 
     @Override
-    public void getArbApplySubmitOrderInfo(String iouId, String justId) {
+    public void createApplyOrderInfo(String arbApplyNo, String msgCode) {
         mView.showInitLoadingView();
-        ArbitramentApi.getApplyPackage(iouId, justId)
-                .compose(getProvider().<BaseResponse<GetArbApplyBookOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.<GetArbApplyBookOrderResBean>handleResponse())
-                .subscribeWith(new CommSubscriber<GetArbApplyBookOrderResBean>(mView) {
+        ArbitramentApi.createArbApplyOrder(arbApplyNo, msgCode)
+                .compose(getProvider().<BaseResponse<CreateArbApplyOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<CreateArbApplyOrderResBean>handleResponse())
+                .subscribeWith(new CommSubscriber<CreateArbApplyOrderResBean>(mView) {
                     @Override
-                    public void handleResult(GetArbApplyBookOrderResBean bean) {
-                        if (bean == null) {
+                    public void handleResult(CreateArbApplyOrderResBean resBean) {
+                        if (resBean == null) {
                             mView.showInitLoadingFailed("数据异常");
                             return;
                         }
                         mView.hideInitLoadingView();
-                        //折扣
-                        String discount = bean.getDiscountStr();
-                        mView.showDiscount(discount);
-                        //付款金额
-                        String totalMoney = bean.getShowAmountStr();
-                        String realTotalMoney = bean.getActualAmountStr();
-                        mView.showTotalPayMoney(totalMoney, realTotalMoney);
-                        //底部备注
-                        String bottomRemark = bean.getComment();
-                        mView.showBottomRemark(bottomRemark);
-                        //费用列表
-                        List<IMoneyItem> list = changeData(bean.getItemList());
-                        mView.showData(list);
+                        //订单编号
+                        mOrderId = resBean.getOrderId();
+                        //页面显示的套餐信息
+                        CreateArbApplyOrderResBean.ArbPackageRespBean packageBean = resBean.getArbPackageResp();
+                        if (packageBean != null) {
+                            //折扣
+                            String discount = packageBean.getDiscountStr();
+                            mView.showDiscount(discount);
+                            //付款金额
+                            String totalMoney = packageBean.getShowAmountStr();
+                            String realTotalMoney = packageBean.getActualAmountStr();
+                            mView.showTotalPayMoney(totalMoney, realTotalMoney);
+                            //底部备注
+                            String bottomRemark = packageBean.getComment();
+                            mView.showBottomRemark(bottomRemark);
+                            //费用列表
+                            List<IMoneyItem> list = changeData(packageBean.getItemList());
+                            mView.showData(list);
+                        }
+                        //微信支付相关信息
+                        mWxPayAppParamRespBean = resBean.getWxPayAppParamResp();
                     }
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
-                        mView.showInitLoadingFailed(s1);
-                    }
-
-                    @Override
-                    public boolean isShowBusinessError() {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean isShowCommError() {
-                        return false;
+                        mView.dismissLoadingView();
+                        mView.closeCurrPage();
                     }
                 });
     }
 
-    @Override
-    public void payOrderByWeiXin(String justId, String orderId) {
-        if (mHavePaySuccess) {
-            checkPayResult();
-            return;
-        }
-        boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
-        if (flag) {
-            mJustId = justId;
-            payOrder();
-        } else {
-            mView.toastMessage("当前手机未安装微信");
-        }
-
-        return;
-    }
 
     private String getAppId() {
         PlatformConfig.APPIDPlatform weixin = (PlatformConfig.APPIDPlatform) PlatformConfig.configs.get(SHARE_MEDIA.WEIXIN);
         return weixin.appId;
     }
 
-    private void payOrder() {
-        mView.showLoadingView();
-        PayArbApplyBookOrderReqBean reqBean = new PayArbApplyBookOrderReqBean();
-        reqBean.setChannel(1);//微信支付
-        reqBean.setJusticeId(mJustId);
-        ArbitramentApi.payArbApplyBookOrder(reqBean)
-                .compose(getProvider().<BaseResponse<PayArbApplyBookOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.<PayArbApplyBookOrderResBean>handleResponse())
-                .subscribeWith(new CommSubscriber<PayArbApplyBookOrderResBean>(mView) {
-                    @Override
-                    public void handleResult(PayArbApplyBookOrderResBean bean) {
-                        mView.dismissLoadingView();
-                        if (mWXApi == null) {
-                            mWXApi = WXAPIFactory.createWXAPI(mContext.getApplicationContext(), null);
-                            mWXApi.registerApp(getAppId());
-                        }
-                        String partnerId = bean.getPartnerid();
-                        String prepayid = bean.getPrepayid();
-                        String packageValue = bean.getPackageX();
-                        String nonceStr = bean.getNoncestr();
-                        String timeStamp = bean.getTimestamp();
-                        String sign = bean.getSign();
-                        mOrderId = bean.getOrderId();
-                        wxPay(mWXApi, partnerId, prepayid, packageValue, nonceStr, timeStamp, sign, KEY_WX_PAY_CODE);
-                    }
-
-                    @Override
-                    public void handleException(Throwable throwable, String s, String s1) {
-                        mView.dismissLoadingView();
-                    }
-
-                });
+    @Override
+    public void payOrder() {
+        if (mWeiXinCallBackPaySuccess) {
+            checkPayResult();
+            return;
+        }
+        boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
+        if (flag) {
+            callWxPay();
+        } else {
+            mView.toastMessage("当前手机未安装微信");
+        }
     }
 
+    /**
+     * 唤起微信客户端进行付款
+     */
+    private void callWxPay() {
+        mWeiXinCallBackPaySuccess = false;
+        if (mWXApi == null) {
+            mWXApi = WXAPIFactory.createWXAPI(mContext.getApplicationContext(), null);
+            mWXApi.registerApp(getAppId());
+        }
+        if (mWxPayAppParamRespBean == null) {
+            return;
+        }
+        PayReq request = new PayReq();
+        request.appId = getAppId();
+        request.partnerId = mWxPayAppParamRespBean.getPartnerid();
+        request.prepayId = mWxPayAppParamRespBean.getPrepayid();
+        request.packageValue = mWxPayAppParamRespBean.getPackageX();
+        request.nonceStr = mWxPayAppParamRespBean.getNoncestr();
+        request.timeStamp = mWxPayAppParamRespBean.getTimestamp();
+        request.sign = mWxPayAppParamRespBean.getSign();
+        request.extData = KEY_WX_PAY_CODE;
+        mWXApi.sendReq(request);
+    }
+
+    /**
+     * 校验支付结果
+     */
     private void checkPayResult() {
         mView.showLoadingView();
         ArbitramentApi.queryOrderPayState(mOrderId)
@@ -168,10 +164,10 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
                     public void handleResult(String code) {
                         mView.dismissLoadingView();
                         if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
-                            mView.toProgressPage();
+                            NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
                             mView.closeCurrPage();
                         } else {
-                            mView.showNoCheckPayResultDialog();
+                            callWxPay();
                         }
                     }
 
@@ -187,23 +183,10 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
                 });
     }
 
-    private void wxPay(IWXAPI wxApi, String partnerId, String prepayid, String packageValue, String nonceStr, String timeStamp, String sign, String key) {
-        PayReq request = new PayReq();
-        request.appId = getAppId();
-        request.partnerId = partnerId;
-        request.prepayId = prepayid;
-        request.packageValue = packageValue;
-        request.nonceStr = nonceStr;
-        request.timeStamp = timeStamp;
-        request.sign = sign;
-        request.extData = key;
-        wxApi.sendReq(request);
-    }
-
-    private List<IMoneyItem> changeData(List<GetArbApplyBookOrderResBean.ItemListBean> list) {
+    private List<IMoneyItem> changeData(List<CreateArbApplyOrderResBean.ItemListBean> list) {
         List<IMoneyItem> listResult = new ArrayList<>();
         if (list != null) {
-            for (final GetArbApplyBookOrderResBean.ItemListBean bean : list) {
+            for (final CreateArbApplyOrderResBean.ItemListBean bean : list) {
                 IMoneyItem iMoneyItem = new IMoneyItem() {
                     @Override
                     public String getName() {
@@ -229,6 +212,47 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
 
 
     /**
+     * 微信回调提示支付成功，这里调用接口再检验一遍
+     */
+    private void checkWeiXinCallBackResult() {
+        mView.showLoadingView();
+        Flowable.just(mOrderId)
+                .delay(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Function<String, Publisher<BaseResponse<String>>>() {
+                    @Override
+                    public Publisher<BaseResponse<String>> apply(String orderId) throws Exception {
+                        return ArbitramentApi.queryOrderPayState(orderId);
+                    }
+                })
+                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<String>handleResponse())
+                .subscribeWith(new CommSubscriber<String>(mView) {
+                    @Override
+                    public void handleResult(String code) {
+                        mView.dismissLoadingView();
+                        if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
+                            NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                            mView.closeCurrPage();
+                        } else {
+                            mView.showNoCheckPayResultDialog();
+                        }
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String code, String errorMsg) {
+                        mView.dismissLoadingView();
+                    }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
+                    }
+                });
+    }
+
+    /**
      * 微信支付成功，关闭当前页面
      *
      * @param openWxResultEvent
@@ -237,8 +261,8 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
     public void onEvenBusOpenWXResult(OpenWxResultEvent openWxResultEvent) {
         if (KEY_WX_PAY_CODE.equals(openWxResultEvent.getKey())) {
             if (openWxResultEvent.getIfPaySuccess()) {
-                mHavePaySuccess = true;
-                checkPayResult();
+                mWeiXinCallBackPaySuccess = true;
+                checkWeiXinCallBackResult();
             }
         }
     }

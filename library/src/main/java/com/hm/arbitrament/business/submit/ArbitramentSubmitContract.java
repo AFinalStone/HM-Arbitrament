@@ -10,7 +10,7 @@ public interface ArbitramentSubmitContract {
 
         void startCountDown();
 
-        void toPay(String orderId);
+        void toPay(String code);
     }
 
     interface Presenter extends BaseContract.BasePresenter {

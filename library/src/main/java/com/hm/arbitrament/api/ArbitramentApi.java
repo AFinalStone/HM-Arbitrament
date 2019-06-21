@@ -1,6 +1,7 @@
 package com.hm.arbitrament.api;
 
 import com.hm.arbitrament.bean.ArbPaperApplyInfo;
+import com.hm.arbitrament.bean.CreateArbApplyOrderResBean;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
 import com.hm.arbitrament.bean.FailReasonResBean;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
@@ -262,10 +263,11 @@ public class ArbitramentApi {
         return getService().getApplyPackage(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Flowable<BaseResponse<String>> createApplyOrder(String arbNo) {
+    public static Flowable<BaseResponse<CreateArbApplyOrderResBean>> createArbApplyOrder(String arbNo, String msgCode) {
         CreateApplyOrderReqBean reqBean = new CreateApplyOrderReqBean();
         reqBean.setArbApplyNo(arbNo);
-        return getService().createApplyOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        reqBean.setMessage(msgCode);
+        return getService().createArbApplyOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     public static Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbPaperPackage() {

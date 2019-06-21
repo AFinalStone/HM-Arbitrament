@@ -242,7 +242,7 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     }
 
     @Override
-    public void toPay(String orderId) {
-        NavigationHelper.toArbApplyPayPage(this, mIouId, mJusticeId, mArbNo, orderId);
+    public void toPay(String code) {
+        NavigationHelper.toArbApplyPayPage(this, mIouId, mJusticeId, mArbNo, code);
     }
 }

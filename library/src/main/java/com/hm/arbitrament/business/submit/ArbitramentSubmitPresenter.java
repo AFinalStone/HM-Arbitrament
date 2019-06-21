@@ -91,7 +91,7 @@ public class ArbitramentSubmitPresenter extends MvpActivityPresenter<Arbitrament
     }
 
     @Override
-    public void verifySmsCode(String code) {
+    public void verifySmsCode(final String code) {
         mView.showLoadingView();
         String mobile = UserManager.getInstance(mContext).getUserInfo().getMobile();
         ArbitramentApi.verfySmsCode(13, mobile, code)
@@ -100,7 +100,8 @@ public class ArbitramentSubmitPresenter extends MvpActivityPresenter<Arbitrament
                 .subscribeWith(new CommSubscriber<Object>(mView) {
                     @Override
                     public void handleResult(Object o) {
-                        createOrder();
+                        mView.dismissLoadingView();
+                        mView.toPay(code);
                     }
 
                     @Override
@@ -110,25 +111,5 @@ public class ArbitramentSubmitPresenter extends MvpActivityPresenter<Arbitrament
                 });
     }
 
-    /**
-     * 创建订单
-     */
-    private void createOrder() {
-        ArbitramentApi.createApplyOrder(mArbApplyNo)
-                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.<String>handleResponse())
-                .subscribeWith(new CommSubscriber<String>(mView) {
-                    @Override
-                    public void handleResult(String orderId) {
-                        mView.dismissLoadingView();
-                        mView.toPay(orderId);
-                    }
-
-                    @Override
-                    public void handleException(Throwable throwable, String s, String s1) {
-                        mView.dismissLoadingView();
-                    }
-                });
-    }
 
 }
