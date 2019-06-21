@@ -68,9 +68,13 @@ public class ArbitramentProgressPresenter extends MvpActivityPresenter<Arbitrame
                         if (pageOperType == 1) {            //取消仲裁
                             mView.showBottomCancelArbMenu();
                         } else if (pageOperType == 2) {     //退款规则
-                        //    mView.showBottomBackMoneyRule();
-
-                            //TODO 接口里增加退款进度
+                            int progress = 0;
+                            try {
+                                progress = Integer.parseInt(mProgressInfo.getExField());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            mView.showBottomBackMoneyRule(progress);
                         } else if (pageOperType == 3) {     //退款进度
                             mView.showBottomBackMoneyProgressMenu();
                         }
