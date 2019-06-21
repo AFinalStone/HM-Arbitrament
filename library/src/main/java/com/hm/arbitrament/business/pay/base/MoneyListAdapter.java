@@ -21,6 +21,5 @@ public class MoneyListAdapter extends BaseQuickAdapter<IMoneyItem, BaseViewHolde
         helper.setText(R.id.tv_name, item.getName());
         helper.setText(R.id.tv_content, item.getContent());
         helper.setGone(R.id.iv_warn, !TextUtils.isEmpty(item.getWarnDialogContent()));
-        helper.addOnClickListener(R.id.iv_warn);
     }
 }
