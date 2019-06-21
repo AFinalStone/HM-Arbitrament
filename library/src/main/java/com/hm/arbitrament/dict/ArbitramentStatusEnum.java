@@ -15,7 +15,8 @@ public enum ArbitramentStatusEnum {
     HAVE_SUBMIT_PROGRESS_CAN_NOT_CANCEL(7, "初审通过进度页面-有退款进度按钮"),
     HAVE_SUBMIT_PROGRESS_HAVE_FINISH(8, "进度页面-结束"),
     LENDER_NO_APPLY_ARBITRAMENT(9, "当前用户借款人，出借人未申请仲裁"),
-    LENDER_HAVE_APPLY_ARBITRAMENT(10, "当前用户借款人，出借人已申请仲裁");
+    LENDER_HAVE_APPLY_ARBITRAMENT(10, "当前用户借款人，出借人已申请仲裁"),
+    LENDER_ONLY_SUPPORT_ALIPAY(11, "当前只支持支付宝对支付宝转账记录");
 
     private int code;
     private String statusDesc;

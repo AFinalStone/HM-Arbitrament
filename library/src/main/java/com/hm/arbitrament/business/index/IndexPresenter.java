@@ -3,13 +3,16 @@ package com.hm.arbitrament.business.index;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.hm.arbitrament.Constants;
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.dict.ArbitramentStatusEnum;
+import com.hm.iou.base.BaseBizAppLike;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
+import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -80,6 +83,11 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                             } else if (ArbitramentStatusEnum.LENDER_HAVE_APPLY_ARBITRAMENT.getCode() == flag) {
                                 //当前用户借款人，出借人已申请仲裁
                                 mView.showDialog("温馨提示", "出借人已经提出申请仲裁");
+                            } else if (ArbitramentStatusEnum.LENDER_ONLY_SUPPORT_ALIPAY.getCode() == flag) {
+                                //当前用户借款人，出借人已申请仲裁
+                                Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/webview/index")
+                                        .withString("url", BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_GUANGZHOU_ZHONGCAI)
+                                        .navigation(mContext);
                             } else {
                                 mView.closeCurrPage();
                             }
