@@ -3,11 +3,11 @@ package com.hm.arbitrament.business.pay.applysubmit;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.CreateArbApplyOrderResBean;
 import com.hm.arbitrament.business.pay.base.IMoneyItem;
 import com.hm.arbitrament.dict.OrderPayStatusEnumBean;
+import com.hm.arbitrament.event.ClosePageEvent;
 import com.hm.iou.base.event.OpenWxResultEvent;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
@@ -164,7 +164,8 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
                     public void handleResult(String code) {
                         mView.dismissLoadingView();
                         if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
-                            NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                            mView.toProgressPage();
+                            EventBus.getDefault().post(new ClosePageEvent());
                             mView.closeCurrPage();
                         } else {
                             callWxPay();
@@ -233,7 +234,8 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
                     public void handleResult(String code) {
                         mView.dismissLoadingView();
                         if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
-                            NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
+                            mView.toProgressPage();
+                            EventBus.getDefault().post(new ClosePageEvent());
                             mView.closeCurrPage();
                         } else {
                             mView.showNoCheckPayResultDialog();

@@ -7,15 +7,15 @@ import android.text.TextUtils;
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.GetArbApplyDocResBean;
+import com.hm.arbitrament.business.apply.presenter.BasePresenter;
 import com.hm.iou.base.comm.CommApi;
-import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
-public class ArbitramentSubmitPresenter extends MvpActivityPresenter<ArbitramentSubmitContract.View> implements ArbitramentSubmitContract.Presenter {
+public class ArbitramentSubmitPresenter extends BasePresenter<ArbitramentSubmitContract.View> implements ArbitramentSubmitContract.Presenter {
 
     private String mArbApplyNo;
 

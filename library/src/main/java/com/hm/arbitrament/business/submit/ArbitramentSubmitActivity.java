@@ -184,6 +184,12 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
                     .create();
             initVerifyCodeContentView(contentView);
         }
+        if (mEtCode != null) {
+            mEtCode.setText("");
+        }
+        if (mCountDownView != null) {
+            mCountDownView.resume();
+        }
         mVerifyCodeDialog.show();
         KeyboardUtil.toggleKeyboard(this);
     }
