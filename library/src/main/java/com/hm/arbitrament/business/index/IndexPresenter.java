@@ -67,7 +67,7 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_PROGRESS_CAN_CANCEL.getCode() == flag) {
                                 //初审通过进度页面，允许取消
-                                NavigationHelper.toSubmitProgressFailed(mContext, true);
+                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_PROGRESS_CAN_NOT_CANCEL.getCode() == flag) {
                                 //初审通过进度页面，不允许取消

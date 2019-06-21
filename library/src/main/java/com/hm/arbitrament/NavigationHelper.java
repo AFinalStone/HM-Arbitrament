@@ -182,17 +182,6 @@ public class NavigationHelper {
     }
 
     /**
-     * 提交仲裁审核进度失败
-     *
-     * @param activity
-     * @param isCanReTry 允许重试
-     */
-    public static void toSubmitProgressFailed(Context activity, boolean isCanReTry) {
-//        Intent intent = new Intent(activity, Wai.class);
-//        activity.startActivity(intent);
-    }
-
-    /**
      * 进入仲裁进度页面
      *
      * @param context
