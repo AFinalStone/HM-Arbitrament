@@ -60,6 +60,9 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
             mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
             mJusticeId = bundle.getString(EXTRA_KEY_JUSTICE_ID);
         }
+
+        mLoadingView.showDataLoading();
+        mPresenter.getFailReason(mArbNo);
     }
 
     @Override
@@ -84,6 +87,7 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
     @Override
     public void showDocCompletion() {
         mBottomBarView.updateTitle("资料补全");
+        mBottomBarView.setTitleVisible(true);
         mBottomBarView.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
             public void onClickTitle() {

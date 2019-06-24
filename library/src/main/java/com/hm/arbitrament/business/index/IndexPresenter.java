@@ -88,6 +88,9 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/webview/index")
                                         .withString("url", BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_GUANGZHOU_ZHONGCAI)
                                         .navigation(mContext);
+                            } else if (ArbitramentStatusEnum.PROCESS_RULE.getCode() == flag) {
+                                //进度页面-退款规则
+                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo());
                             } else {
                                 mView.closeCurrPage();
                             }
