@@ -12,6 +12,7 @@ import android.text.style.StrikethroughSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -19,11 +20,13 @@ import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
+import com.hm.iou.tools.StringUtil;
 import com.hm.iou.uikit.HMGrayDividerItemDecoration;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.hm.iou.uikit.handler.WeakReferenceHandler;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,7 +43,7 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
     @BindView(R2.id.tv_total_pay_money)
     TextView mTvTotalPayMoney;
     @BindView(R2.id.ll_time_count_down)
-    TextView mLlTimeCountDown;
+    LinearLayout mLlTimeCountDown;
     @BindView(R2.id.tv_time_count_down)
     TextView mTvTimeCountDown;
     @BindView(R2.id.btn_ok)
@@ -247,8 +250,9 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
         mLlTimeCountDown.setVisibility(View.VISIBLE);
         int minute = timeCount / 60;
         int second = timeCount % 60;
+        DecimalFormat dcmFmt = new DecimalFormat("00");
         StringBuffer sb = new StringBuffer();
-        sb.append(minute).append(":").append(second);
+        sb.append(dcmFmt.format(minute)).append(" : ").append(dcmFmt.format(second));
         mTvTimeCountDown.setText(sb.toString());
         mHandler.sendEmptyMessageDelayed(timeCount, 1000);
     }

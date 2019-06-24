@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ArbApplySubmitPayActivity.class);
                 intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_ARB_NO, "a21726118d7b4ff181a8b1b60ecfbe01");
-                intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_MESSAGE_CODE, "190618204729000443");
+                intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_MESSAGE_CODE, "1232");
                 startActivity(intent);
             }
         });
