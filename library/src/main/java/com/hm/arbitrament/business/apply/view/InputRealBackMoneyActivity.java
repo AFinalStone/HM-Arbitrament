@@ -160,6 +160,13 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
         for (int i = 0; i < mListData.size(); i++) {
             maxBackMoney = maxBackMoney - mListData.get(i).getAmount();
         }
+        if (bean == null && maxBackMoney == 0) {
+            toastErrorMessage("已经达到合计应还的最大额度，无法继续添加");
+            return;
+        }
+        if (bean != null) {
+            maxBackMoney = maxBackMoney + bean.getAmount();
+        }
         Intent intent = new Intent(mContext, InputRealBackMoneyAddRecordActivity.class);
         intent.putExtra(InputRealBackMoneyAddRecordActivity.EXTRA_KEY_ITEM, bean);
         intent.putExtra(InputRealBackMoneyAddRecordActivity.EXTRA_KEY_MAX_BACK_MONEY, maxBackMoney);

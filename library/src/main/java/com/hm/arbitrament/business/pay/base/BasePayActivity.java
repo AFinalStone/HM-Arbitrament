@@ -1,6 +1,8 @@
 package com.hm.arbitrament.business.pay.base;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -20,6 +22,7 @@ import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.uikit.HMGrayDividerItemDecoration;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
+import com.hm.iou.uikit.handler.WeakReferenceHandler;
 
 import java.util.List;
 
@@ -36,6 +39,8 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
     TextView mTvBottomRemark;
     @BindView(R2.id.tv_total_pay_money)
     TextView mTvTotalPayMoney;
+    @BindView(R2.id.ll_time_count_down)
+    TextView mLlTimeCountDown;
     @BindView(R2.id.tv_time_count_down)
     TextView mTvTimeCountDown;
     @BindView(R2.id.btn_ok)
@@ -51,6 +56,7 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
 
     private HMAlertDialog mExitDialog;
     private HMAlertDialog mNoCheckPayResultDialog;
+    private WeakReferenceHandler mHandler;
 
     /**
      * 初始化
@@ -74,6 +80,7 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
     }
 
 
+    @SuppressLint("HandlerLeak")
     @Override
     protected void initEventAndData(Bundle bundle) {
         mRvMoneyList.setLayoutManager(new LinearLayoutManager(this));
@@ -100,6 +107,16 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
                 pay();
             }
         });
+        mHandler = new WeakReferenceHandler<BasePayActivity>(this) {
+            @Override
+            public void handleMessage(Message msg) {
+                BasePayActivity activity = mWeakReferenceObject.get();
+                if (activity != null) {
+                    int timeCountDown = msg.what - 1;
+                    activity.startTimeCount(timeCountDown);
+                }
+            }
+        };
         init(bundle);
     }
 
@@ -132,6 +149,14 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
                     .create();
         }
         mExitDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+        }
     }
 
     public void showData(List<IMoneyItem> list) {
@@ -211,6 +236,21 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
                     .create();
         }
         mNoCheckPayResultDialog.show();
+    }
+
+    @Override
+    public void startTimeCount(int timeCount) {
+        if (timeCount <= 0) {
+            mLlTimeCountDown.setVisibility(View.GONE);
+            return;
+        }
+        mLlTimeCountDown.setVisibility(View.VISIBLE);
+        int minute = timeCount / 60;
+        int second = timeCount % 60;
+        StringBuffer sb = new StringBuffer();
+        sb.append(minute).append(":").append(second);
+        mTvTimeCountDown.setText(sb.toString());
+        mHandler.sendEmptyMessageDelayed(timeCount, 1000);
     }
 
 }

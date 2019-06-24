@@ -94,6 +94,8 @@ public class ArbApplySubmitPayPresenter extends MvpActivityPresenter<ArbApplySub
                             //费用列表
                             List<IMoneyItem> list = changeData(packageBean.getItemList());
                             mView.showData(list);
+                            //倒计时时间
+                            mView.startTimeCount(packageBean.getExpireSeconds());
                         }
                         //微信支付相关信息
                         mWxPayAppParamRespBean = resBean.getWxPayAppParamResp();

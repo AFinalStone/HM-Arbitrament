@@ -60,6 +60,13 @@ public class BasePayContract {
          */
         void showNoCheckPayResultDialog();
 
+        /**
+         * 开始倒计时
+         *
+         * @param timeCount
+         */
+        void startTimeCount(int timeCount);
+
     }
 
     public interface BasePayPresenter extends BaseContract.BasePresenter {
