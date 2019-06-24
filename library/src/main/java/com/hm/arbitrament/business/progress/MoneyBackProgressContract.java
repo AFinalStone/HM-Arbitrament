@@ -1,5 +1,6 @@
 package com.hm.arbitrament.business.progress;
 
+import com.hm.arbitrament.business.progress.view.BackMoneyDetailAdapter;
 import com.hm.arbitrament.business.progress.view.ProgressAdapter;
 import com.hm.iou.base.mvp.BaseContract;
 
@@ -22,13 +23,16 @@ public interface MoneyBackProgressContract {
 
         void showBackMoney(String txt);
 
+        void showBackRule(int progress);
 
+        void showBackMoneyDetailList(List<BackMoneyDetailAdapter.IBackMoneyItem> list, String totalMoneyStr);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
 
-        void loadProgressData();
+        void loadProgressData(String arbNo);
 
+        void clickBackMoneyDetail();
     }
 
 }

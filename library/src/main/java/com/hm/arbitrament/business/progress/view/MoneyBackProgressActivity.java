@@ -1,5 +1,6 @@
 package com.hm.arbitrament.business.progress.view;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,6 +55,8 @@ public class MoneyBackProgressActivity extends BaseActivity<MoneyBackProgressPre
     private ProgressAdapter mAdapter;
     private String mArbNo;
 
+    private Dialog mBackMoneyDetailDialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.arbitrament_activity_money_back_progress;
@@ -77,7 +80,7 @@ public class MoneyBackProgressActivity extends BaseActivity<MoneyBackProgressPre
 
         findViewById(R.id.ll_backmoney_amount).setOnClickListener(this);
 
-        mPresenter.loadProgressData();
+        mPresenter.loadProgressData(mArbNo);
     }
 
     @Override
@@ -89,33 +92,11 @@ public class MoneyBackProgressActivity extends BaseActivity<MoneyBackProgressPre
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ll_backmoney_amount) {
-            View contentView = getLayoutInflater().inflate(R.layout.arbitrament_dialog_money_back_detail, null);
-            RecyclerView recyclerView = contentView.findViewById(R.id.rv_money_list);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            BackMoneyDetailAdapter detailAdapter = new BackMoneyDetailAdapter();
-            List<BackMoneyDetailAdapter.IBackMoneyItem> list = new ArrayList<>();
-            for (int i = 0; i < 4; i++) {
-                list.add(new BackMoneyDetailAdapter.IBackMoneyItem() {
-                    @Override
-                    public String getTitle() {
-                        return "律师费";
-                    }
-
-                    @Override
-                    public String getMoney() {
-                        return "￥100.00";
-                    }
-                });
+            if (mBackMoneyDetailDialog == null) {
+                mPresenter.clickBackMoneyDetail();
+            } else {
+                mBackMoneyDetailDialog.show();
             }
-            detailAdapter.setNewData(list);
-            recyclerView.setAdapter(detailAdapter);
-            TextView tvTotal = contentView.findViewById(R.id.tv_progress_total);
-            tvTotal.setText("￥400.00");
-            HMBottomDialog dialog = new HMBottomDialog.Builder(this)
-                    .setTitle("退款明细")
-                    .setBottomView(contentView)
-                    .create();
-            dialog.show();
         }
     }
 
@@ -129,7 +110,7 @@ public class MoneyBackProgressActivity extends BaseActivity<MoneyBackProgressPre
         mLoadingView.showDataFail(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.loadProgressData();
+                mPresenter.loadProgressData(mArbNo);
             }
         });
     }
@@ -158,15 +139,34 @@ public class MoneyBackProgressActivity extends BaseActivity<MoneyBackProgressPre
     @Override
     public void showBackMoney(String txt) {
         mTvAmount.setText(txt);
+    }
+
+    @Override
+    public void showBackRule(final int progress) {
         mBottomBar.updateTitle("退款规则");
         mBottomBar.setTitleVisible(true);
         mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
             public void onClickTitle() {
-                //TODO 当前退款进度到哪了
-                NavigationHelper.toReturnMoneyRulePage(MoneyBackProgressActivity.this, 2);
+                NavigationHelper.toReturnMoneyRulePage(MoneyBackProgressActivity.this, progress);
             }
         });
     }
 
+    @Override
+    public void showBackMoneyDetailList(List<BackMoneyDetailAdapter.IBackMoneyItem> list, String totalMoneyStr) {
+        View contentView = getLayoutInflater().inflate(R.layout.arbitrament_dialog_money_back_detail, null);
+        RecyclerView recyclerView = contentView.findViewById(R.id.rv_money_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        BackMoneyDetailAdapter detailAdapter = new BackMoneyDetailAdapter();
+        detailAdapter.setNewData(list);
+        recyclerView.setAdapter(detailAdapter);
+        TextView tvTotal = contentView.findViewById(R.id.tv_progress_total);
+        tvTotal.setText(totalMoneyStr);
+        mBackMoneyDetailDialog = new HMBottomDialog.Builder(this)
+                .setTitle("退款明细")
+                .setBottomView(contentView)
+                .create();
+        mBackMoneyDetailDialog.show();
+    }
 }
