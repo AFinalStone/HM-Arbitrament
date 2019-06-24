@@ -187,7 +187,7 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
         } else {
             mTvTotalBackMoney.setVisibility(View.VISIBLE);
             String strTotalMoney = StringUtil.doubleToString(totalMoney, ",###.##");
-            mTvTotalBackMoney.setText("合计归还：" + strTotalMoney);
+            mTvTotalBackMoney.setText("合计归还：" + strTotalMoney + "元");
         }
     }
 

@@ -88,10 +88,8 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
     @BindView(R2.id.view_arbitrament_cost_divider)
     View mViewArbitramentCostDivider;////仲裁费用分割线
 
-
     @BindView(R2.id.bottomBar)
     HMBottomBarView mBottomBar;
-
 
     private String mIouId;
     private String mJustId;
@@ -150,7 +148,22 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                     showArbitramentMoneyTooSmallDialog();
                     return;
                 }
-                mPresenter.getAgreement(mIouId, mJustId);
+                if (mIsSubmit) {
+                    CreateArbOrderReqBean reqBean = new CreateArbOrderReqBean();
+                    reqBean.setIouId(mIouId);//合同id
+                    reqBean.setJusticeId(mJustId);//合同公证id
+                    reqBean.setExEvidenceIdList(mListElecEvidence);
+                    if (mBackMoneyRecordList == null) {
+                        mBackMoneyRecordList = new ArrayList<>();
+                    }
+                    reqBean.setRepaymentRecordList(mBackMoneyRecordList);//归还记录
+                    ArrayList<CollectionProveBean> list = new ArrayList<>();
+                    list.add(mCollectionProveBean);
+                    reqBean.setUrgeExidenceList(list);
+                    mPresenter.resubmitOrder(reqBean);
+                } else {
+                    mPresenter.getAgreement(mIouId, mJustId);
+                }
             }
         });
         mPresenter.getInputApplyInfoData(mIouId, mJustId);
@@ -205,6 +218,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 NavigationHelper.toCheckSignPwd(mContext, "输入签约密码", REQ_CHECK_SIGNATURE_PSD);
             }
         } else if (REQ_CHECK_SIGNATURE_PSD == requestCode) {
+            CacheDataUtil.clearInputApplyInfoCacheData(mContext);
             if (RESULT_OK == resultCode) {
                 String signPwd = data.getStringExtra("pwd");
                 String signId = data.getStringExtra("sign_id");
@@ -224,11 +238,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 ArrayList<CollectionProveBean> list = new ArrayList<>();
                 list.add(mCollectionProveBean);
                 reqBean.setUrgeExidenceList(list);
-                if (mIsSubmit) {
-                    mPresenter.resubmitOrder(reqBean);
-                } else {
-                    mPresenter.createOrder(reqBean);
-                }
+                mPresenter.createOrder(reqBean);
             }
         }
     }
@@ -409,7 +419,8 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         mBackMoneyRecordList = list;
         if (BACK_NOTHING.equals(mTvRealBackMoney.getText().toString())) {
             mIsBackNothing = true;
-            mPresenter.getArbitramentCost(mIouId, mJustId, 0);
+            mTvRealBackMoneyLeft.setVisibility(View.GONE);
+            getArbitramentCost();
             return;
         }
         mIsBackNothing = false;
@@ -431,7 +442,8 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
             bean.setRepaymentDate(backTime);
         }
         mTvRealBackMoney.setText(StringUtil.doubleToString01(realBackMoney));
-        mPresenter.getArbitramentCost(mIouId, mJustId, 0);
+        mTvRealBackMoneyLeft.setVisibility(View.VISIBLE);
+        getArbitramentCost();
     }
 
     /**
@@ -447,6 +459,26 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         String desc = mCollectionProveBean.getDescription();
         if (!TextUtils.isEmpty(desc)) {
             mTvCollectionProve.setText(desc);
+            getArbitramentCost();
+        }
+    }
+
+    /**
+     * 计算仲裁金额和仲裁费率
+     */
+    private void getArbitramentCost() {
+        String strTealBackMoney = mTvRealBackMoney.getText().toString();
+        String strCollectionProve = mTvCollectionProve.getText().toString();
+        if (!TextUtils.isEmpty(strTealBackMoney) && !TextUtils.isEmpty(strCollectionProve)) {
+            double realBackMoney = 0f;
+            if (!mIsBackNothing) {
+                try {
+                    realBackMoney = Double.parseDouble(strTealBackMoney);
+                } catch (Exception e) {
+
+                }
+            }
+            mPresenter.getArbitramentCost(mIouId, mJustId, realBackMoney);
         }
     }
 }

@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.FailReasonResBean;
-import com.hm.iou.base.mvp.MvpActivityPresenter;
+import com.hm.arbitrament.business.apply.presenter.BasePresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -14,7 +14,7 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.List;
 
-public class AuditFailPresenter extends MvpActivityPresenter<AuditFailContract.View> implements AuditFailContract.Presenter {
+public class AuditFailPresenter extends BasePresenter<AuditFailContract.View> implements AuditFailContract.Presenter {
 
     public AuditFailPresenter(@NonNull Context context, @NonNull AuditFailContract.View view) {
         super(context, view);

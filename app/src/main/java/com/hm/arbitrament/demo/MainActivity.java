@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Router.getInstance()
                         .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
-                        .withString("iou_id", "a21726118d7b4ff181a8b1b60ecfbe01")
-                        .withString("just_id", "190618204729000443")
+                        .withString("iou_id", "b604cff55d954e22be69ad6af8ec2f79")
+                        .withString("just_id", "190618205158000443")
                         .navigation(MainActivity.this);
             }
         });

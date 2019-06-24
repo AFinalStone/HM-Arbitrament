@@ -129,6 +129,8 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
                 mPresenter.refresh(mIouId, mJustId);
             }
         });
+        //清除编辑页面的缓存数据
+        CacheDataUtil.clearInputApplyInfoCacheData(mContext);
     }
 
     @Override

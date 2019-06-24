@@ -128,7 +128,7 @@
 
                     <TextView
                         style="@style/ArbitramentInputName"
-                        android:text="仲裁金额" />
+                        android:text="争议金额" />
 
                     <TextView
                         android:id="@+id/tv_arbitrament_money_left"
