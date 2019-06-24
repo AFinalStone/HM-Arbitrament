@@ -27,10 +27,16 @@
         android:text="5个优势" />
 
     <Button
-        android:id="@+id/btn_pay_arb_apply_order"
+        android:id="@+id/btn_pay_arb_apply_book_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="支付仲裁申请书订单" />
+
+    <Button
+        android:id="@+id/btn_pay_arb_apply_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="支付仲裁申请订单" />
 
 
     <Button

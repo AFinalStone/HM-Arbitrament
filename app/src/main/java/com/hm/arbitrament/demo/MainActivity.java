@@ -11,6 +11,7 @@ import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
 import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.award.ArbitralAwardActivity;
 import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
+import com.hm.arbitrament.business.pay.applysubmit.ArbApplySubmitPayActivity;
 import com.hm.arbitrament.business.progress.view.MoneyBackProgressActivity;
 import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.router.Router;
@@ -45,39 +46,32 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        findViewById(R.id.btn_pay_arb_apply_order).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_pay_arb_apply_book_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ArbApplyBookPayActivity.class);
-                intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_IOU_ID, "e67ff445193545bab4b44d14e8eb5705");
-                intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_JUST_ID, "190523143827000448");
+                intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_IOU_ID, "a21726118d7b4ff181a8b1b60ecfbe01");
+                intent.putExtra(ArbApplyBookPayActivity.EXTRA_KEY_JUST_ID, "190618204729000443");
+                startActivity(intent);
+            }
+        });
+        findViewById(R.id.btn_pay_arb_apply_order).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ArbApplySubmitPayActivity.class);
+                intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_ARB_NO, "a21726118d7b4ff181a8b1b60ecfbe01");
+                intent.putExtra(ArbApplySubmitPayActivity.EXTRA_KEY_MESSAGE_CODE, "190618204729000443");
                 startActivity(intent);
             }
         });
         findViewById(R.id.btn_index).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Router.getInstance()
-//                        .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
-//                        .withString("iou_id", "d5a6ae1ebcc5431da75c1c17d9d75527")
-//                        .withString("just_id", "190523143827000448")
-//                        .withString("is_borrower", "0")
-//                        .navigation(MainActivity.this);
-//                Router.getInstance()
-//                        .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
-//                        .withString("iou_id", "393c5b706b604c95a0cef30b24129d43")
-//                        .withString("just_id", "190617143602000380")
-//                        .navigation(MainActivity.this);
                 Router.getInstance()
                         .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
-                        .withString("iou_id", "ed34f50629ab41c59253d32ca59cec18")
-                        .withString("just_id", "190617160409000443")
+                        .withString("iou_id", "a21726118d7b4ff181a8b1b60ecfbe01")
+                        .withString("just_id", "190618204729000443")
                         .navigation(MainActivity.this);
-//                Router.getInstance()
-//                        .buildWithUrl("hmiou://m.54jietiao.com/arbitrament/index")
-//                        .withString("iou_id", "2343f6ca9de44b63b4433c6ec84b40c8")
-//                        .withString("just_id", "190617161752000443")
-//                        .navigation(MainActivity.this);
             }
         });
         findViewById(R.id.btn_collection_prove).setOnClickListener(new View.OnClickListener() {

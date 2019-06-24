@@ -81,7 +81,7 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
                         //仲裁金额
                         Double arbMoney = bean.getArbMoney();
                         if (arbMoney != null) {
-                            mView.showArbCost(StringUtil.doubleToString01(arbMoney));
+                            mView.showArbMoney(StringUtil.doubleToString01(arbMoney));
                         }
                     }
 

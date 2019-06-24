@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/topBar"
         android:layout_marginBottom="10dp"
+        app:srlEnableLoadMore="false"
         app:srlEnableRefresh="false">
 
         <LinearLayout
@@ -74,9 +75,9 @@
                         android:layout_marginStart="6dp"
                         android:background="@drawable/arbitrament_bg_discount"
                         android:gravity="center"
-                        tools:text="限时5折"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/textFontSize_9" />
+                        android:textSize="@dimen/textFontSize_9"
+                        tools:text="限时5折" />
 
                     <View
                         android:layout_width="0dp"
@@ -85,16 +86,14 @@
 
                     <TextView
                         android:id="@+id/tv_total_pay_money"
-                        style="@style/UikitTextView.Auxiliary"
-                        />
+                        style="@style/UikitTextView.Auxiliary" />
 
                     <TextView
                         android:id="@+id/tv_real_total_pay_money"
                         style="@style/UikitTextView"
                         android:layout_marginStart="10dp"
                         android:textSize="@dimen/textFontSize_30"
-                        tools:text="20元"
-                        />
+                        tools:text="20元" />
                 </LinearLayout>
 
                 <TextView
@@ -117,6 +116,7 @@
         android:paddingBottom="20dp">
 
         <LinearLayout
+            android:id="@+id/ll_time_count_down"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center"
