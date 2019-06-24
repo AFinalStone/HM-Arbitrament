@@ -13,6 +13,7 @@ import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.ProgressResBean;
+import com.hm.arbitrament.bean.RefundInfo;
 import com.hm.arbitrament.bean.req.ArbPaperReqBean;
 import com.hm.arbitrament.bean.req.CancelArbReqBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
@@ -297,6 +298,10 @@ public class ArbitramentApi {
 
     public static Flowable<BaseResponse<Object>> revokeArbPaper(String arbPaperId) {
         return getService().revokeArbPaper(arbPaperId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public static Flowable<BaseResponse<RefundInfo>> getRefundStep(String arbApplyNo) {
+        return getService().getRefundStep(arbApplyNo).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }

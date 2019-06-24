@@ -13,6 +13,7 @@ import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.ProgressResBean;
+import com.hm.arbitrament.bean.RefundInfo;
 import com.hm.arbitrament.bean.req.ArbPaperReqBean;
 import com.hm.arbitrament.bean.req.CancelArbReqBean;
 import com.hm.arbitrament.bean.req.CheckArbitramentApplyStatusReqBean;
@@ -119,4 +120,6 @@ public interface ArbitramentServer {
     @GET("/api/arb/v1/revokeArbPaper")
     Flowable<BaseResponse<Object>> revokeArbPaper(@Query("arbPaperId") String arbPaperId);
 
+    @GET("/api/arb/v1/getRefundStep")
+    Flowable<BaseResponse<RefundInfo>> getRefundStep(@Query("arbApplyNo") String arbApplyNo);
 }
