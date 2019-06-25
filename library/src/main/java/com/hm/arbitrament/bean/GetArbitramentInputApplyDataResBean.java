@@ -23,10 +23,17 @@ public class GetArbitramentInputApplyDataResBean implements Serializable {
      */
 
     private Double amount;
-    private Double dailyRate;
+    private String dailyRate;
     private String contractStartDate;//合同开始时间
     private Integer overdueInterestType;
     private ArrayList<BackMoneyRecordBean> repaymentRecordList;//还款记录
     private ArrayList<CollectionProveBean> urgeExidenceList;//催收证明
+    private ArrayList<Remark> remarkList;//弹窗列表
+
+    @Data
+    public static class Remark {
+        private String code;
+        private String remark;
+    }
 
 }

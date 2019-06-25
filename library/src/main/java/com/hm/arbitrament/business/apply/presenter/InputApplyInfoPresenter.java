@@ -49,6 +49,7 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
                             mView.closeCurrPage();
                             return;
                         }
+                        Logger.d(resBean.toString());
                         mView.showData(resBean);
                     }
 

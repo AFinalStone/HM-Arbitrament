@@ -84,6 +84,12 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
 
             }
         });
+        mTopBar.setOnBackClickListener(new HMTopBarView.OnTopBarBackClickListener() {
+            @Override
+            public void onClickBack() {
+                onBackPressed();
+            }
+        });
         mRvBackRecord.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BackMoneyRecordProveAdapter();
         HMLoadingView hmLoadingView = new HMLoadingView(mContext);
@@ -154,6 +160,13 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_KEY_BACK_MONEY_RECORD_LIST, mListData);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
 
     private void toAddRecord(BackMoneyRecordBean bean) {
         double maxBackMoney = mMaxBackMoney;
@@ -193,10 +206,7 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
 
     @OnClick(R2.id.btn_ok)
     public void onClick() {
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_KEY_BACK_MONEY_RECORD_LIST, mListData);
-        setResult(RESULT_OK, intent);
-        finish();
+        onBackPressed();
     }
 
     public static class BackMoneyRecordProveAdapter extends BaseQuickAdapter<BackMoneyRecordBean, BaseViewHolder> {

@@ -19,6 +19,7 @@ import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.business.apply.InputApplyInfoContract;
 import com.hm.arbitrament.business.apply.presenter.InputApplyInfoPresenter;
+import com.hm.arbitrament.dict.ArbBookEditRemarkTypeEnum;
 import com.hm.arbitrament.util.CacheDataUtil;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.logger.Logger;
@@ -98,10 +99,17 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
 
     private HMBottomDialog mBottomAddBackRecordDialog;//还款记录
     private boolean mIsBackNothing = false;//是否全部未还
-    private HMAlertDialog mArbitramentCostDialog;
+    private HMAlertDialog mArbitramentMoneyTooSmallDialog;
     private CollectionProveBean mCollectionProveBean;//催收证明
     private ArrayList<BackMoneyRecordBean> mBackMoneyRecordList;//还款记录
     private String mContractStartTime;//合同开始时间
+
+    private String mEvidenceLinkDialogContent;
+    private String mTotalBackMoneyDialogContent;
+    private String mDisputeMoneyDialogContent;
+    private String mPurposeInterestRateDialogContent;
+    private String mOutTimeInterestDialogContent;
+    private String mArbitramentCostDialogContent;
 
     @Override
     protected int getLayoutId() {
@@ -134,7 +142,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 if (mTvCollectionProve.length() == 0) {
                     mIvCollectionProve.setImageResource(R.mipmap.uikit_icon_warn_red);
                 }
-                if (mTvArbitramentMoney.length() == 0) {
+                if (mTvArbitramentMoney.length() == 0 || mTvCollectionProve.length() == 0) {
                     return;
                 }
                 double arbMoney = 0;
@@ -249,9 +257,13 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
     public void onClick(View view) {
         int id = view.getId();
         if (R.id.ll_evidence_link == id) {
-            showKnowDialog("证据链", "证据链为借款双方，签署相关借条的全流程信息保证借条的有效性，证据链由条管家收集并整理成功后提交至仲裁委。");
+            if (!TextUtils.isEmpty(mEvidenceLinkDialogContent)) {
+                showKnowDialog("证据链", mEvidenceLinkDialogContent);
+            }
         } else if (R.id.ll_total_back_money == id) {
-            showKnowDialog("合计应还", "借款本金+借款利息+逾期利息");
+            if (!TextUtils.isEmpty(mTotalBackMoneyDialogContent)) {
+                showKnowDialog("合计应还", mTotalBackMoneyDialogContent);
+            }
         } else if (R.id.tv_real_back_money == id || R.id.iv_real_back_money == id) {
 
             if (mBottomAddBackRecordDialog == null) {
@@ -287,15 +299,23 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 NavigationHelper.toAddBackMoneyRecord(mContext, mBackMoneyRecordList, mContractStartTime, strTotalMoney, REQ_INPUT_REAL_BACK_MONEY_RECORD);
             }
         } else if (R.id.ll_arbitrament_money == id) {
-            showKnowDialog("仲裁金额", "仲裁金额=未还金额+逾期利息\n仲裁时未还部分的利息最高支持为年化24%；已还款部分最高支持年化36%；仲裁时逾期利息最高支持为年化24%");
+            if (!TextUtils.isEmpty(mDisputeMoneyDialogContent)) {
+                showKnowDialog("争议金额", mDisputeMoneyDialogContent);
+            }
         } else if (R.id.tv_collection_prove == id || R.id.iv_collection_prove == id) {
             NavigationHelper.toAddCollectionProve(mContext, mCollectionProveBean, REQ_INPUT_COLLECTION_PROVE);
         } else if (R.id.ll_purpose_interest_rate == id) {
-            showKnowDialog("利息意向", "依据相关法律规定，借款利息最高支持24%");
+            if (!TextUtils.isEmpty(mPurposeInterestRateDialogContent)) {
+                showKnowDialog("利息意向", mPurposeInterestRateDialogContent);
+            }
         } else if (R.id.ll_out_time_interest == id) {
-            showKnowDialog("逾期利息", "仲裁时逾期利息最高支持为年化24% 即日利率万分之6.5");
+            if (!TextUtils.isEmpty(mOutTimeInterestDialogContent)) {
+                showKnowDialog("逾期利息", mOutTimeInterestDialogContent);
+            }
         } else if (R.id.ll_arbitrament_cost == id) {
-            showKnowDialog("仲裁费用", "仲裁费用");
+            if (!TextUtils.isEmpty(mArbitramentCostDialogContent)) {
+                showKnowDialog("仲裁费用", mArbitramentCostDialogContent);
+            }
         }
     }
 
@@ -332,8 +352,8 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
     }
 
     private void showArbitramentMoneyTooSmallDialog() {
-        if (mArbitramentCostDialog == null) {
-            mArbitramentCostDialog = new HMAlertDialog
+        if (mArbitramentMoneyTooSmallDialog == null) {
+            mArbitramentMoneyTooSmallDialog = new HMAlertDialog
                     .Builder(mContext)
                     .setTitle("温馨提示")
                     .setMessage("仲裁委支持仲裁金额最低为300元")
@@ -341,7 +361,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                     .setPositiveButton("我知道了")
                     .create();
         }
-        mArbitramentCostDialog.show();
+        mArbitramentMoneyTooSmallDialog.show();
     }
 
     @Override
@@ -352,10 +372,8 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         Double totalBackMoney = resBean.getAmount();
         mTvTotalBackMoney.setText(StringUtil.doubleToString01(totalBackMoney));
         //利息意向
-        Double purposeInterestRate = resBean.getDailyRate();
-        if (0 != purposeInterestRate) {
-            mTvPurposeInterestRate.setText("年利率" + purposeInterestRate + "%");
-        }
+        String purposeInterestRate = resBean.getDailyRate();
+        mTvPurposeInterestRate.setText(StringUtil.getUnnullString(purposeInterestRate));
         //逾期利息
         int outTimeInterestRateType = resBean.getOverdueInterestType();
         if (0 == outTimeInterestRateType) {
@@ -392,6 +410,27 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
             collectionProveBean = CacheDataUtil.getCollectionProveBean(mContext);
         }
         showCollectionProve(collectionProveBean);
+        //弹窗列表
+        List<GetArbitramentInputApplyDataResBean.Remark> remarkList = resBean.getRemarkList();
+        if (remarkList != null) {
+            for (GetArbitramentInputApplyDataResBean.Remark remark : remarkList) {
+                String typeCode = remark.getCode();
+                if (ArbBookEditRemarkTypeEnum.arb001.getTypeCode().equals(typeCode)) {
+                    mDisputeMoneyDialogContent = remark.getRemark();
+                } else if (ArbBookEditRemarkTypeEnum.arb002.getTypeCode().equals(typeCode)) {
+                    mOutTimeInterestDialogContent = remark.getRemark();
+                } else if (ArbBookEditRemarkTypeEnum.arb003.getTypeCode().equals(typeCode)) {
+                    mEvidenceLinkDialogContent = remark.getRemark();
+                } else if (ArbBookEditRemarkTypeEnum.arb004.getTypeCode().equals(typeCode)) {
+                    mPurposeInterestRateDialogContent = remark.getRemark();
+                } else if (ArbBookEditRemarkTypeEnum.arb005.getTypeCode().equals(typeCode)) {
+                    mTotalBackMoneyDialogContent = remark.getRemark();
+                } else if (ArbBookEditRemarkTypeEnum.arb006.getTypeCode().equals(typeCode)) {
+                    mArbitramentCostDialogContent = remark.getRemark();
+                }
+            }
+        }
+        //检验数据
         checkValue();
     }
 
@@ -428,6 +467,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
         if (list == null || list.isEmpty()) {
             mLlArbitramentCost.setVisibility(View.GONE);
             mLlArbitramentMoney.setVisibility(View.GONE);
+            mTvRealBackMoneyLeft.setVisibility(View.GONE);
             return;
         }
         //计算仲裁金额和仲裁费用

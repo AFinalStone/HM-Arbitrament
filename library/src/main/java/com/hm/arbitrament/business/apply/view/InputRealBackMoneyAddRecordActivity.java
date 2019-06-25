@@ -82,6 +82,7 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
                 backTime = backTime.replaceAll("\\.", "-") + " 00:00:00";
                 if (mItem == null) {
                     mItem = new BackMoneyRecordBean();
+                    mItem.setCreateTime(System.currentTimeMillis());
                 }
                 Double backMoney = Double.parseDouble(strBackMoney);
                 mItem.setAmount(backMoney);
