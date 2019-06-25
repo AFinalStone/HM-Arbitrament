@@ -204,7 +204,9 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 }
                 mIvRealBackMoney.setImageResource(R.mipmap.uikit_ic_arrow_right);
                 ArrayList<BackMoneyRecordBean> list = (ArrayList<BackMoneyRecordBean>) data.getSerializableExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_MONEY_RECORD_LIST);
-                mTvRealBackMoney.setText("");
+                if (list == null) {
+                    mTvRealBackMoney.setText(BACK_NOTHING);
+                }
                 //归还记录
                 showRealBackRecord(list);
                 checkValue();
@@ -443,9 +445,11 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
 
     @Override
     public void showArbCost(String strCost) {
-        mLlArbitramentCost.setVisibility(View.VISIBLE);
-        mViewArbitramentCostDivider.setVisibility(View.VISIBLE);
-        mTvArbitramentCost.setText(strCost);
+        if (mTvCollectionProve.length() > 0) {
+            mLlArbitramentCost.setVisibility(View.VISIBLE);
+            mViewArbitramentCostDivider.setVisibility(View.VISIBLE);
+            mTvArbitramentCost.setText(strCost);
+        }
     }
 
     /**
@@ -508,8 +512,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
      */
     private void getArbitramentCost() {
         String strTealBackMoney = mTvRealBackMoney.getText().toString();
-        String strCollectionProve = mTvCollectionProve.getText().toString();
-        if (!TextUtils.isEmpty(strTealBackMoney) && !TextUtils.isEmpty(strCollectionProve)) {
+        if (!TextUtils.isEmpty(strTealBackMoney)) {
             double realBackMoney = 0f;
             if (!mIsBackNothing) {
                 try {
