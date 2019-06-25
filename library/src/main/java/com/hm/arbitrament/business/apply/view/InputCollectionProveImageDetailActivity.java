@@ -71,6 +71,7 @@ public class InputCollectionProveImageDetailActivity<T extends MvpActivityPresen
                     mBottomDialog = new HMActionSheetDialog
                             .Builder(mContext)
                             .setActionSheetList(list)
+                            .setCanSelected(false)
                             .setOnItemClickListener(new HMActionSheetDialog.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(int i, String s) {

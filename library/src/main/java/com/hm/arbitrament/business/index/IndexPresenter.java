@@ -83,7 +83,9 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 mView.showDialog("温馨提示", "出借人还未申请仲裁");
                             } else if (ArbitramentStatusEnum.LENDER_HAVE_APPLY_ARBITRAMENT.getCode() == flag) {
                                 //当前用户借款人，出借人已申请仲裁
-                                mView.showDialog("温馨提示", "出借人已经提出申请仲裁");
+                                Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/webview/index")
+                                        .withString("url", BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_XIEZHU_ZHONGCAI)
+                                        .navigation(mContext);
                             } else if (ArbitramentStatusEnum.LENDER_ONLY_SUPPORT_ALIPAY.getCode() == flag) {
                                 //当前用户借款人，出借人已申请仲裁
                                 Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/webview/index")
