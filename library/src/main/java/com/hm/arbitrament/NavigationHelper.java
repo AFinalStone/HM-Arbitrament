@@ -63,10 +63,11 @@ public class NavigationHelper {
      *
      * @param context
      */
-    public static void toFiveAdvantage(Context context, String iouId, String justId) {
+    public static void toFiveAdvantage(Context context, String iouId, String justId, boolean isCanArb) {
         Intent intent = new Intent(context, FiveAdvantageActivity.class);
         intent.putExtra(FiveAdvantageActivity.EXTRA_KEY_IOU_ID, iouId);
         intent.putExtra(FiveAdvantageActivity.EXTRA_KEY_JUST_ID, justId);
+        intent.putExtra(FiveAdvantageActivity.EXTRA_KEY_IS_CAN_ARB, String.valueOf(isCanArb));
         context.startActivity(intent);
     }
 

@@ -2,6 +2,8 @@ package com.hm.arbitrament.business.apply.view;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
 
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.R;
@@ -23,13 +25,16 @@ public class FiveAdvantageActivity extends BaseActivity<FiveAdvantagePresenter> 
 
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUST_ID = "just_id";
+    public static final String EXTRA_KEY_IS_CAN_ARB = "is_can_arb";
 
     private String mIouId;
     private String mJustId;
-
+    private String mIsCanArb;
 
     @BindView(R2.id.topBar)
     HMTopBarView mTopBar;
+    @BindView(R2.id.btn_ok)
+    Button mBtnOk;
 
 
     @Override
@@ -47,9 +52,11 @@ public class FiveAdvantageActivity extends BaseActivity<FiveAdvantagePresenter> 
 
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
         mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
+        mIsCanArb = getIntent().getStringExtra(EXTRA_KEY_IS_CAN_ARB);
         if (bundle != null) {
-            mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
-            mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
+            mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
+            mJustId = bundle.getString(EXTRA_KEY_JUST_ID);
+            mIsCanArb = bundle.getString(EXTRA_KEY_IS_CAN_ARB);
         }
         mTopBar.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
@@ -62,6 +69,9 @@ public class FiveAdvantageActivity extends BaseActivity<FiveAdvantagePresenter> 
 
             }
         });
+        if ("false".equals(mIsCanArb)) {
+            mBtnOk.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -69,6 +79,7 @@ public class FiveAdvantageActivity extends BaseActivity<FiveAdvantagePresenter> 
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_IOU_ID, mIouId);
         outState.putString(EXTRA_KEY_JUST_ID, mJustId);
+        outState.putString(EXTRA_KEY_IS_CAN_ARB, mIsCanArb);
     }
 
     @OnClick(R2.id.btn_ok)

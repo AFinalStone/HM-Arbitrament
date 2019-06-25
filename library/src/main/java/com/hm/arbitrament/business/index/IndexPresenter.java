@@ -8,7 +8,6 @@ import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.api.ArbitramentApi;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.dict.ArbitramentStatusEnum;
-import com.hm.arbitrament.util.CacheDataUtil;
 import com.hm.iou.base.BaseBizAppLike;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
@@ -42,7 +41,7 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                             int flag = bean.getRoute();
                             if (ArbitramentStatusEnum.HAVE_NOT_APPLY.getCode() == flag) {
                                 //还未申请，或者重新申请
-                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId);
+                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId, true);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_NOT_PAY.getCode() == flag) {
                                 //已提交嘿马帮忙制作仲裁申请书，未付款
@@ -83,17 +82,18 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 mView.showDialog("温馨提示", "出借人还未申请仲裁");
                             } else if (ArbitramentStatusEnum.LENDER_HAVE_APPLY_ARBITRAMENT.getCode() == flag) {
                                 //当前用户借款人，出借人已申请仲裁
-                                Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/webview/index")
-                                        .withString("url", BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_XIEZHU_ZHONGCAI)
-                                        .navigation(mContext);
+                                NavigationHelper.toFiveAdvantage(mContext, iouId, justId, false);
+                                mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.LENDER_ONLY_SUPPORT_ALIPAY.getCode() == flag) {
                                 //当前用户借款人，出借人已申请仲裁
                                 Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/webview/index")
                                         .withString("url", BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_GUANGZHOU_ZHONGCAI)
                                         .navigation(mContext);
+                                mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.PROCESS_RULE.getCode() == flag) {
                                 //进度页面-退款规则
                                 NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo());
+                                mView.closeCurrPage();
                             } else {
                                 mView.closeCurrPage();
                             }
