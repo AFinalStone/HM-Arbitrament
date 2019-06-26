@@ -157,7 +157,7 @@ public class NavigationHelper {
      * @param justId
      * @param arbNo
      */
-    public static void toArbitramentApplyBookDetail(Context activity, String iouId, String justId, String arbNo) {
+    public static void toArbitramentSubmit(Context activity, String iouId, String justId, String arbNo) {
         Intent intent = new Intent(activity, ArbitramentSubmitActivity.class);
         intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_IOU_ID, iouId);
         intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_JUSTICE_ID, justId);

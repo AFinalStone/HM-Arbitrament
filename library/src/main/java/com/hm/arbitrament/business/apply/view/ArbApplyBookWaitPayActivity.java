@@ -126,6 +126,7 @@ public class ArbApplyBookWaitPayActivity<T extends MvpActivityPresenter> extends
                         public void onItemClick(int i, String s) {
                             if (mCancelArbDialog == null) {
                                 mCancelArbDialog = new CancelArbDialog(mContext);
+                                mCancelArbDialog.setCanRestartArbNextTenDay(true);
                                 mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
                                     @Override
                                     public void onCanceled(int index, String reason) {

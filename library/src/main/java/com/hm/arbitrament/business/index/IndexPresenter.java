@@ -11,8 +11,8 @@ import com.hm.arbitrament.dict.ArbitramentStatusEnum;
 import com.hm.iou.base.BaseBizAppLike;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
+import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.base.utils.RxUtil;
-import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -52,7 +52,7 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_SUCCESS.getCode() == flag) {
                                 //成功生成仲裁书
-                                NavigationHelper.toArbitramentApplyBookDetail(mContext, iouId, justId, bean.getArbApplyNo());
+                                NavigationHelper.toArbitramentSubmit(mContext, iouId, justId, bean.getArbApplyNo());
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_FIRST_TRIAL_FAILED_CAN_RETRY.getCode() == flag) {
                                 //初审失败，允许重新补全资料
@@ -80,15 +80,11 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.LENDER_HAVE_APPLY_ARBITRAMENT.getCode() == flag) {
                                 //当前用户借款人，出借人已申请仲裁,进入协助仲裁页面
-                                Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/webview/index")
-                                        .withString("url", BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_XIEZHU_ZHONGCAI)
-                                        .navigation(mContext);
+                                RouterUtil.clickMenuLink(mContext, Constants.H5_URL_XIEZHU_ZHONGCAI);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.LENDER_ONLY_SUPPORT_ALIPAY.getCode() == flag) {
                                 //当前只支持支付宝转账
-                                Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/webview/index")
-                                        .withString("url", BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_GUANGZHOU_ZHONGCAI)
-                                        .navigation(mContext);
+                                RouterUtil.clickMenuLink(mContext, BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_GUANGZHOU_ZHONGCAI);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.PROCESS_RULE.getCode() == flag) {
                                 //进度页面-退款规则

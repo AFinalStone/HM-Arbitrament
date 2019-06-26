@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingBottom="20dp"
     android:paddingLeft="25dp"
-    android:paddingTop="20dp"
     android:paddingRight="25dp"
-    android:paddingBottom="20dp">
+    android:paddingTop="20dp">
 
     <LinearLayout
         android:id="@+id/ll_cancel_option1"
@@ -17,8 +17,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        >
+        android:paddingRight="10dp">
 
         <ImageView
             android:id="@+id/iv_cancel_option1"
@@ -92,21 +91,21 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/uikit_bg_edit_with_border"
         android:gravity="left"
         android:hint="请输入原因1-20字"
         android:maxLength="20"
         android:padding="5dp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <TextView
+        android:id="@+id/tv_bottom_tip"
         style="@style/UikitTextView"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:text="取消仲裁后10天内将不能再次申请，是否确定取消仲裁？"
         android:textColor="@color/uikit_text_sub_content" />
 
