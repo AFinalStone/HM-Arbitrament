@@ -130,12 +130,14 @@ public class NavigationHelper {
      * @param orderId
      * @param arbNo
      */
-    public static void toWaitPayToMakeArbitramentApplyBook(Context context, String iouId, String justId, String arbNo, String orderId) {
+    public static void toWaitPayToMakeArbitramentApplyBook(Context context, String iouId
+            , String justId, String arbNo, String orderId, boolean isApplyPerson) {
         Intent intent = new Intent(context, ArbApplyBookWaitPayActivity.class);
         intent.putExtra(ArbApplyBookWaitPayActivity.EXTRA_KEY_IOU_ID, iouId);
         intent.putExtra(ArbApplyBookWaitPayActivity.EXTRA_KEY_JUST_ID, justId);
         intent.putExtra(ArbApplyBookWaitPayActivity.EXTRA_KEY_ARB_NO, arbNo);
         intent.putExtra(ArbApplyBookWaitPayActivity.EXTRA_KEY_ORDER_ID, orderId);
+        intent.putExtra(ArbApplyBookWaitPayActivity.EXTRA_KEY_IS_APPLY_PERSON, String.valueOf(isApplyPerson));
         context.startActivity(intent);
     }
 
@@ -157,11 +159,12 @@ public class NavigationHelper {
      * @param justId
      * @param arbNo
      */
-    public static void toArbitramentSubmit(Context activity, String iouId, String justId, String arbNo) {
+    public static void toArbitramentSubmit(Context activity, String iouId, String justId, String arbNo, boolean isApplyPerson) {
         Intent intent = new Intent(activity, ArbitramentSubmitActivity.class);
         intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_IOU_ID, iouId);
         intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_JUSTICE_ID, justId);
         intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_ARB_NO, arbNo);
+        intent.putExtra(ArbitramentSubmitActivity.EXTRA_KEY_IS_APPLY_PERSON, String.valueOf(isApplyPerson));
         activity.startActivity(intent);
     }
 
@@ -174,11 +177,14 @@ public class NavigationHelper {
      * @param justiceId
      * @param arbApplyNo
      */
-    public static void toSubmitFirstTrialFailed(Context activity, String iouId, String justiceId, String arbApplyNo) {
+    public static void toSubmitFirstTrialFailed(Context activity, String iouId, String justiceId
+            , String arbApplyNo, boolean isApplyPerson) {
         Intent intent = new Intent(activity, AuditFailActivity.class);
         intent.putExtra(AuditFailActivity.EXTRA_KEY_IOU_ID, iouId);
         intent.putExtra(AuditFailActivity.EXTRA_KEY_JUSTICE_ID, justiceId);
         intent.putExtra(AuditFailActivity.EXTRA_KEY_ARB_NO, arbApplyNo);
+        intent.putExtra(AuditFailActivity.EXTRA_KEY_ARB_NO, arbApplyNo);
+        intent.putExtra(AuditFailActivity.EXTRA_KEY_IS_APPLY_PERSON, String.valueOf(isApplyPerson));
         activity.startActivity(intent);
     }
 
@@ -188,9 +194,10 @@ public class NavigationHelper {
      * @param context
      * @param arbNo   仲裁申请编号
      */
-    public static void toArbitramentProgressPage(Context context, String arbNo) {
+    public static void toArbitramentProgressPage(Context context, String arbNo, boolean isApplyPerson) {
         Intent intent = new Intent(context, ArbitramentProgressActivity.class);
         intent.putExtra(ArbitramentProgressActivity.EXTRA_KEY_ARB_NO, arbNo);
+        intent.putExtra(ArbitramentProgressActivity.EXTRA_KEY_IS_APPLY_PERSON, String.valueOf(isApplyPerson));
         context.startActivity(intent);
     }
 

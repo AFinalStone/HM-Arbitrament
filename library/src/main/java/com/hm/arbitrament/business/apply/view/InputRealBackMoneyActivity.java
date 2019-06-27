@@ -179,19 +179,20 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
 
                         @Override
                         public void onNegClick() {
-                            Intent intent = new Intent();
-                            setResult(RESULT_OK, intent);
-                            finish();
+                            setDataAndBack();
                         }
                     })
                     .create().show();
         } else {
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_KEY_BACK_MONEY_RECORD_LIST, mListData);
-            setResult(RESULT_OK, intent);
-            finish();
+            setDataAndBack();
         }
+    }
 
+    private void setDataAndBack() {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_KEY_BACK_MONEY_RECORD_LIST, mListData);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void toAddRecord(BackMoneyRecordBean bean) {
@@ -224,13 +225,9 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
         if (totalMoney == 0) {
             mTvTotalBackMoney.setVisibility(View.INVISIBLE);
             mBtnOk.setText("全部未还");
-            mBtnOk.setBackgroundResource(R.drawable.uikit_shape_common_btn_unenable);
-            mBtnOk.setTextColor(getResources().getColor(R.color.uikit_text_auxiliary));
         } else {
             mTvTotalBackMoney.setVisibility(View.VISIBLE);
             mBtnOk.setText("确认信息");
-            mBtnOk.setBackgroundResource(R.drawable.uikit_shape_common_btn_normal);
-            mBtnOk.setTextColor(getResources().getColor(R.color.uikit_text_main_content));
             String strTotalMoney = StringUtil.doubleToString(totalMoney, ",###.##");
             mTvTotalBackMoney.setText("合计归还：" + strTotalMoney + "元");
         }
@@ -238,15 +235,9 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
 
     @OnClick(R2.id.btn_ok)
     public void onClick() {
-        if (mListData == null || mListData.isEmpty()) {
-            toastErrorMessage("请添加还款记录");
-            return;
-        }
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_KEY_BACK_MONEY_RECORD_LIST, mListData);
-        setResult(RESULT_OK, intent);
-        finish();
+        setDataAndBack();
     }
+
 
     public static class BackMoneyRecordProveAdapter extends BaseQuickAdapter<BackMoneyRecordBean, BaseViewHolder> {
 

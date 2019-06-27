@@ -52,6 +52,6 @@ public class ArbApplySubmitPayActivity extends BasePayActivity<ArbApplySubmitPay
 
     @Override
     public void toProgressPage() {
-        NavigationHelper.toArbitramentProgressPage(this, mArbNo);
+        NavigationHelper.toArbitramentProgressPage(this, mArbNo, true);
     }
 }

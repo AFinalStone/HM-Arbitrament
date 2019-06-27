@@ -38,6 +38,7 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     public static final String EXTRA_KEY_ARB_NO = "arb_no";
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUSTICE_ID = "justice_id";
+    public static final String EXTRA_KEY_IS_APPLY_PERSON = "is_apply_person";
 
     @BindView(R2.id.view_statusbar_placeholder)
     View mViewStatusBarPlaceHolder;
@@ -56,6 +57,7 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
     private String mArbNo;
     private String mIouId;
     private String mJusticeId;
+    private String mIsApplyPerson;
 
     private String mPdfUrl;
 
@@ -74,10 +76,12 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
         mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
         mJusticeId = getIntent().getStringExtra(EXTRA_KEY_JUSTICE_ID);
+        mIsApplyPerson = getIntent().getStringExtra(EXTRA_KEY_IS_APPLY_PERSON);
         if (bundle != null) {
             mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
             mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
             mJusticeId = bundle.getString(EXTRA_KEY_JUSTICE_ID);
+            mIsApplyPerson = bundle.getString(EXTRA_KEY_IS_APPLY_PERSON);
         }
         int statusBarHeight = StatusBarUtil.getStatusBarHeight(mContext);
         if (statusBarHeight > 0) {
@@ -89,7 +93,9 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
         mBottomBarView.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
             public void onClickTitle() {
-                showVerifyCodeDialog();
+                if (checkIsApplyPerson()) {
+                    showVerifyCodeDialog();
+                }
             }
         });
         mBottomBarView.setOnTitleIconClickListener(new HMBottomBarView.OnTitleIconClickListener() {
@@ -108,6 +114,7 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
         outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
         outState.putString(EXTRA_KEY_IOU_ID, mIouId);
         outState.putString(EXTRA_KEY_JUSTICE_ID, mJusticeId);
+        outState.putString(EXTRA_KEY_IS_APPLY_PERSON, mIsApplyPerson);
     }
 
     protected void initWebView() {
@@ -124,6 +131,25 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
         settings.setUserAgentString(ua + ";HMAndroidWebView");
     }
 
+    /**
+     * 检验是否是仲裁申请账号
+     *
+     * @return
+     */
+    public boolean checkIsApplyPerson() {
+        if ("true".equals(mIsApplyPerson)) {
+            return true;
+        }
+        new HMAlertDialog
+                .Builder(mContext)
+                .setTitle("温馨提示")
+                .setMessage("请使用仲裁申请账号进行操作")
+                .setPositiveButton("知道了")
+                .create()
+                .show();
+        return false;
+    }
+
     private void showMoreActionSheet() {
         if (mCancelDialog == null) {
             List<String> list = new ArrayList<>();
@@ -134,24 +160,26 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
                     .setOnItemClickListener(new HMActionSheetDialog.OnItemClickListener() {
                         @Override
                         public void onItemClick(int i, String s) {
-                            if (mCancelArbDialog == null) {
-                                mCancelArbDialog = new CancelArbDialog(ArbitramentSubmitActivity.this);
-                                mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
-                                    @Override
-                                    public void onCanceled(int index, String reason) {
-                                        int type = 0;
-                                        if (index == 0) {
-                                            type = 2;
-                                        } else if (index == 1) {
-                                            type = 1;
-                                        } else if (index == 2) {
-                                            type = 3;
+                            if (checkIsApplyPerson()) {
+                                if (mCancelArbDialog == null) {
+                                    mCancelArbDialog = new CancelArbDialog(ArbitramentSubmitActivity.this);
+                                    mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
+                                        @Override
+                                        public void onCanceled(int index, String reason) {
+                                            int type = 0;
+                                            if (index == 0) {
+                                                type = 2;
+                                            } else if (index == 1) {
+                                                type = 1;
+                                            } else if (index == 2) {
+                                                type = 3;
+                                            }
+                                            mPresenter.cancelArbitrament(mArbNo, type, reason);
                                         }
-                                        mPresenter.cancelArbitrament(mArbNo, type, reason);
-                                    }
-                                });
+                                    });
+                                }
+                                mCancelArbDialog.show();
                             }
-                            mCancelArbDialog.show();
                         }
                     })
                     .create();

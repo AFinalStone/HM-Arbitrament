@@ -98,7 +98,7 @@ public class SelectValidEvidencePresenter extends BasePresenter<SelectValidEvide
                             String createTime = bean.getCreateTime();
                             try {
                                 Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(createTime);
-                                createTime = new SimpleDateFormat("MM月dd日").format(date);
+                                createTime = new SimpleDateFormat("yyyy.MM.dd").format(date);
                                 bean.setCreateTime(createTime);
                             } catch (Exception e) {
 

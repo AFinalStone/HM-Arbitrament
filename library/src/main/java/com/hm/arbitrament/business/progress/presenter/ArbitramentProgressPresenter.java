@@ -112,7 +112,7 @@ public class ArbitramentProgressPresenter extends MvpActivityPresenter<Arbitrame
                         mView.dismissLoadingView();
                         //取消之后，进入仲裁进度页面
                         mView.closeCurrPage();
-                        NavigationHelper.toArbitramentProgressPage(mContext, arbApplyNo);
+                        NavigationHelper.toArbitramentProgressPage(mContext, arbApplyNo,true);
                     }
 
                     @Override

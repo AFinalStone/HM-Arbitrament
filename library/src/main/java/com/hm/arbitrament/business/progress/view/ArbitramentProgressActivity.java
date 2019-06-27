@@ -19,6 +19,7 @@ import com.hm.iou.base.BaseActivity;
 import com.hm.iou.uikit.HMBottomBarView;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.dialog.HMActionSheetDialog;
+import com.hm.iou.uikit.dialog.HMAlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
 
     //仲裁申请编号
     public static final String EXTRA_KEY_ARB_NO = "arb_no";
+    public static final String EXTRA_KEY_IS_APPLY_PERSON = "is_apply_person";
 
     @BindView(R2.id.rv_progress_content)
     RecyclerView mRvProgress;
@@ -42,6 +44,7 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
 
     private ProgressAdapter mAdapter;
     private String mArbNo;
+    private String mIsApplyPerson;
 
     private HMActionSheetDialog mCancelActionSheetDialog;
     private CancelArbDialog mCancelArbDialog;
@@ -59,8 +62,10 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
     @Override
     protected void initEventAndData(Bundle bundle) {
         mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
+        mIsApplyPerson = getIntent().getStringExtra(EXTRA_KEY_IS_APPLY_PERSON);
         if (bundle != null) {
             mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
+            mIsApplyPerson = bundle.getString(EXTRA_KEY_IS_APPLY_PERSON);
         }
 
         mRvProgress.setLayoutManager(new LinearLayoutManager(this));
@@ -85,6 +90,26 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
+        outState.putString(EXTRA_KEY_IS_APPLY_PERSON, mIsApplyPerson);
+    }
+
+    /**
+     * 检验是否是仲裁申请账号
+     *
+     * @return
+     */
+    public boolean checkIsApplyPerson() {
+        if ("true".equals(mIsApplyPerson)) {
+            return true;
+        }
+        new HMAlertDialog
+                .Builder(mContext)
+                .setTitle("温馨提示")
+                .setMessage("请使用仲裁申请账号进行操作")
+                .setPositiveButton("知道了")
+                .create()
+                .show();
+        return false;
     }
 
     @Override
@@ -139,24 +164,26 @@ public class ArbitramentProgressActivity extends BaseActivity<ArbitramentProgres
                             .setOnItemClickListener(new HMActionSheetDialog.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(int i, String s) {
-                                    if (mCancelArbDialog == null) {
-                                        mCancelArbDialog = new CancelArbDialog(ArbitramentProgressActivity.this);
-                                        mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
-                                            @Override
-                                            public void onCanceled(int index, String reason) {
-                                                int type = 0;
-                                                if (index == 0) {
-                                                    type = 2;
-                                                } else if (index == 1) {
-                                                    type = 1;
-                                                } else if (index == 2) {
-                                                    type = 3;
+                                    if (checkIsApplyPerson()) {
+                                        if (mCancelArbDialog == null) {
+                                            mCancelArbDialog = new CancelArbDialog(ArbitramentProgressActivity.this);
+                                            mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
+                                                @Override
+                                                public void onCanceled(int index, String reason) {
+                                                    int type = 0;
+                                                    if (index == 0) {
+                                                        type = 2;
+                                                    } else if (index == 1) {
+                                                        type = 1;
+                                                    } else if (index == 2) {
+                                                        type = 3;
+                                                    }
+                                                    mPresenter.cancelArbitrament(mArbNo, type, reason);
                                                 }
-                                                mPresenter.cancelArbitrament(mArbNo, type, reason);
-                                            }
-                                        });
+                                            });
+                                        }
+                                        mCancelArbDialog.show();
                                     }
-                                    mCancelArbDialog.show();
                                 }
                             })
                             .create();

@@ -12,6 +12,7 @@ import com.hm.iou.base.BaseActivity;
 import com.hm.iou.uikit.HMBottomBarView;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.dialog.HMActionSheetDialog;
+import com.hm.iou.uikit.dialog.HMAlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
     public static final String EXTRA_KEY_ARB_NO = "arb_no";
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUSTICE_ID = "justice_id";
+    public static final String EXTRA_KEY_IS_APPLY_PERSON = "is_apply_person";
 
     @BindView(R2.id.tv_fail_reason)
     TextView mTvFailReason;
@@ -36,6 +38,7 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
     private String mArbNo;
     private String mIouId;
     private String mJusticeId;
+    private String mIsApplyPerson;
 
     private HMActionSheetDialog mCancelActionSheetDialog;
     private CancelArbDialog mCancelArbDialog;
@@ -55,10 +58,12 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
         mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
         mJusticeId = getIntent().getStringExtra(EXTRA_KEY_JUSTICE_ID);
+        mIsApplyPerson = getIntent().getStringExtra(EXTRA_KEY_IS_APPLY_PERSON);
         if (bundle != null) {
             mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
             mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
             mJusticeId = bundle.getString(EXTRA_KEY_JUSTICE_ID);
+            mIsApplyPerson = bundle.getString(EXTRA_KEY_IS_APPLY_PERSON);
         }
 
         mLoadingView.showDataLoading();
@@ -71,6 +76,7 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
         outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
         outState.putString(EXTRA_KEY_IOU_ID, mIouId);
         outState.putString(EXTRA_KEY_JUSTICE_ID, mJusticeId);
+        outState.putString(EXTRA_KEY_IS_APPLY_PERSON, mIsApplyPerson);
     }
 
     @Override
@@ -91,7 +97,9 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
         mBottomBarView.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
             public void onClickTitle() {
-                NavigationHelper.toDocCompletionPage(AuditFailActivity.this, mIouId, mJusticeId, mArbNo);
+                if (checkIsApplyPerson()) {
+                    NavigationHelper.toDocCompletionPage(AuditFailActivity.this, mIouId, mJusticeId, mArbNo);
+                }
             }
         });
         mBottomBarView.setTitleIconDrawable(R.mipmap.uikit_ic_more_black);
@@ -110,6 +118,25 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
         mTvFailReason.setText(msg);
     }
 
+    /**
+     * 检验是否是仲裁申请账号
+     *
+     * @return
+     */
+    public boolean checkIsApplyPerson() {
+        if ("true".equals(mIsApplyPerson)) {
+            return true;
+        }
+        new HMAlertDialog
+                .Builder(mContext)
+                .setTitle("温馨提示")
+                .setMessage("请使用仲裁申请账号进行操作")
+                .setPositiveButton("知道了")
+                .create()
+                .show();
+        return false;
+    }
+
     private void showMoreActionSheet() {
         if (mCancelActionSheetDialog == null) {
             List<String> list = new ArrayList<>();
@@ -120,24 +147,27 @@ public class AuditFailActivity extends BaseActivity<AuditFailPresenter> implemen
                     .setOnItemClickListener(new HMActionSheetDialog.OnItemClickListener() {
                         @Override
                         public void onItemClick(int i, String s) {
-                            if (mCancelArbDialog == null) {
-                                mCancelArbDialog = new CancelArbDialog(AuditFailActivity.this);
-                                mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
-                                    @Override
-                                    public void onCanceled(int index, String reason) {
-                                        int type = 0;
-                                        if (index == 0) {
-                                            type = 2;
-                                        } else if (index == 1) {
-                                            type = 1;
-                                        } else if (index == 2) {
-                                            type = 3;
+                            if (checkIsApplyPerson()) {
+                                if (mCancelArbDialog == null) {
+                                    mCancelArbDialog = new CancelArbDialog(AuditFailActivity.this);
+                                    mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
+                                        @Override
+                                        public void onCanceled(int index, String reason) {
+                                            int type = 0;
+                                            if (index == 0) {
+                                                type = 2;
+                                            } else if (index == 1) {
+                                                type = 1;
+                                            } else if (index == 2) {
+                                                type = 3;
+                                            }
+                                            mPresenter.cancelArbitrament(mArbNo, type, reason);
                                         }
-                                        mPresenter.cancelArbitrament(mArbNo, type, reason);
-                                    }
-                                });
+                                    });
+                                }
+                                mCancelArbDialog.show();
                             }
-                            mCancelArbDialog.show();
+
                         }
                     })
                     .create();

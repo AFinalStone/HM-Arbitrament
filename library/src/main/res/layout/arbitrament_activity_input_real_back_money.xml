@@ -39,7 +39,5 @@
         android:layout_marginEnd="38dp"
         android:layout_marginStart="38dp"
         android:layout_marginTop="22dp"
-        android:background="@drawable/uikit_selector_btn_minor_small"
-        android:text="全部未还"
-        android:textColor="@color/uikit_text_auxiliary" />
+        android:text="全部未还" />
 </LinearLayout>

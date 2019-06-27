@@ -17,6 +17,7 @@ public class GetArbitramentStatusResBean {
      */
 
     private String arbApplyNo;
-    private Integer route;
+    private int route;
     private String exField;
+    private int role;//1申请人，2非申请人
 }

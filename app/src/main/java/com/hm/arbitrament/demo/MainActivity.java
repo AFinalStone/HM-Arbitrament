@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toProgressPage(View v) {
-        NavigationHelper.toArbitramentProgressPage(this, "123456");
+        NavigationHelper.toArbitramentProgressPage(this, "123456",false);
     }
 
     public void toBackMoneyPage(View v) {

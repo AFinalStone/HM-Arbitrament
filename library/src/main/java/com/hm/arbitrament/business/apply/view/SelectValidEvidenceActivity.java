@@ -20,6 +20,7 @@ import com.hm.arbitrament.event.ClosePageEvent;
 import com.hm.arbitrament.util.CacheDataUtil;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.router.Router;
+import com.hm.iou.uikit.HMLoadMoreView;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
@@ -96,6 +97,9 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
         });
         mAdapter = new EvidenceAdapter();
         mRvEvidence.setLayoutManager(new LinearLayoutManager(mContext));
+        HMLoadingView hmLoadingView = new HMLoadingView(mContext);
+        hmLoadingView.showDataEmpty("");
+        mAdapter.setEmptyView(hmLoadingView);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -176,7 +180,11 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
 
     @OnClick(R2.id.btn_ok)
     public void onClick() {
-        NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId, mAdapter.getIdList(), mIsSubmit);
+        if (checkValue()) {
+            NavigationHelper.toInputApplyInfo(mContext, mIouId, mJustId, mAdapter.getIdList(), mIsSubmit);
+        } else {
+            toastMessage("请上传有效凭证");
+        }
     }
 
     @Override
@@ -204,8 +212,8 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
 
     @Override
     public void showDataEmpty() {
-        mInitLoading.setVisibility(View.VISIBLE);
-        mInitLoading.showDataEmpty("");
+        mAdapter.setNewData(null);
+        checkValue();
     }
 
     @Override
@@ -215,12 +223,21 @@ public class SelectValidEvidenceActivity extends BaseActivity<SelectValidEvidenc
 
     @Override
     public void showEvidenceList(List<ElecEvidenceResBean> listEvidence) {
-        if (listEvidence == null || listEvidence.isEmpty()) {
-            mBtnOk.setEnabled(false);
-        } else {
-            mBtnOk.setEnabled(true);
-        }
         mAdapter.setNewData(listEvidence);
+        checkValue();
+    }
+
+    private boolean checkValue() {
+        List<ElecEvidenceResBean> listEvidence = mAdapter.getData();
+        if (listEvidence == null || listEvidence.isEmpty()) {
+            mBtnOk.setBackgroundResource(R.drawable.uikit_shape_common_btn_unenable);
+            mBtnOk.setTextColor(getResources().getColor(R.color.uikit_text_auxiliary));
+            return false;
+        } else {
+            mBtnOk.setBackgroundResource(R.drawable.uikit_shape_common_btn_normal);
+            mBtnOk.setTextColor(getResources().getColor(R.color.uikit_text_main_content));
+            return true;
+        }
     }
 
     public static class EvidenceAdapter extends BaseQuickAdapter<ElecEvidenceResBean, BaseViewHolder> {

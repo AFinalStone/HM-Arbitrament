@@ -204,8 +204,10 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
                 }
                 mIvRealBackMoney.setImageResource(R.mipmap.uikit_ic_arrow_right);
                 ArrayList<BackMoneyRecordBean> list = (ArrayList<BackMoneyRecordBean>) data.getSerializableExtra(InputRealBackMoneyActivity.EXTRA_KEY_BACK_MONEY_RECORD_LIST);
-                if (list == null) {
+                if (list == null || list.isEmpty()) {
                     mTvRealBackMoney.setText(BACK_NOTHING);
+                } else {
+                    mTvRealBackMoney.setText("");
                 }
                 //归还记录
                 showRealBackRecord(list);

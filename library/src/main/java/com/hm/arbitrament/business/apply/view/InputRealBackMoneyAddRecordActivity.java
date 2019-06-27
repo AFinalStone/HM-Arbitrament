@@ -14,6 +14,7 @@ import com.hm.arbitrament.bean.BackMoneyRecordBean;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.comm.HMTextChangeListener;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
+import com.hm.iou.tools.StringUtil;
 import com.hm.iou.uikit.HMBottomBarView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.datepicker.TimePickerDialog;
@@ -72,13 +73,7 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
             @Override
             public void onClickTitle() {
                 String strBackMoney = mEvMoney.getText().toString();
-                if (TextUtils.isEmpty(strBackMoney)) {
-                    return;
-                }
                 String backTime = mTvTime.getText().toString();
-                if (TextUtils.isEmpty(backTime)) {
-                    return;
-                }
                 backTime = backTime.replaceAll("\\.", "-") + " 00:00:00";
                 if (mItem == null) {
                     mItem = new BackMoneyRecordBean();
@@ -102,9 +97,17 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
         mEvMoney.addTextChangedListener(new HMTextChangeListener() {
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                String strBackMoney = charSequence.toString();
+                int posDot = charSequence.toString().indexOf(".");
+                if (posDot != -1 && posDot < strBackMoney.length() - 3) {
+                    strBackMoney = strBackMoney.substring(0, posDot + 3);
+                    mEvMoney.setText(strBackMoney);
+                    mEvMoney.setSelection(mEvMoney.length());
+                    return;
+                }
                 if (mMaxBackMoney != -1) {
                     try {
-                        Double backMoney = Double.parseDouble(charSequence.toString());
+                        Double backMoney = Double.parseDouble(strBackMoney);
                         if (backMoney > mMaxBackMoney) {
                             mEvMoney.setText(String.valueOf(mMaxBackMoney));
                             mEvMoney.setSelection(mEvMoney.length());
@@ -113,20 +116,20 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
                         e.printStackTrace();
                     }
                 }
+
                 checkValue();
             }
         });
         mTvTime.addTextChangedListener(new HMTextChangeListener() {
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-
                 checkValue();
             }
         });
         if (mItem == null) {
             return;
         }
-        String backMoney = String.valueOf(mItem.getAmount());
+        String backMoney = StringUtil.doubleToString01(mItem.getAmount());
         String backTime = String.valueOf(mItem.getRepaymentDate());
         //还款金额
         if (!TextUtils.isEmpty(backMoney)) {
@@ -151,7 +154,13 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
     }
 
     private void checkValue() {
-        if (mEvMoney.length() == 0) {
+        String strBackMoney = mEvMoney.getText().toString();
+        Double backMoney = 0.0;
+        try {
+            backMoney = Double.parseDouble(strBackMoney);
+        } catch (Exception e) {
+        }
+        if (backMoney <= 0) {
             mBottomBar.setEnabled(false);
             return;
         }

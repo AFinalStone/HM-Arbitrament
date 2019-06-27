@@ -35,13 +35,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"></com.hm.iou.uikit.HMLoadingView>
+        android:visibility="gone" />
 
     <com.hm.iou.uikit.HMBottomBarView
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="50dip"
-        android:layout_alignParentBottom="true"
-        />
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

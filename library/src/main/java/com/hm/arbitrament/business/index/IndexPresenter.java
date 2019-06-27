@@ -39,40 +39,41 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                         mView.dismissLoadingView();
                         if (bean != null) {
                             int flag = bean.getRoute();
+                            boolean isApplyPerson = bean.getRole() == 1;
                             if (ArbitramentStatusEnum.HAVE_NOT_APPLY.getCode() == flag) {
                                 //还未申请，或者重新申请
                                 NavigationHelper.toFiveAdvantage(mContext, iouId, justId, true);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_NOT_PAY.getCode() == flag) {
                                 //已提交嘿马帮忙制作仲裁申请书，未付款
-                                NavigationHelper.toWaitPayToMakeArbitramentApplyBook(mContext, iouId, justId, bean.getArbApplyNo(), bean.getExField());
+                                NavigationHelper.toWaitPayToMakeArbitramentApplyBook(mContext, iouId, justId, bean.getArbApplyNo(), bean.getExField(), isApplyPerson);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_WAIT_RESULT.getCode() == flag) {
                                 NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_APPLY_MAKE_BOOK_SUCCESS.getCode() == flag) {
                                 //成功生成仲裁书
-                                NavigationHelper.toArbitramentSubmit(mContext, iouId, justId, bean.getArbApplyNo());
+                                NavigationHelper.toArbitramentSubmit(mContext, iouId, justId, bean.getArbApplyNo(), isApplyPerson);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_FIRST_TRIAL_FAILED_CAN_RETRY.getCode() == flag) {
                                 //初审失败，允许重新补全资料
-                                NavigationHelper.toSubmitFirstTrialFailed(mContext, iouId, justId, bean.getArbApplyNo());
+                                NavigationHelper.toSubmitFirstTrialFailed(mContext, iouId, justId, bean.getArbApplyNo(), isApplyPerson);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_FIRST_TRIAL_FAILED_CAN_NOT_RETRY.getCode() == flag) {
                                 //初审失败，不允许重新补全资料
-                                NavigationHelper.toSubmitFirstTrialFailed(mContext, iouId, justId, bean.getArbApplyNo());
+                                NavigationHelper.toSubmitFirstTrialFailed(mContext, iouId, justId, bean.getArbApplyNo(), isApplyPerson);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_PROGRESS_CAN_CANCEL.getCode() == flag) {
                                 //初审通过进度页面，允许取消
-                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo());
+                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo(), isApplyPerson);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_PROGRESS_CAN_NOT_CANCEL.getCode() == flag) {
                                 //初审通过进度页面，不允许取消
-                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo());
+                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo(), isApplyPerson);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.HAVE_SUBMIT_PROGRESS_HAVE_FINISH.getCode() == flag) {
                                 //初审通过进度页面，不允许取消
-                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo());
+                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo(), isApplyPerson);
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.LENDER_NO_APPLY_ARBITRAMENT.getCode() == flag) {
                                 //当前用户借款人，出借人未申请仲裁
@@ -88,7 +89,7 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
                                 mView.closeCurrPage();
                             } else if (ArbitramentStatusEnum.PROCESS_RULE.getCode() == flag) {
                                 //进度页面-退款规则
-                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo());
+                                NavigationHelper.toArbitramentProgressPage(mContext, bean.getArbApplyNo(), isApplyPerson);
                                 mView.closeCurrPage();
                             } else {
                                 mView.closeCurrPage();

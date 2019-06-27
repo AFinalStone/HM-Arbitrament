@@ -24,8 +24,9 @@
         android:layout_width="0dp"
         android:layout_marginStart="10dp"
         android:layout_weight="1"
+        android:singleLine="true"
         android:textSize="@dimen/uikit_sub_title_text_size"
-        tools:text="汇款凭证" />
+        tools:text="汇款凭证汇款凭证汇款凭证汇款凭证汇款凭证汇款凭证汇款凭证" />
 
     <TextView
         android:id="@+id/tv_time"

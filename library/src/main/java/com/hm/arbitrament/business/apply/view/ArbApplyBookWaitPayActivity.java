@@ -14,6 +14,7 @@ import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.uikit.HMBottomBarView;
 import com.hm.iou.uikit.dialog.HMActionSheetDialog;
+import com.hm.iou.uikit.dialog.HMAlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +32,13 @@ public class ArbApplyBookWaitPayActivity<T extends MvpActivityPresenter> extends
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUST_ID = "just_id";
     public static final String EXTRA_KEY_ORDER_ID = "order_id";
+    public static final String EXTRA_KEY_IS_APPLY_PERSON = "is_apply_person";
 
     private String mIouId;
     private String mJustId;
     private String mArbNo;
     private String mOrderId;
+    private String mIsApplyPerson;
 
     @BindView(R2.id.bottomBar)
     HMBottomBarView mBottomBar;
@@ -61,11 +64,13 @@ public class ArbApplyBookWaitPayActivity<T extends MvpActivityPresenter> extends
         mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
         mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
         mOrderId = getIntent().getStringExtra(EXTRA_KEY_ORDER_ID);
+        mIsApplyPerson = getIntent().getStringExtra(EXTRA_KEY_IS_APPLY_PERSON);
         if (bundle != null) {
             mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
             mJustId = bundle.getString(EXTRA_KEY_JUST_ID);
             mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
             mOrderId = bundle.getString(EXTRA_KEY_ORDER_ID);
+            mIsApplyPerson = bundle.getString(EXTRA_KEY_IS_APPLY_PERSON);
         }
 
         mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
@@ -83,11 +88,33 @@ public class ArbApplyBookWaitPayActivity<T extends MvpActivityPresenter> extends
         outState.putString(EXTRA_KEY_JUST_ID, mJustId);
         outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
         outState.putString(EXTRA_KEY_ORDER_ID, mOrderId);
+        outState.putString(EXTRA_KEY_IS_APPLY_PERSON, mIsApplyPerson);
     }
 
     @OnClick(R2.id.btn_ok)
     public void onClick() {
-        NavigationHelper.toPay(mContext, mIouId, mJustId, mOrderId);
+        if (checkIsApplyPerson()) {
+            NavigationHelper.toPay(mContext, mIouId, mJustId, mOrderId);
+        }
+    }
+
+    /**
+     * 检验是否是仲裁申请账号
+     *
+     * @return
+     */
+    public boolean checkIsApplyPerson() {
+        if ("true".equals(mIsApplyPerson)) {
+            return true;
+        }
+        new HMAlertDialog
+                .Builder(mContext)
+                .setTitle("温馨提示")
+                .setMessage("请使用仲裁申请账号进行操作")
+                .setPositiveButton("知道了")
+                .create()
+                .show();
+        return false;
     }
 
     /**
@@ -124,25 +151,27 @@ public class ArbApplyBookWaitPayActivity<T extends MvpActivityPresenter> extends
                     .setOnItemClickListener(new HMActionSheetDialog.OnItemClickListener() {
                         @Override
                         public void onItemClick(int i, String s) {
-                            if (mCancelArbDialog == null) {
-                                mCancelArbDialog = new CancelArbDialog(mContext);
-                                mCancelArbDialog.setCanRestartArbNextTenDay(true);
-                                mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
-                                    @Override
-                                    public void onCanceled(int index, String reason) {
-                                        int type = 0;
-                                        if (index == 0) {
-                                            type = 2;
-                                        } else if (index == 1) {
-                                            type = 1;
-                                        } else if (index == 2) {
-                                            type = 3;
+                            if (checkIsApplyPerson()) {
+                                if (mCancelArbDialog == null) {
+                                    mCancelArbDialog = new CancelArbDialog(mContext);
+                                    mCancelArbDialog.setCanRestartArbNextTenDay(true);
+                                    mCancelArbDialog.setOnCancelArbListener(new CancelArbDialog.OnCancelArbListener() {
+                                        @Override
+                                        public void onCanceled(int index, String reason) {
+                                            int type = 0;
+                                            if (index == 0) {
+                                                type = 2;
+                                            } else if (index == 1) {
+                                                type = 1;
+                                            } else if (index == 2) {
+                                                type = 3;
+                                            }
+                                            cancelArb(type, reason);
                                         }
-                                        cancelArb(type, reason);
-                                    }
-                                });
+                                    });
+                                }
+                                mCancelArbDialog.show();
                             }
-                            mCancelArbDialog.show();
                         }
                     })
                     .create();
