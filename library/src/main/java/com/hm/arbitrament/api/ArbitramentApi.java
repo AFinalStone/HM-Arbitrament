@@ -55,10 +55,11 @@ public class ArbitramentApi {
      * @param iouId
      * @return
      */
-    public static Flowable<BaseResponse<GetArbitramentStatusResBean>> getArbitramentStatus(String iouId, String justId) {
+    public static Flowable<BaseResponse<GetArbitramentStatusResBean>> getArbitramentStatus(String iouId, String justId, String arbNo) {
         GetArbitramentStatusReqBean req = new GetArbitramentStatusReqBean();
         req.setIouId(iouId);
         req.setJusticeId(justId);
+        req.setArbApplyNo(arbNo);
         return getService().getArbitramentStatus(req).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 

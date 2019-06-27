@@ -27,7 +27,8 @@ public class IndexContract {
          *
          * @param iouId
          * @param justId
+         * @param arbNo
          */
-        void getArbitramentStatus(String iouId, String justId);
+        void getArbitramentStatus(String iouId, String justId, String arbNo);
     }
 }

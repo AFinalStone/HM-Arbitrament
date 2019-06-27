@@ -11,5 +11,6 @@ public class GetArbitramentStatusReqBean {
 
     private String iouId;
     private String justiceId;
+    private String arbApplyNo;
 
 }

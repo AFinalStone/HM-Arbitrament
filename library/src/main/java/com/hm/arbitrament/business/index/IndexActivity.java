@@ -13,9 +13,11 @@ public class IndexActivity extends BaseActivity<IndexPresenter> implements Index
 
     public static final String EXTRA_KEY_IOU_ID = "iou_id";
     public static final String EXTRA_KEY_JUST_ID = "just_id";
+    public static final String EXTRA_KEY_ARB_NO = "arb_no";
 
     private String mIouId;
     private String mJustId;
+    private String mArbNo;
 
     @Override
     protected int getLayoutId() {
@@ -31,11 +33,13 @@ public class IndexActivity extends BaseActivity<IndexPresenter> implements Index
     protected void initEventAndData(Bundle bundle) {
         mIouId = getIntent().getStringExtra(EXTRA_KEY_IOU_ID);
         mJustId = getIntent().getStringExtra(EXTRA_KEY_JUST_ID);
+        mArbNo = getIntent().getStringExtra(EXTRA_KEY_ARB_NO);
         if (bundle != null) {
             mIouId = bundle.getString(EXTRA_KEY_IOU_ID);
             mJustId = bundle.getString(EXTRA_KEY_JUST_ID);
+            mArbNo = bundle.getString(EXTRA_KEY_ARB_NO);
         }
-        mPresenter.getArbitramentStatus(mIouId, mJustId);
+        mPresenter.getArbitramentStatus(mIouId, mJustId, mArbNo);
     }
 
     @Override
@@ -43,6 +47,7 @@ public class IndexActivity extends BaseActivity<IndexPresenter> implements Index
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_IOU_ID, mIouId);
         outState.putString(EXTRA_KEY_JUST_ID, mJustId);
+        outState.putString(EXTRA_KEY_ARB_NO, mArbNo);
     }
 
     @Override

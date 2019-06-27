@@ -28,9 +28,9 @@ public class IndexPresenter extends MvpActivityPresenter<IndexContract.View> imp
     }
 
     @Override
-    public void getArbitramentStatus(final String iouId, final String justId) {
+    public void getArbitramentStatus(final String iouId, final String justId, String arbNo) {
         mView.showLoadingView();
-        ArbitramentApi.getArbitramentStatus(iouId, justId)
+        ArbitramentApi.getArbitramentStatus(iouId, justId, arbNo)
                 .compose(getProvider().<BaseResponse<GetArbitramentStatusResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<GetArbitramentStatusResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<GetArbitramentStatusResBean>(mView) {
