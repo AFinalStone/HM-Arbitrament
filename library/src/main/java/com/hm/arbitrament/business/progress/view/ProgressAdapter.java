@@ -60,12 +60,17 @@ public class ProgressAdapter extends BaseQuickAdapter<ProgressAdapter.IProgressI
         int posFlag = item.getPositionFlag();
         helper.setVisible(R.id.view_progress_line_top, true);
         helper.setVisible(R.id.view_progress_line_bottom, true);
-        if (posFlag == 1) {
-            helper.setVisible(R.id.view_progress_line_top, false);
-        } else if (posFlag == 2){
-            helper.setVisible(R.id.view_progress_line_bottom, false);
-        }
 
+        if (mData != null && mData.size() == 1) {
+            helper.setVisible(R.id.view_progress_line_top, false);
+            helper.setVisible(R.id.view_progress_line_bottom, false);
+        } else {
+            if (posFlag == 1) {
+                helper.setVisible(R.id.view_progress_line_top, false);
+            } else if (posFlag == 2){
+                helper.setVisible(R.id.view_progress_line_bottom, false);
+            }
+        }
     }
 
 }
