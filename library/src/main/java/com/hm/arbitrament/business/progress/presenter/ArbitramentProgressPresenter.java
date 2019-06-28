@@ -138,8 +138,8 @@ public class ArbitramentProgressPresenter extends MvpActivityPresenter<Arbitrame
             @Override
             public String getTime() {
                 String date = item.getProgressDate();
-                if (date != null && date.length() >= 16) {
-                    date = date.substring(0, 16).replace("-", ".");
+                if (date != null) {
+                    date = date.replace("-", ".");
                 }
                 return date;
             }

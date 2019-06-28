@@ -60,8 +60,8 @@ public class MoneyBackProgressPresenter extends MvpActivityPresenter<MoneyBackPr
                                     @Override
                                     public String getTime() {
                                         String date = step.getOperateDate();
-                                        if (date != null && date.length() >= 16) {
-                                            date = date.substring(0, 16).replace("-", ".");
+                                        if (date != null) {
+                                            date = date.replace("-", ".");
                                         }
                                         return date;
                                     }
