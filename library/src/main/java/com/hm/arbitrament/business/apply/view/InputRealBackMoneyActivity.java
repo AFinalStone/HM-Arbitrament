@@ -52,6 +52,8 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
     Double mMaxBackMoney;
     String mBackTimeStartTime;
 
+    private boolean mRecordFirstEmpty;      //标记刚进入页面时，是否有还款记录
+
     @Override
     protected int getLayoutId() {
         return R.layout.arbitrament_activity_input_real_back_money;
@@ -131,6 +133,7 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
         });
         mRvBackRecord.setAdapter(mAdapter);
         if (mListData.isEmpty()) {
+            mRecordFirstEmpty = true;
             toAddRecord(null);
         } else {
             updateListData();
@@ -159,6 +162,10 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
                     mListData.add(bean);
                 }
                 updateListData();
+            } else if (RESULT_CANCELED == resultCode) {
+                if (mRecordFirstEmpty && (mListData == null || mListData.isEmpty())) {
+                    finish();
+                }
             }
         }
     }

@@ -69,6 +69,12 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
             mMaxBackMoney = bundle.getDouble(EXTRA_KEY_MAX_BACK_MONEY, -1);
             mBackTimeStartTime = bundle.getString(EXTRA_KEY_BACK_TIME_START_TIME);
         }
+        mBottomBar.setOnBackClickListener(new HMBottomBarView.OnBackClickListener() {
+            @Override
+            public void onClickBack() {
+                onBackPressed();
+            }
+        });
         mBottomBar.setOnTitleClickListener(new HMBottomBarView.OnTitleClickListener() {
             @Override
             public void onClickTitle() {
@@ -127,16 +133,31 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
             }
         });
         if (mItem == null) {
+            showSoftKeyboard();
             return;
         }
-        String backMoney = StringUtil.doubleToString01(mItem.getAmount());
-        String backTime = String.valueOf(mItem.getRepaymentDate());
-        //还款金额
-        if (!TextUtils.isEmpty(backMoney)) {
-            mEvMoney.setText(backMoney);
-            mEvMoney.setSelection(mEvMoney.length());
+
+        if (mItem.getAmount()  != null) {
+            //有小数点的
+            if (mItem.getAmount() - mItem.getAmount().intValue() > 0) {
+                String backMoney = StringUtil.doubleToString01(mItem.getAmount());
+                //还款金额
+                if (!TextUtils.isEmpty(backMoney)) {
+                    mEvMoney.setText(backMoney);
+                    mEvMoney.setSelection(mEvMoney.length());
+                }
+            } else {
+                //整数
+                int v = mItem.getAmount().intValue();
+                if (v > 0) {
+                    mEvMoney.setText(v + "");
+                    mEvMoney.setSelection(mEvMoney.length());
+                }
+            }
         }
+
         //还款时间
+        String backTime = String.valueOf(mItem.getRepaymentDate());
         if (!TextUtils.isEmpty(backTime)) {
             backTime = backTime.replaceAll("-", "\\.");
             backTime = backTime.substring(0, 10);
@@ -151,6 +172,12 @@ public class InputRealBackMoneyAddRecordActivity<T extends MvpActivityPresenter>
         outState.putSerializable(EXTRA_KEY_ITEM, mItem);
         outState.putDouble(EXTRA_KEY_MAX_BACK_MONEY, mMaxBackMoney);
         outState.putString(EXTRA_KEY_BACK_TIME_START_TIME, mBackTimeStartTime);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     private void checkValue() {

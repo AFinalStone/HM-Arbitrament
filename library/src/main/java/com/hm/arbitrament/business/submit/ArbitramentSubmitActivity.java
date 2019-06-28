@@ -191,7 +191,7 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
         if (mVerifyCodeDialog == null) {
             View contentView = getLayoutInflater().inflate(R.layout.arbitrament_dialog_verify_code, null);
             mVerifyCodeDialog = new HMAlertDialog.Builder(this)
-                    .setTitle("填写验证码")
+                    .setTitle("安全验证")
                     .setCancelable(false)
                     .setCanceledOnTouchOutside(false)
                     .setPositiveButton("下一步")
@@ -227,8 +227,8 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
         mEtCode = contentView.findViewById(R.id.et_dialog_code);
         mCountDownView = contentView.findViewById(R.id.tv_dialog_countdown);
         String mobile = UserManager.getInstance(this).getUserInfo().getMobile();
-        if (mobile != null && mobile.length() >= 3)
-            mobile = mobile.substring(0, 3) + "****";
+        if (mobile != null && mobile.length() >= 4)
+            mobile = mobile.substring(0, 3) + "****" + mobile.substring(mobile.length() - 4);
         tvMsg.setText(String.format("为确保账户资金安全，请输入%s收到的验证码", mobile));
         mCountDownView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -45,7 +45,9 @@
                 style="@style/ArbitramentInputContent"
                 android:layout_marginStart="5dp"
                 android:background="@null"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:maxLength="10"
+                />
 
 
         </LinearLayout>
