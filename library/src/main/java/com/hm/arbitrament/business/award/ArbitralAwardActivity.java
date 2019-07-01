@@ -176,6 +176,7 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
 
     @Override
     public void applySucc() {
+        toastMessage("申请成功");
         if (mAdapter.getData() == null || mAdapter.getData().isEmpty()) {
             finish();
         } else {
@@ -197,7 +198,7 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
     private void showCancelConfirmDialog(final String applyId) {
         new HMAlertDialog.Builder(this)
                 .setTitle("温馨提示")
-                .setMessage("确定需要撤销申请么")
+                .setMessage("确定需要撤销申请吗")
                 .setMessageGravity(Gravity.CENTER)
                 .setPositiveButton("取消")
                 .setNegativeButton("确定")
