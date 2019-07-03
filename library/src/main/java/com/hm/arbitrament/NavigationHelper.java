@@ -107,6 +107,7 @@ public class NavigationHelper {
     public static void toCheckSignPwd(Activity context, String title, int reqCode) {
         Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_v2")
                 .withString("title", title)
+                .withString("cancel_flag", "1")
                 .navigation(context, reqCode);
     }
 
