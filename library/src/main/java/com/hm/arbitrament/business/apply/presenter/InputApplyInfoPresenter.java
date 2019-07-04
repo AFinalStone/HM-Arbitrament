@@ -19,6 +19,7 @@ import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.logger.Logger;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.StringUtil;
+import com.hm.iou.tools.ToastUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -161,6 +162,7 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
                     @Override
                     public void handleResult(String orderId) {
                         mView.dismissLoadingView();
+                        ToastUtil.showStatusView(mContext, "申请成功");
                         NavigationHelper.toWaitMakeArbitramentApplyBook(mContext);
                         CacheDataUtil.clearInputApplyInfoCacheData(mContext);
                         EventBus.getDefault().post(new ClosePageEvent());
@@ -169,6 +171,17 @@ public class InputApplyInfoPresenter extends BasePresenter<InputApplyInfoContrac
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
                         mView.dismissLoadingView();
+                        mView.toastErrorMessage(s1);
+                    }
+
+                    @Override
+                    public boolean isShowCommError() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
                     }
                 });
     }
