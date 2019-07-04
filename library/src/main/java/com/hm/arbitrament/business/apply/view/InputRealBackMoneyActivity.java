@@ -181,7 +181,6 @@ public class InputRealBackMoneyActivity<T extends MvpActivityPresenter> extends 
                     .setOnClickListener(new HMAlertDialog.OnClickListener() {
                         @Override
                         public void onPosClick() {
-                            toAddRecord(null);
                         }
 
                         @Override
