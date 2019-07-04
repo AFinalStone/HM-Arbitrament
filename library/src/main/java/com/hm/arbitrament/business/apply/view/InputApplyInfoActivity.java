@@ -360,7 +360,7 @@ public class InputApplyInfoActivity extends BaseActivity<InputApplyInfoPresenter
             mArbitramentMoneyTooSmallDialog = new HMAlertDialog
                     .Builder(mContext)
                     .setTitle("温馨提示")
-                    .setMessage("仲裁委支持仲裁金额最低为300元")
+                    .setMessage("仲裁委支持争议金额最低为300元")
                     .setMessageGravity(Gravity.CENTER)
                     .setPositiveButton("我知道了")
                     .create();
