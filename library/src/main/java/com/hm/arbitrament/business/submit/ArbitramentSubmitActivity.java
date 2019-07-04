@@ -229,7 +229,7 @@ public class ArbitramentSubmitActivity extends BaseActivity<ArbitramentSubmitPre
         String mobile = UserManager.getInstance(this).getUserInfo().getMobile();
         if (mobile != null && mobile.length() >= 4)
             mobile = mobile.substring(0, 3) + "****" + mobile.substring(mobile.length() - 4);
-        tvMsg.setText(String.format("为确保账户资金安全，请输入%s收到的验证码", mobile));
+        tvMsg.setText(String.format("为确保账户安全，请输入%s收到的验证码", mobile));
         mCountDownView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

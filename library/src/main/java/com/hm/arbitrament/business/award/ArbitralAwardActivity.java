@@ -165,11 +165,13 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
                         finish();
                     } else {
                         mInputContainer.setVisibility(View.GONE);
+                        mBottomBarView.setVisibility(View.VISIBLE);
                     }
                 }
             });
         }
         mInputContainer.setVisibility(View.VISIBLE);
+        mBottomBarView.setVisibility(View.GONE);
         mEtName.requestFocus();
         KeyboardUtil.toggleKeyboard(this);
     }
@@ -181,6 +183,7 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
             finish();
         } else {
             mInputContainer.setVisibility(View.GONE);
+            mBottomBarView.setVisibility(View.VISIBLE);
             mRefreshLayout.autoRefresh();
         }
     }
