@@ -23,7 +23,7 @@
 
     <Button
         android:id="@+id/btn_set_back_nothing"
-        style="@style/UikitHMButton.Large.Bordered"
+        style="@style/UikitHMButton.Large.Main"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:text="全部未还" />

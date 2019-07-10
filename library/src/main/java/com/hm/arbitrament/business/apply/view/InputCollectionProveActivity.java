@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.hm.arbitrament.business.apply.presenter.InputCollectionProvePresenter
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.photo.CompressPictureUtil;
 import com.hm.iou.router.Router;
+import com.hm.iou.uikit.dialog.HMAlertDialog;
 
 import java.io.File;
 import java.util.List;
@@ -81,7 +83,7 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
                     mBean.setUrgeEvidenceType(selectBean.getUrgeEvidenceType());
                     mBean.setDescription(selectBean.getDescription());
                 }
-                checkValue();
+                checkValue(false);
             }
         });
         mRvCollectionProve.setAdapter(mAdapter);
@@ -118,7 +120,7 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
                 mBean.setFileUrl("");
                 mLlAddCollectionProveDetail.setVisibility(View.GONE);
                 mLlAddCollectionProve.setVisibility(View.VISIBLE);
-                checkValue();
+                checkValue(false);
             }
         }
     }
@@ -131,7 +133,7 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
             for (int i = 0; i < list.size(); i++) {
                 if (proveType == list.get(i).getUrgeEvidenceType()) {
                     mAdapter.setCurrentSelectPos(i);
-                    checkValue();
+                    checkValue(false);
                     break;
                 }
             }
@@ -147,16 +149,18 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
         mBean.setFileUrl(fileUrl);
         mLlAddCollectionProveDetail.setVisibility(View.VISIBLE);
         mLlAddCollectionProve.setVisibility(View.GONE);
-        checkValue();
+        checkValue(false);
     }
 
     @OnClick({R2.id.btn_ok, R2.id.ll_add_collection_prove, R2.id.ll_collection_prove_detail})
     public void onClick(View view) {
         if (R.id.btn_ok == view.getId()) {
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_KEY_ITEM, mBean);
-            setResult(RESULT_OK, intent);
-            finish();
+            if (checkValue(true)) {
+                Intent intent = new Intent();
+                intent.putExtra(EXTRA_KEY_ITEM, mBean);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
         } else if (R.id.ll_add_collection_prove == view.getId()) {
             Router.getInstance()
                     .buildWithUrl("hmiou://m.54jietiao.com/select_pic/index")
@@ -173,24 +177,42 @@ public class InputCollectionProveActivity extends BaseActivity<InputCollectionPr
 
     }
 
-    private void checkValue() {
+    private boolean checkValue(boolean isAlert) {
         if (mBean == null) {
-            mBtnOk.setEnabled(false);
-            return;
+            mBtnOk.setBackgroundResource(R.drawable.uikit_selector_btn_minor);
+            if (isAlert)
+                showAlertDialog("请完善催收证明信息");
+            return false;
         }
         if (TextUtils.isEmpty(mBean.getFileId())) {
-            mBtnOk.setEnabled(false);
-            return;
+            mBtnOk.setBackgroundResource(R.drawable.uikit_selector_btn_minor);
+            if (isAlert)
+                showAlertDialog("请上传催收证明");
+            return false;
         }
         if (TextUtils.isEmpty(mBean.getFileUrl())) {
-            mBtnOk.setEnabled(false);
-            return;
+            mBtnOk.setBackgroundResource(R.drawable.uikit_selector_btn_minor);
+            if (isAlert)
+                showAlertDialog("请上传催收证明");
+            return false;
         }
         if (0 == mBean.getUrgeEvidenceType()) {
-            mBtnOk.setEnabled(false);
-            return;
+            mBtnOk.setBackgroundResource(R.drawable.uikit_selector_btn_minor);
+            if (isAlert)
+                showAlertDialog("请完善催收证明信息");
+            return false;
         }
-        mBtnOk.setEnabled(true);
+        mBtnOk.setBackgroundResource(R.drawable.uikit_selector_btn_main);
+        return true;
+    }
+
+    private void showAlertDialog(String msg) {
+        new HMAlertDialog.Builder(this)
+                .setTitle("温馨提示")
+                .setMessageGravity(Gravity.CENTER)
+                .setMessage(msg)
+                .setPositiveButton("知道了")
+                .create().show();
     }
 
 

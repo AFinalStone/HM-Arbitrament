@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="20dp">
+    android:background="@color/white">
 
     <com.hm.iou.uikit.HMTopBarView
         android:id="@+id/topBar"
@@ -16,42 +13,60 @@
         app:rightText="仲裁须知"
         app:titleBackground="@color/transparent" />
 
-    <ImageView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:adjustViewBounds="true"
-        android:src="@mipmap/arbitrament_ic_five_advantage_01" />
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_ok"
+        android:layout_below="@id/topBar"
+        android:layout_marginBottom="20dp"
+        android:scrollbars="vertical"
+        >
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="235dp"
-        android:layout_marginTop="-30dp"
-        android:adjustViewBounds="true"
-        android:src="@mipmap/arbitrament_ic_five_advantage_02" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/arbitrament_ic_five_advantage_01" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="39dp"
-        android:adjustViewBounds="true"
-        android:src="@mipmap/arbitrament_ic_five_advantage_03" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:src="@mipmap/arbitrament_ic_five_advantage_prepare" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="235dp"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/arbitrament_ic_five_advantage_02" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/arbitrament_ic_five_advantage_03" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/btn_ok"
         style="@style/UikitHMButton.Large.Black"
         android:layout_height="48dp"
-        android:layout_marginEnd="38dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="20dp"
         android:text="申请仲裁"
         android:textColor="@color/white"
         android:textSize="@dimen/uikit_main_title_text_size" />
-</LinearLayout>
+</RelativeLayout>

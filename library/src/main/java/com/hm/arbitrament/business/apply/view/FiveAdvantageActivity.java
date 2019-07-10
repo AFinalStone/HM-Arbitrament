@@ -36,7 +36,6 @@ public class FiveAdvantageActivity extends BaseActivity<FiveAdvantagePresenter> 
     @BindView(R2.id.btn_ok)
     Button mBtnOk;
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.arbitrament_activity_five_advantage;
