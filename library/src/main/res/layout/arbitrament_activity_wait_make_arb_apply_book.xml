@@ -29,8 +29,16 @@
         style="@style/UikitTextView.Large"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="律师团队正在快马加鞭的\n为您书写仲裁申请书\n请耐心等待"
+        android:text="律师团队正在快马加鞭的为\n您书写仲裁申请书请耐心等待"
         android:textColor="#ff575b62" />
+
+    <TextView
+        style="@style/UikitTextView"
+        android:layout_marginTop="20dp"
+        android:textSize="14dp"
+        android:textColor="@color/uikit_text_auxiliary"
+        android:text="如有疑问欢迎咨询：\n客服电话：0571-87165282 \n客服QQ：3521213185"
+        />
 
     <View
         android:layout_width="0dp"
