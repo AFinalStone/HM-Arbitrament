@@ -37,7 +37,7 @@
         android:layout_marginTop="20dp"
         android:textSize="14dp"
         android:textColor="@color/uikit_text_auxiliary"
-        android:text="如有疑问欢迎咨询：\n客服电话：0571-87165282 \n客服QQ：3521213185"
+        android:text="如有疑问欢迎咨询：\n客服电话：0571-85456903 \n客服QQ：3521213185"
         />
 
     <View
