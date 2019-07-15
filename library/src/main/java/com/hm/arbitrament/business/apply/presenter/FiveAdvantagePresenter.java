@@ -52,7 +52,7 @@ public class FiveAdvantagePresenter extends BasePresenter<FiveAdvantageContract.
                                 CODE_TIME_CURRENT_ONLE_SUPPORT_YZ.equals(code)) {
                             mView.showKnowDialog(msg);
                         } else if (CODE_TIME_NEED_UPLOAD_VALID_EVIDENCE.equals(code)) {
-                            mView.showNeedUploadElecEvidenceDialog();
+                            mView.showNeedUploadElecEvidenceDialog(msg);
                         } else if (CODE_TIME_ID_CART_WILL_OUT_TIME.equals(code)) {
                             mView.showNeedUpdateIDCardDialog();
                         } else {

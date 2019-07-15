@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 26
@@ -36,4 +38,8 @@ dependencies {
     compile 'com.heima.iou:hmselectpiclocal:1.0.0'
     //借条
     compile 'com.heima.iou:hmjietiaolocal:1.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

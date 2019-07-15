@@ -98,10 +98,10 @@ public class FiveAdvantageActivity extends BaseActivity<FiveAdvantagePresenter> 
     }
 
     @Override
-    public void showNeedUploadElecEvidenceDialog() {
+    public void showNeedUploadElecEvidenceDialog(String msg) {
         new HMAlertDialog.Builder(mContext)
                 .setTitle("汇款凭证")
-                .setMessage("请先上传有效电子汇款凭证")
+                .setMessage(msg)
                 .setMessageGravity(Gravity.CENTER)
                 .setPositiveButton("如何上传")
                 .setNegativeButton("稍后上传")

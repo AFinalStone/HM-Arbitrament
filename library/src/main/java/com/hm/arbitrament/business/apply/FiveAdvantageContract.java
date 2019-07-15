@@ -20,7 +20,7 @@ public class FiveAdvantageContract {
         /**
          * 需要上传有效电子凭证
          */
-        void showNeedUploadElecEvidenceDialog();
+        void showNeedUploadElecEvidenceDialog(String msg);
 
         /**
          * 需要更新身份证
