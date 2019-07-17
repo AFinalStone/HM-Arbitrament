@@ -9,6 +9,7 @@ import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.business.apply.view.ArbitramentServerAgreementActivity;
 import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
 import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
+import com.hm.arbitrament.business.apply.view.WaitMakeArbApplyBookActivity;
 import com.hm.arbitrament.business.award.ArbitralAwardActivity;
 import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
 import com.hm.arbitrament.business.pay.applysubmit.ArbApplySubmitPayActivity;
@@ -163,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
                         t.printStackTrace();
                     }
                 });
+    }
+
+    public void toWaitPage(View v) {
+        startActivity(new Intent(this, WaitMakeArbApplyBookActivity.class));
     }
 
 }
