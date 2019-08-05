@@ -32,7 +32,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/msgcenter_ic_warn" />
+            android:src="@mipmap/uikit_ic_yellow_warn" />
 
         <TextView
             style="@style/UikitTextView.Large"
