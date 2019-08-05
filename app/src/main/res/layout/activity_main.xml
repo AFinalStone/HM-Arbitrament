@@ -15,6 +15,13 @@
         android:text="登陆" />
 
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="仲裁等待页面"
+        android:onClick="toWaitPage"
+        />
+
+    <Button
         android:id="@+id/btn_index"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
