@@ -3,6 +3,10 @@ package com.hm.arbitrament.api;
 import com.hm.arbitrament.bean.ArbPaperApplyInfo;
 import com.hm.arbitrament.bean.CreateArbApplyOrderResBean;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
+import com.hm.arbitrament.bean.EvidenceApplyDocResBean;
+import com.hm.arbitrament.bean.EvidenceApplyHistoryItemBean;
+import com.hm.arbitrament.bean.EvidenceApplyOrderResBean;
+import com.hm.arbitrament.bean.EvidenceProgressResBean;
 import com.hm.arbitrament.bean.FailReasonResBean;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.GetArbApplyDocResBean;
@@ -21,6 +25,9 @@ import com.hm.arbitrament.bean.req.CreateApplyOrderReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.bean.req.CreateArbPaperOrderReqBean;
 import com.hm.arbitrament.bean.req.CreatePreparePayReqBean;
+import com.hm.arbitrament.bean.req.EvidenceApplyOrderReqBean;
+import com.hm.arbitrament.bean.req.EvidenceApplyRecordReqBean;
+import com.hm.arbitrament.bean.req.EvidenceContractSignReqBean;
 import com.hm.arbitrament.bean.req.GetArbApplyBookOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbCostReqBean;
 import com.hm.arbitrament.bean.req.GetArbServerAgreementReqBean;
@@ -303,6 +310,109 @@ public class ArbitramentApi {
 
     public static Flowable<BaseResponse<RefundInfo>> getRefundStep(String arbApplyNo) {
         return getService().getRefundStep(arbApplyNo).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 判断是否有证据链申请记录
+     *
+     * @param iouId     借条id
+     * @param justiceId 公正id
+     * @return
+     */
+    public static Flowable<BaseResponse<Boolean>> hasEvidenceApplyRecord(String iouId, String justiceId) {
+        EvidenceApplyRecordReqBean reqBean = new EvidenceApplyRecordReqBean();
+        reqBean.setIouId(iouId);
+        reqBean.setJusticeId(justiceId);
+        return getService().hasEvidenceApplyRecord(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 证据链申请前进行校验
+     *
+     * @param iouId
+     * @param justiceId
+     * @return
+     */
+    public static Flowable<BaseResponse<Object>> checkBeforeEvidenceApply(String iouId, String justiceId) {
+        EvidenceApplyRecordReqBean reqBean = new EvidenceApplyRecordReqBean();
+        reqBean.setIouId(iouId);
+        reqBean.setJusticeId(justiceId);
+        return getService().checkBeforeEvidenceApply(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 创建证据链申请支付订单
+     *
+     * @param iouId     借条id
+     * @param justiceId 公证id
+     * @param code      短信验证码
+     * @return
+     */
+    public static Flowable<BaseResponse<EvidenceApplyOrderResBean>> createEvidenceApplyOrder(String iouId, String justiceId, String code) {
+        EvidenceApplyOrderReqBean reqBean = new EvidenceApplyOrderReqBean();
+        reqBean.setIouId(iouId);
+        reqBean.setJusticeId(justiceId);
+        reqBean.setVerificationCode(code);
+        return getService().createEvidenceApplyOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取证据链申请协议书
+     *
+     * @param applyId
+     * @return
+     */
+    public static Flowable<BaseResponse<EvidenceApplyDocResBean>> getEvidenceApplyDoc(String applyId) {
+        return getService().getEvidenceApplyDoc(applyId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取证据链申请记录
+     *
+     * @param iouId
+     * @param justiceId
+     * @return
+     */
+    public static Flowable<BaseResponse<List<EvidenceApplyHistoryItemBean>>> getEvidenceApplyHistory(String iouId, String justiceId) {
+        EvidenceApplyRecordReqBean reqBean = new EvidenceApplyRecordReqBean();
+        reqBean.setIouId(iouId);
+        reqBean.setJusticeId(justiceId);
+        return getService().getEvidenceApplyHistory(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取证据链申请进度
+     *
+     * @return
+     */
+    public static Flowable<BaseResponse<EvidenceProgressResBean>> getEvidenceApplyProgress() {
+        return getService().getEvidenceApplyProgress().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 重新发送证据链
+     *
+     * @param applyId 申请id
+     * @return
+     */
+    public static Flowable<BaseResponse<Object>> resendEvidence(String applyId) {
+        return getService().resendEvidence(applyId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 签署证据链很痛
+     *
+     * @param applyId 申请id
+     * @param sealId  签章id
+     * @param pwd     密码
+     * @return
+     */
+    public static Flowable<BaseResponse<EvidenceApplyDocResBean>> signEvidenceContract(String applyId, String sealId, String pwd) {
+        EvidenceContractSignReqBean reqBean = new EvidenceContractSignReqBean();
+        reqBean.setApplyId(applyId);
+        reqBean.setSealId(sealId);
+        reqBean.setTransPswd(pwd);
+        return getService().signEvidenceContract(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }

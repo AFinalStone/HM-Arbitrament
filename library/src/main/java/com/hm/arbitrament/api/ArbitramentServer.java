@@ -3,6 +3,10 @@ package com.hm.arbitrament.api;
 import com.hm.arbitrament.bean.ArbPaperApplyInfo;
 import com.hm.arbitrament.bean.CreateArbApplyOrderResBean;
 import com.hm.arbitrament.bean.ElecEvidenceResBean;
+import com.hm.arbitrament.bean.EvidenceApplyDocResBean;
+import com.hm.arbitrament.bean.EvidenceApplyHistoryItemBean;
+import com.hm.arbitrament.bean.EvidenceApplyOrderResBean;
+import com.hm.arbitrament.bean.EvidenceProgressResBean;
 import com.hm.arbitrament.bean.FailReasonResBean;
 import com.hm.arbitrament.bean.GetArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.GetArbApplyDocResBean;
@@ -21,6 +25,9 @@ import com.hm.arbitrament.bean.req.CreateApplyOrderReqBean;
 import com.hm.arbitrament.bean.req.CreateArbOrderReqBean;
 import com.hm.arbitrament.bean.req.CreateArbPaperOrderReqBean;
 import com.hm.arbitrament.bean.req.CreatePreparePayReqBean;
+import com.hm.arbitrament.bean.req.EvidenceApplyOrderReqBean;
+import com.hm.arbitrament.bean.req.EvidenceApplyRecordReqBean;
+import com.hm.arbitrament.bean.req.EvidenceContractSignReqBean;
 import com.hm.arbitrament.bean.req.GetArbApplyBookOrderReqBean;
 import com.hm.arbitrament.bean.req.GetArbCostReqBean;
 import com.hm.arbitrament.bean.req.GetArbServerAgreementReqBean;
@@ -122,4 +129,28 @@ public interface ArbitramentServer {
 
     @GET("/api/arb/v1/getRefundStep")
     Flowable<BaseResponse<RefundInfo>> getRefundStep(@Query("arbApplyNo") String arbApplyNo);
+
+    @POST("/api/iou/front/ext/v1/evidenceChain/hasApplyHistory")
+    Flowable<BaseResponse<Boolean>> hasEvidenceApplyRecord(@Body EvidenceApplyRecordReqBean reqBean);
+
+    @POST("/api/iou/front/ext/v1/evidenceChain/checkBeforeApply")
+    Flowable<BaseResponse<Object>> checkBeforeEvidenceApply(@Body EvidenceApplyRecordReqBean reqBean);
+
+    @POST("/api/iou/front/ext/v1/evidenceChain/createApplyOrder")
+    Flowable<BaseResponse<EvidenceApplyOrderResBean>> createEvidenceApplyOrder(@Body EvidenceApplyOrderReqBean reqBean);
+
+    @GET("/api/iou/front/ext/v1/evidenceChain/getApplyProtocol")
+    Flowable<BaseResponse<EvidenceApplyDocResBean>> getEvidenceApplyDoc(@Query("applyId") String applyId);
+
+    @POST("/api/iou/front/ext/v1/evidenceChain/getApplyHistories")
+    Flowable<BaseResponse<List<EvidenceApplyHistoryItemBean>>> getEvidenceApplyHistory(@Body EvidenceApplyRecordReqBean reqBean);
+
+    @POST("/api/iou/front/ext/v1/evidenceChain/getApplyProgress")
+    Flowable<BaseResponse<EvidenceProgressResBean>> getEvidenceApplyProgress();
+
+    @GET("/api/iou/front/ext/v1/evidenceChain/resendEmail")
+    Flowable<BaseResponse<Object>> resendEvidence(@Query("applyId") String applyId);
+
+    @POST("/api/iou/front/ext/v1/evidenceChain/signApplyProtocol")
+    Flowable<BaseResponse<EvidenceApplyDocResBean>> signEvidenceContract(@Body EvidenceContractSignReqBean reqBean);
 }
