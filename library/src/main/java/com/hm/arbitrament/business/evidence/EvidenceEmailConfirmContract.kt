@@ -30,7 +30,7 @@ interface EvidenceEmailConfirmContract {
         /**
          * 初始化
          */
-        fun init(iouId: String?)
+        fun init(iouId: String?, justiceId: String?)
 
         /**
          * 发送验证码

@@ -8,5 +8,5 @@ class EvidenceApplyHistoryItemBean {
     var applyDateStr: String? = null
     var applyStatus: Int = 0
     var destMailAddr: String? = null
-
+    var applyId: String? = null
 }

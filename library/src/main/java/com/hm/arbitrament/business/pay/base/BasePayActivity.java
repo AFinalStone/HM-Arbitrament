@@ -20,7 +20,6 @@ import com.hm.arbitrament.R;
 import com.hm.arbitrament.R2;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
-import com.hm.iou.tools.StringUtil;
 import com.hm.iou.uikit.HMGrayDividerItemDecoration;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
@@ -147,11 +146,16 @@ public abstract class BasePayActivity<T extends MvpActivityPresenter> extends Ba
                         @Override
                         public void onNegClick() {
                             finish();
+                            onClickFinish();
                         }
                     })
                     .create();
         }
         mExitDialog.show();
+    }
+
+    protected void onClickFinish() {
+
     }
 
     @Override

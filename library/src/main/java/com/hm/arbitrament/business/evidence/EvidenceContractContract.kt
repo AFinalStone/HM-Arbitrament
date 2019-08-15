@@ -11,14 +11,20 @@ interface EvidenceContractContract {
 
     interface View : BaseContract.BaseView {
 
+        fun showDataLoading()
+
+        fun showLoadFailed(msg: CharSequence)
+
         fun showEvidenceContractDoc(pdfUrl: String)
 
+        fun showBottomButtonText(text: String)
     }
 
     interface Presenter : BaseContract.BasePresenter {
 
-        fun getEvidenceContractDoc(iouId: String)
+        fun getEvidenceContractDoc(applyId: String)
 
+        fun doSignContract(applyId: String, sealId: String, pwd: String)
     }
 
 }

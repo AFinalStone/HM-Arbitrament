@@ -4,8 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebViewClient
-import com.hm.arbitrament.EXTRA_KEY_IOU_ID
+import com.hm.arbitrament.EXTRA_EVIDENCE_APPLY_ID
 import com.hm.arbitrament.NavigationHelper
 import com.hm.arbitrament.R
 import com.hm.arbitrament.business.evidence.EvidenceContractContract
@@ -28,7 +29,7 @@ class EvidenceContractActivity : BaseActivity<EvidenceContractPresenter>(), Evid
         const val REQ_CHECK_SIGN_PWD = 100
     }
 
-    private var mIouId: String? by extraDelegate(EXTRA_KEY_IOU_ID, null)
+    private var mApplyId: String? by extraDelegate(EXTRA_EVIDENCE_APPLY_ID, null)
 
     override fun initPresenter(): EvidenceContractPresenter = EvidenceContractPresenter(this, this)
 
@@ -36,26 +37,28 @@ class EvidenceContractActivity : BaseActivity<EvidenceContractPresenter>(), Evid
 
     override fun initEventAndData(bundle: Bundle?) {
         bundle?.let {
-            mIouId = bundle.getValue(EXTRA_KEY_IOU_ID)
+            mApplyId = bundle.getValue(EXTRA_EVIDENCE_APPLY_ID)
         }
 
         initWebView()
 
-        mIouId?.let {
+        mApplyId?.let {
             mPresenter.getEvidenceContractDoc(it)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putValue(EXTRA_KEY_IOU_ID, mIouId)
+        outState?.putValue(EXTRA_EVIDENCE_APPLY_ID, mApplyId)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_CHECK_SIGN_PWD) {
             if (resultCode == Activity.RESULT_OK) {
-                //TODO 签约确认
+                val signPwd = data?.getStringExtra("pwd") ?: ""
+                val signId = data?.getStringExtra("sign_id") ?: ""
+                mPresenter.doSignContract(mApplyId ?: "", signId, signPwd)
             }
         }
     }
@@ -72,8 +75,25 @@ class EvidenceContractActivity : BaseActivity<EvidenceContractPresenter>(), Evid
         settings.userAgentString = "${settings.userAgentString};HMAndroidWebView"
     }
 
+    override fun showDataLoading() {
+        loading_view.showDataLoading()
+        wv_pdf.visibility = View.GONE
+    }
+
+    override fun showLoadFailed(msg: CharSequence) {
+        loading_view.showDataFail(msg) {
+            mPresenter.getEvidenceContractDoc(mApplyId ?: "")
+        }
+    }
+
     override fun showEvidenceContractDoc(pdfUrl: String) {
         Logger.d("pdfurl == $pdfUrl")
+        if (pdfUrl.isNullOrEmpty()) {
+            return
+        }
+        loading_view.visibility = View.GONE
+        wv_pdf.visibility = View.VISIBLE
+
         val uri = Uri.parse(pdfUrl)
         val path = uri.path
         if (path.endsWith(".pdf")) {
@@ -83,8 +103,11 @@ class EvidenceContractActivity : BaseActivity<EvidenceContractPresenter>(), Evid
             //如果是普通文件地址，则直接用WebView加载
             wv_pdf.loadUrl(pdfUrl)
         }
+    }
 
-        //doc 地址加载出来之后，设置点击事件
+    override fun showBottomButtonText(text: String) {
+        bottomBar.setTitleVisible(true)
+        bottomBar.updateTitle(text)
         bottomBar.setOnTitleClickListener {
             NavigationHelper.toCheckSignPwd(this, "输入签约密码", REQ_CHECK_SIGN_PWD)
         }

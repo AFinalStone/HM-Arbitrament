@@ -49,7 +49,7 @@ class EvidenceApplyEmailConfirmActivity : BaseActivity<EvidenceEmailConfirmPrese
             showVerifyCodeDialog()
         }
 
-        mPresenter.init(mIouId)
+        mPresenter.init(mIouId, mJusticeId)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

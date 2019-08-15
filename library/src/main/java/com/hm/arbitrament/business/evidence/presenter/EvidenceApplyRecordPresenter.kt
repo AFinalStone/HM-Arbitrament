@@ -58,6 +58,10 @@ class EvidenceApplyRecordPresenter(context: Context, view: EvidenceApplyRecordCo
                     else -> Color.parseColor("#ff2782e2")
                 }
             }
+
+            override fun getApplyId(): String? = item.applyId
+
+            override fun getStatus(): Int = item.applyStatus
         }
     }
 

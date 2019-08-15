@@ -146,7 +146,7 @@ public interface ArbitramentServer {
     Flowable<BaseResponse<List<EvidenceApplyHistoryItemBean>>> getEvidenceApplyHistory(@Body EvidenceApplyRecordReqBean reqBean);
 
     @POST("/api/iou/front/ext/v1/evidenceChain/getApplyProgress")
-    Flowable<BaseResponse<EvidenceProgressResBean>> getEvidenceApplyProgress();
+    Flowable<BaseResponse<EvidenceProgressResBean>> getEvidenceApplyProgress(@Query("applyId") String applyId);
 
     @GET("/api/iou/front/ext/v1/evidenceChain/resendEmail")
     Flowable<BaseResponse<Object>> resendEvidence(@Query("applyId") String applyId);

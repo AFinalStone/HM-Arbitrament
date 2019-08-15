@@ -7,5 +7,6 @@ class EvidenceApplyDocResBean {
 
     var contractId: String? = null
     var contractUrl: String? = null
+    var status: Int? = 0                //0-未签署，1-已签署
 
 }

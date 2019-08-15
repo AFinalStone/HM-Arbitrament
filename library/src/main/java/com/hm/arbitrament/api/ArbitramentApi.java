@@ -385,8 +385,8 @@ public class ArbitramentApi {
      *
      * @return
      */
-    public static Flowable<BaseResponse<EvidenceProgressResBean>> getEvidenceApplyProgress() {
-        return getService().getEvidenceApplyProgress().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    public static Flowable<BaseResponse<EvidenceProgressResBean>> getEvidenceApplyProgress(String applyId) {
+        return getService().getEvidenceApplyProgress(applyId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     /**

@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import com.hm.arbitrament.EXTRA_EVIDENCE_APPLY_ID
 import com.hm.arbitrament.R
 import com.hm.arbitrament.business.progress.EvidenceApplyProgressContract
 import com.hm.arbitrament.business.progress.presenter.EvidenceApplyProgressPresenter
@@ -21,11 +22,7 @@ import kotlinx.android.synthetic.main.arbitrament_activity_evidence_apply_progre
  */
 class EvidenceApplyProgressActivity : BaseActivity<EvidenceApplyProgressPresenter>(), EvidenceApplyProgressContract.View {
 
-    companion object {
-        const val EXTRA_KEY_APPLY_ID = "apply_id"
-    }
-
-    private var mApplyId: String? by extraDelegate(EXTRA_KEY_APPLY_ID, null)
+    private var mApplyId: String? by extraDelegate(EXTRA_EVIDENCE_APPLY_ID, null)
 
     private var mAdapter: ProgressAdapter? = null
 
@@ -39,7 +36,7 @@ class EvidenceApplyProgressActivity : BaseActivity<EvidenceApplyProgressPresente
 
     override fun initEventAndData(bundle: Bundle?) {
         if (bundle != null) {
-            mApplyId = bundle.getValue(EXTRA_KEY_APPLY_ID)
+            mApplyId = bundle.getValue(EXTRA_EVIDENCE_APPLY_ID)
         }
 
         rv_progress_content.layoutManager = LinearLayoutManager(this)
@@ -51,7 +48,7 @@ class EvidenceApplyProgressActivity : BaseActivity<EvidenceApplyProgressPresente
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putString(EXTRA_KEY_APPLY_ID, mApplyId)
+        outState?.putString(EXTRA_EVIDENCE_APPLY_ID, mApplyId)
     }
 
     override fun showDataLoading() {

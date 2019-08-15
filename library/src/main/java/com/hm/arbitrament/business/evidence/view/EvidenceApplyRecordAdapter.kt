@@ -14,6 +14,9 @@ interface IEvidenceApplyRecord {
 
     fun getApplyStatusTextColor(): Int
 
+    fun getApplyId(): String?
+
+    fun getStatus(): Int
 }
 
 /**

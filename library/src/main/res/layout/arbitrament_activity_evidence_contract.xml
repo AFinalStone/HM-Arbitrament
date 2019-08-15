@@ -1,26 +1,40 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    >
 
     <com.hm.iou.uikit.StatusBarView
+        android:id="@+id/view_statusbar_placeholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <WebView
         android:id="@+id/wv_pdf"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/view_statusbar_placeholder"
+        android:layout_above="@+id/bottomBar"
+        />
 
-    <View style="@style/UikitDivider.Horizontal" />
+    <com.hm.iou.uikit.HMLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        >
+    </com.hm.iou.uikit.HMLoadingView>
+
+    <View style="@style/UikitDivider.Horizontal"
+        android:layout_above="@+id/bottomBar"
+        />
 
     <com.hm.iou.uikit.HMBottomBarView
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="50dip"
-        app:bottomTitleText="立即确认" />
+        android:layout_alignParentBottom="true"
+        />
 
-</LinearLayout>
+</RelativeLayout>

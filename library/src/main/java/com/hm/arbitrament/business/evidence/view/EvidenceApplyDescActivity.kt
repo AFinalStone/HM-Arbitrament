@@ -55,11 +55,11 @@ class EvidenceApplyDescActivity : BaseActivity<EvidenceApplyDescPresenter>(), Ev
                 .setNegativeButton("稍后认证")
                 .setOnClickListener(object : HMAlertDialog.OnClickListener {
                     override fun onNegClick() {
-                        RouterUtil.clickMenuLink(this@EvidenceApplyDescActivity,
-                                "hmiou://m.54jietiao.com/login/bindemail")
                     }
 
                     override fun onPosClick() {
+                        RouterUtil.clickMenuLink(this@EvidenceApplyDescActivity,
+                                "hmiou://m.54jietiao.com/login/bindemail")
                     }
                 })
                 .create().show()

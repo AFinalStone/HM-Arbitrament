@@ -15,6 +15,9 @@ interface EvidencePayContract {
 
     interface Presenter : BaseContract.BasePresenter {
 
+        fun getEvidenceApplyOrder(iouId: String, justiceId: String, code: String)
+
+        fun payOrder()
     }
 
 }

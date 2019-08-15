@@ -2,12 +2,10 @@ package com.hm.arbitrament.business.evidence.view
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import com.hm.arbitrament.EXTRA_KEY_IOU_ID
-import com.hm.arbitrament.EXTRA_KEY_JUST_ID
-import com.hm.arbitrament.R
+import com.hm.arbitrament.*
+import com.hm.arbitrament.bean.EvidenceStatusEnum
 import com.hm.arbitrament.business.evidence.EvidenceApplyRecordContract
 import com.hm.arbitrament.business.evidence.presenter.EvidenceApplyRecordPresenter
-import com.hm.arbitrament.toEvidenceApplyEmailPage
 import com.hm.iou.base.BaseActivity
 import com.hm.iou.tools.kt.extraDelegate
 import com.hm.iou.tools.kt.getValue
@@ -45,7 +43,13 @@ class EvidenceApplyRecordActivity : BaseActivity<EvidenceApplyRecordPresenter>()
         mAdapter?.setOnItemChildClickListener { adapter, _, position ->
             val applyRecord = adapter.getItem(position) as? IEvidenceApplyRecord
             applyRecord?.let {
-
+                val evidenceStatusEnum = EvidenceStatusEnum.parse(it.getStatus())
+                if (evidenceStatusEnum == EvidenceStatusEnum.HAS_PAID) {
+                    //如果已经支付
+                    toSignEvidenceContractPage(mContext, it.getApplyId() ?: "")
+                } else {
+                    toEvidenceApplyProgressPage(mContext, it.getApplyId() ?: "")
+                }
             }
         }
 

@@ -749,6 +749,11 @@
       "url": "hmiou://m.54jietiao.com/arbitrament/index",
       "iclass": "",
       "aclass": "com.hm.arbitrament.business.index.IndexActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/arbitrament/evidence_index",
+      "iclass": "",
+      "aclass": "com.hm.arbitrament.business.evidence.view.EvidenceIndexActivity"
     }
   ]
 }
