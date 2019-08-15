@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/uikit_bg_card_form"
+    android:padding="15dip"
+    android:id="@+id/rl_evidence_content"
+    >
+
+    <TextView
+        style="@style/UikitTextView.Auxiliary.Small"
+        android:id="@+id/tv_evidence_time"
+        tools:text="2019.12.25 12:33"
+        />
+    <TextView
+        style="@style/UikitTextView"
+        android:id="@+id/tv_evidence_status"
+        android:textColor="@color/uikit_function_remind"
+        android:layout_alignParentRight="true"
+        android:text="申请成功"
+        />
+
+    <TextView
+        android:id="@+id/tv_evidence_email"
+        style="@style/UikitTextView"
+        tools:text="接收邮箱: i_bambino@163.com "
+        android:layout_below="@id/tv_evidence_time"
+        android:layout_marginTop="15dp"
+        />
+
+</RelativeLayout>

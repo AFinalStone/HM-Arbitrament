@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.hm.iou.uikit.HMTopBarView
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uikit_topbar_height"
+        app:bottomDividerIsShow="false"
+        app:titleBackground="@color/transparent"
+        app:titleText="证据链获取" />
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/topBar"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="35dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/UikitTextView"
+            android:text="邮箱" />
+
+        <TextView
+            android:id="@+id/tv_evidence_email"
+            style="@style/UikitTextView"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:maxLength="50"
+            android:singleLine="true" />
+
+        <ImageView
+            android:id="@+id/iv_select_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/uikit_icon_warn_gray" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_divider"
+        style="@style/UikitDivider.Horizontal"
+        android:layout_below="@id/ll_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp" />
+
+    <TextView
+        style="@style/UikitTextView.Auxiliary.Small"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="35dp"
+        android:text="@string/arbitrament_evidence_desc" />
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/UikitHMButton.Large.Main"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="35dp"
+        android:text="下一步" />
+
+</LinearLayout>

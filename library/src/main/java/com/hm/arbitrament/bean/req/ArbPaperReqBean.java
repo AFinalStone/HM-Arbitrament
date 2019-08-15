@@ -10,5 +10,5 @@ public class ArbPaperReqBean {
     private String mobile;
     private String cityDetail;
     private String detailAddress;
-
+    private int paperNum;
 }

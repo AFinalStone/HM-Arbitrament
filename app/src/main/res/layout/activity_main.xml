@@ -1,92 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.hm.arbitrament.demo.MainActivity">
 
+    >
 
-    <Button
-        android:id="@+id/btn_login"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="登陆" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="仲裁等待页面"
-        android:onClick="toWaitPage"
-        />
-
-    <Button
-        android:id="@+id/btn_index"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="仲裁模块的前置页面" />
-
-    <Button
-        android:id="@+id/btn_five_advantage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="5个优势" />
-
-    <Button
-        android:id="@+id/btn_pay_arb_apply_book_order"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="支付仲裁申请书订单" />
-
-    <Button
-        android:id="@+id/btn_pay_arb_apply_order"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="支付仲裁申请订单" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.hm.arbitrament.demo.MainActivity">
 
 
-    <Button
-        android:id="@+id/btn_collection_prove"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="催收证明" />
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="登陆" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="toWaitPage"
+            android:text="仲裁等待页面" />
+
+        <Button
+            android:id="@+id/btn_index"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="仲裁模块的前置页面" />
+
+        <Button
+            android:id="@+id/btn_five_advantage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5个优势" />
+
+        <Button
+            android:id="@+id/btn_pay_arb_apply_book_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="支付仲裁申请书订单" />
+
+        <Button
+            android:id="@+id/btn_pay_arb_apply_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="支付仲裁申请订单" />
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="toProgressPage"
-        android:text="仲裁进度" />
+        <Button
+            android:id="@+id/btn_collection_prove"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="催收证明" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="toAwardPage"
-        android:text="裁决书" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="toBackMoneyPage"
-        android:text="退款进度" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="toProgressPage"
+            android:text="仲裁进度" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="arbitramentSubmit"
-        android:text="仲裁提交" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="toAwardPage"
+            android:text="裁决书" />
 
-    <Button
-        android:id="@+id/btn_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="修改仲裁状态" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="toBackMoneyPage"
+            android:text="退款进度" />
 
-    <Button
-        android:id="@+id/btn_arb_server_agreement"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="仲裁服务协议" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="arbitramentSubmit"
+            android:text="仲裁提交" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="修改仲裁状态" />
+
+        <Button
+            android:id="@+id/btn_arb_server_agreement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="仲裁服务协议" />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="证据链入口"
+            android:onClick="evidenceChainIndex"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="证据链申请记录"
+            android:onClick="evidenceRecordList"
+            />
+
+    </LinearLayout>
+</ScrollView>

@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.hm.arbitrament.ConstantsKt;
 import com.hm.arbitrament.NavigationHelper;
 import com.hm.arbitrament.business.apply.view.ArbitramentServerAgreementActivity;
 import com.hm.arbitrament.business.apply.view.FiveAdvantageActivity;
 import com.hm.arbitrament.business.apply.view.InputCollectionProveActivity;
 import com.hm.arbitrament.business.apply.view.WaitMakeArbApplyBookActivity;
 import com.hm.arbitrament.business.award.ArbitralAwardActivity;
+import com.hm.arbitrament.business.evidence.view.EvidenceApplyRecordActivity;
+import com.hm.arbitrament.business.evidence.view.EvidenceIndexActivity;
 import com.hm.arbitrament.business.pay.applybook.ArbApplyBookPayActivity;
 import com.hm.arbitrament.business.pay.applysubmit.ArbApplySubmitPayActivity;
 import com.hm.arbitrament.business.progress.view.MoneyBackProgressActivity;
@@ -168,6 +171,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void toWaitPage(View v) {
         startActivity(new Intent(this, WaitMakeArbApplyBookActivity.class));
+    }
+
+    public void evidenceChainIndex(View v) {
+        Intent intent = new Intent(this, EvidenceIndexActivity.class);
+        intent.putExtra(ConstantsKt.EXTRA_KEY_IOU_ID, "123456");
+        startActivity(intent);
+    }
+
+    public void evidenceRecordList(View v) {
+        Intent intent = new Intent(this, EvidenceApplyRecordActivity.class);
+        intent.putExtra(ConstantsKt.EXTRA_KEY_IOU_ID, "123456");
+        startActivity(intent);
     }
 
 }

@@ -18,11 +18,13 @@ import com.hm.iou.tools.KeyboardUtil;
 import com.hm.iou.uikit.HMBottomBarView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.datepicker.CityPickerDialog;
+import com.hm.iou.uikit.dialog.HMActionSheetDialog;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,6 +49,7 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
     ViewStub mViewStubApplyInput;
 
     private View mInputContainer;
+    private TextView mTvCount;
     private EditText mEtName;
     private EditText mEtMobile;
     private TextView mTvCity;
@@ -130,6 +133,29 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
             mEtMobile = mInputContainer.findViewById(R.id.et_award_mobile);
             mTvCity = mInputContainer.findViewById(R.id.tv_award_city);
             mEtArr = mInputContainer.findViewById(R.id.et_award_addr);
+            mTvCount = mInputContainer.findViewById(R.id.tv_award_count);
+            mTvCount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<String> list = new ArrayList<>();
+                    for (int i = 1; i <= 10; i++) {
+                        list.add(i + "份");
+                    }
+                    new HMActionSheetDialog.Builder(ArbitralAwardActivity.this)
+                            .setActionSheetList(list)
+                            .setOnItemClickListener(new HMActionSheetDialog.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(int i, String s) {
+                                    mTvCount.setText(s);
+                                    mTvCount.setTag(R.string.app_name, i + 1);
+                                }
+                            })
+                            .setCanSelected(false)
+                            .create().show();
+
+                }
+            });
+
             mInputContainer.findViewById(R.id.ll_award_city).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -153,9 +179,10 @@ public class ArbitralAwardActivity extends BaseActivity<ArbitralAwardPresenter> 
                 public void onClickTitle() {
                     String name = mEtName.getText().toString();
                     String mobile = mEtMobile.getText().toString();
+                    Integer count = (Integer) mTvCount.getTag(R.string.app_name);
                     String city = mTvCity.getText().toString();
                     String addr = mEtArr.getText().toString();
-                    mPresenter.submitApplyInfo(mArbNo, name, mobile, city, addr);
+                    mPresenter.submitApplyInfo(mArbNo, name, count, mobile, city, addr);
                 }
             });
             bottomBarView.setOnBackClickListener(new HMBottomBarView.OnBackClickListener() {

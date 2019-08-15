@@ -39,11 +39,12 @@ public interface ArbitralAwardContract {
          *
          * @param arbNo
          * @param name
+         * @param count  数量
          * @param mobile
          * @param city
          * @param addr
          */
-        void submitApplyInfo(String arbNo, String name, String mobile, String city, String addr);
+        void submitApplyInfo(String arbNo, String name, Integer count, String mobile, String city, String addr);
 
         void toCancelApply(String applyId);
 

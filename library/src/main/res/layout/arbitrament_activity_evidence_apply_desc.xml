@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.hm.iou.uikit.HMTopBarView
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uikit_topbar_height"
+        app:bottomDividerIsShow="false"
+        app:titleBackground="@color/transparent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_ok"
+        android:layout_below="@id/topBar"
+        android:layout_marginBottom="20dp"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/arbitrament_img_evidence_desc1" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="248dp"
+                android:layout_marginTop="-13dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/arbitrament_img_evidence_desc2" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginTop="25dp"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/arbitrament_img_evidence_desc3" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_ok"
+        style="@style/UikitHMButton.Large.Black"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="38dp"
+        android:text="立即申请"
+        android:textColor="@color/white"
+        android:textSize="@dimen/uikit_main_title_text_size" />
+</RelativeLayout>

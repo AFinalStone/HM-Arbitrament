@@ -69,9 +69,13 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
     }
 
     @Override
-    public void submitApplyInfo(final String arbNo, String name, String mobile, String city, String addr) {
+    public void submitApplyInfo(final String arbNo, String name, Integer count, String mobile, String city, String addr) {
         if (TextUtils.isEmpty(name) || name.length() < 2) {
             mView.toastMessage("请输入收件人姓名");
+            return;
+        }
+        if (count == null || count <= 0) {
+            mView.toastMessage("请选择申请份数");
             return;
         }
         if (!StringUtil.matchRegex(mobile, HMConstants.REG_MOBILE)) {
@@ -91,6 +95,7 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
         reqBean.setArbApplyNo(arbNo);
         reqBean.setName(name);
         reqBean.setMobile(mobile);
+        reqBean.setPaperNum(count);
         reqBean.setCityDetail(city);
         reqBean.setDetailAddress(addr);
         ArbitramentApi.applyArbPaper(reqBean)

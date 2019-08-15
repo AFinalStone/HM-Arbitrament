@@ -95,6 +95,38 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
+        <activity
+            android:name=".business.evidence.view.EvidenceIndexActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/UikitTranslucentThemeActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <activity
+            android:name=".business.evidence.view.EvidenceApplyDescActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <activity
+            android:name=".business.evidence.view.EvidenceApplyEmailConfirmActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <activity
+            android:name=".business.pay.evidence.EvidencePayActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+        <activity
+            android:name=".business.progress.view.EvidenceApplyProgressActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
+
+        <activity
+            android:name=".business.evidence.view.EvidenceApplyRecordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+
 
     </application>
 </manifest>
