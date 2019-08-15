@@ -15,6 +15,7 @@ import com.hm.arbitrament.bean.GetArbServerAgreementResBean;
 import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
+import com.hm.arbitrament.bean.NeedSealTypeBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.ProgressResBean;
 import com.hm.arbitrament.bean.RefundInfo;
@@ -34,6 +35,7 @@ import com.hm.arbitrament.bean.req.GetArbServerAgreementReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentInputApplyDataReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentStatusReqBean;
 import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailReqBean;
+import com.hm.arbitrament.bean.req.NeedSealTypeReqBean;
 import com.hm.arbitrament.bean.req.PayArbApplyBookOrderReqBean;
 import com.hm.arbitrament.bean.req.VerifySmsReqBean;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -145,7 +147,7 @@ public interface ArbitramentServer {
     @POST("/api/iou/front/ext/v1/evidenceChain/getApplyHistories")
     Flowable<BaseResponse<List<EvidenceApplyHistoryItemBean>>> getEvidenceApplyHistory(@Body EvidenceApplyRecordReqBean reqBean);
 
-    @POST("/api/iou/front/ext/v1/evidenceChain/getApplyProgress")
+    @GET("/api/iou/front/ext/v1/evidenceChain/getApplyProgress")
     Flowable<BaseResponse<EvidenceProgressResBean>> getEvidenceApplyProgress(@Query("applyId") String applyId);
 
     @GET("/api/iou/front/ext/v1/evidenceChain/resendEmail")
@@ -153,4 +155,7 @@ public interface ArbitramentServer {
 
     @POST("/api/iou/front/ext/v1/evidenceChain/signApplyProtocol")
     Flowable<BaseResponse<EvidenceApplyDocResBean>> signEvidenceContract(@Body EvidenceContractSignReqBean reqBean);
+
+    @POST("/api/contract/v1/prepare/getNeededSealType")
+    Flowable<BaseResponse<NeedSealTypeBean>> getNeedSealType(@Body NeedSealTypeReqBean data);
 }

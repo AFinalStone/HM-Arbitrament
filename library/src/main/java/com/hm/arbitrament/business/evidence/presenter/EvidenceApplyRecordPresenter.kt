@@ -7,10 +7,14 @@ import com.hm.arbitrament.bean.EvidenceApplyHistoryItemBean
 import com.hm.arbitrament.bean.EvidenceStatusEnum
 import com.hm.arbitrament.business.evidence.EvidenceApplyRecordContract
 import com.hm.arbitrament.business.evidence.view.IEvidenceApplyRecord
+import com.hm.arbitrament.event.EvidenceSignSuccEvent
 import com.hm.iou.base.mvp.MvpActivityPresenter
 import com.hm.iou.base.utils.CommSubscriber
 import com.hm.iou.base.utils.RxUtil
 import com.trello.rxlifecycle2.android.ActivityEvent
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 /**
  * created by hjy on 2019/8/12
@@ -21,7 +25,21 @@ class EvidenceApplyRecordPresenter(context: Context, view: EvidenceApplyRecordCo
         MvpActivityPresenter<EvidenceApplyRecordContract.View>(context, view),
         EvidenceApplyRecordContract.Presenter {
 
+    private lateinit var mIouId: String
+    private lateinit var mJusticeId: String
+
+    init {
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
+
     override fun refreshApplyHistoryList(iouId: String, justiceId: String) {
+        mIouId = iouId
+        mJusticeId = justiceId
         ArbitramentApi.getEvidenceApplyHistory(iouId, justiceId)
                 .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.handleResponse())
@@ -63,6 +81,11 @@ class EvidenceApplyRecordPresenter(context: Context, view: EvidenceApplyRecordCo
 
             override fun getStatus(): Int = item.applyStatus
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEventSignSucc(event: EvidenceSignSuccEvent) {
+        refreshApplyHistoryList(mIouId, mJusticeId)
     }
 
 }

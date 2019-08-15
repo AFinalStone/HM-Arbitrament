@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.webkit.WebViewClient
 import com.hm.arbitrament.EXTRA_EVIDENCE_APPLY_ID
-import com.hm.arbitrament.NavigationHelper
 import com.hm.arbitrament.R
 import com.hm.arbitrament.business.evidence.EvidenceContractContract
 import com.hm.arbitrament.business.evidence.presenter.EvidenceContractPresenter
@@ -109,7 +108,7 @@ class EvidenceContractActivity : BaseActivity<EvidenceContractPresenter>(), Evid
         bottomBar.setTitleVisible(true)
         bottomBar.updateTitle(text)
         bottomBar.setOnTitleClickListener {
-            NavigationHelper.toCheckSignPwd(this, "输入签约密码", REQ_CHECK_SIGN_PWD)
+            mPresenter.judgeNeedSealType()
         }
     }
 }

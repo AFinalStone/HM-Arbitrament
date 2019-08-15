@@ -28,6 +28,6 @@ const val PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm"
 const val KEY_EVIDENCE_WX_PAY_CODE = "evidencesubmitpay.wxpay"
 
 //没有绑定邮箱的错误码
-const val ERR_CODE_EMAIL_NOT_AUTH = "303011"
+const val ERR_CODE_EMAIL_NOT_AUTH = "303012"
 //借条还没有到期
-const val ERR_CODE_IOU_INVALID = "303012"
+const val ERR_CODE_IOU_INVALID = "303013"

@@ -25,6 +25,8 @@ interface EvidenceContractContract {
         fun getEvidenceContractDoc(applyId: String)
 
         fun doSignContract(applyId: String, sealId: String, pwd: String)
+
+        fun judgeNeedSealType()
     }
 
 }

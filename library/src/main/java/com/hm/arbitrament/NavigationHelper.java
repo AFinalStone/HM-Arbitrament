@@ -112,6 +112,23 @@ public class NavigationHelper {
     }
 
     /**
+     * 合同签署时，选择签章以及校验签约密码
+     *
+     * @param context
+     * @param title
+     * @param sealType  签章类型，0-无限制，1-系统，2-个人，3-无需选择签章
+     * @param canCancel 能否取消返回上一页
+     * @param reqCode
+     */
+    public static void toSignContractCheckSignPwd(Activity context, String title, int sealType, boolean canCancel, int reqCode) {
+        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_v2")
+                .withString("title", title)
+                .withString("seal_type", sealType + "")
+                .withString("cancel_flag", canCancel ? "1" : "0")
+                .navigation(context, reqCode);
+    }
+
+    /**
      * 仲裁服务协议
      *
      * @param activity

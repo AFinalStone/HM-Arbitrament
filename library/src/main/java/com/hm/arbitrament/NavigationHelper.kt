@@ -1,12 +1,15 @@
 package com.hm.arbitrament
 
 import android.content.Context
+import android.net.Uri
 import com.hm.arbitrament.business.evidence.view.EvidenceApplyDescActivity
 import com.hm.arbitrament.business.evidence.view.EvidenceApplyEmailConfirmActivity
 import com.hm.arbitrament.business.evidence.view.EvidenceApplyRecordActivity
 import com.hm.arbitrament.business.evidence.view.EvidenceContractActivity
 import com.hm.arbitrament.business.pay.evidence.EvidencePayActivity
 import com.hm.arbitrament.business.progress.view.EvidenceApplyProgressActivity
+import com.hm.iou.base.BaseBizAppLike
+import com.hm.iou.router.Router
 import com.hm.iou.tools.kt.startActivity
 
 /**
@@ -86,4 +89,16 @@ fun toEvidenceApplyProgressPage(context: Context, applyId: String) {
     context.startActivity<EvidenceApplyProgressActivity>(
             EXTRA_EVIDENCE_APPLY_ID to applyId
     )
+}
+
+/**
+ * 进入手写签章设置界面
+ *
+ * @param context
+ */
+fun toSetHandlerSignature(context: Context) {
+    var routerUrl = "hmiou://m.54jietiao.com/signature/check_sign_psd?url="
+    val setSignatureUrl = "hmiou://m.54jietiao.com/signature/set_handler_signature?url=" + Uri.encode(BaseBizAppLike.getInstance().h5Server + "/EQB/index.html")
+    routerUrl = routerUrl + Uri.encode(setSignatureUrl)
+    Router.getInstance().buildWithUrl(routerUrl).navigation(context)
 }

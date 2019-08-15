@@ -15,6 +15,7 @@ import com.hm.arbitrament.bean.GetArbServerAgreementResBean;
 import com.hm.arbitrament.bean.GetArbitramentInputApplyDataResBean;
 import com.hm.arbitrament.bean.GetArbitramentStatusResBean;
 import com.hm.arbitrament.bean.GetCollectionProveResBean;
+import com.hm.arbitrament.bean.NeedSealTypeBean;
 import com.hm.arbitrament.bean.PayArbApplyBookOrderResBean;
 import com.hm.arbitrament.bean.ProgressResBean;
 import com.hm.arbitrament.bean.RefundInfo;
@@ -34,6 +35,7 @@ import com.hm.arbitrament.bean.req.GetArbServerAgreementReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentInputApplyDataReqBean;
 import com.hm.arbitrament.bean.req.GetArbitramentStatusReqBean;
 import com.hm.arbitrament.bean.req.GetElecEvidenceListDetailReqBean;
+import com.hm.arbitrament.bean.req.NeedSealTypeReqBean;
 import com.hm.arbitrament.bean.req.PayArbApplyBookOrderReqBean;
 import com.hm.arbitrament.bean.req.VerifySmsReqBean;
 import com.hm.iou.network.HttpReqManager;
@@ -413,6 +415,20 @@ public class ArbitramentApi {
         reqBean.setSealId(sealId);
         reqBean.setTransPswd(pwd);
         return getService().signEvidenceContract(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取签署需要的签章类型
+     *
+     * @param id        合同体系传扩展合同id; 借条体系传借条id
+     * @param sceneType 0-合同表，1-借条表
+     * @return
+     */
+    public static Flowable<BaseResponse<NeedSealTypeBean>> getNeedSealType(String id, int sceneType) {
+        NeedSealTypeReqBean req = new NeedSealTypeReqBean();
+        req.setCode(id);
+        req.setSceneType(sceneType);
+        return getService().getNeedSealType(req).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }

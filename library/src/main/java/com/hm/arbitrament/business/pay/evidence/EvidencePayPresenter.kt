@@ -168,7 +168,7 @@ class EvidencePayPresenter(context: Context, view: EvidencePayActivity) :
                 .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.handleResponse())
                 .subscribeWith(object : CommSubscriber<String>(mView) {
-                    override fun handleResult(code: String) {
+                    override fun handleResult(code: String?) {
                         mView.dismissLoadingView()
                         if (OrderPayStatusEnumBean.PaySuccess.status == code) {
                             toSignContractPage()
@@ -179,7 +179,7 @@ class EvidencePayPresenter(context: Context, view: EvidencePayActivity) :
                         }
                     }
 
-                    override fun handleException(throwable: Throwable, code: String, errorMsg: String) {
+                    override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
                         mView.dismissLoadingView()
                     }
 
@@ -195,7 +195,7 @@ class EvidencePayPresenter(context: Context, view: EvidencePayActivity) :
                 .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.handleResponse())
                 .subscribeWith(object : CommSubscriber<String>(mView) {
-                    override fun handleResult(code: String) {
+                    override fun handleResult(code: String?) {
                         mView.dismissLoadingView()
                         if (OrderPayStatusEnumBean.PaySuccess.status == code) {
                             toSignContractPage()
@@ -206,7 +206,7 @@ class EvidencePayPresenter(context: Context, view: EvidencePayActivity) :
                         }
                     }
 
-                    override fun handleException(throwable: Throwable, code: String, errorMsg: String) {
+                    override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
                         mView.dismissLoadingView()
                     }
 
@@ -220,7 +220,7 @@ class EvidencePayPresenter(context: Context, view: EvidencePayActivity) :
      * 开始签署合同
      */
     private fun toSignContractPage() {
-        toSignEvidenceContractPage(mContext,mApplyId ?: "")
+        toSignEvidenceContractPage(mContext, mApplyId ?: "")
     }
 
     /**
