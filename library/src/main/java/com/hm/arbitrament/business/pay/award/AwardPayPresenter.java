@@ -67,9 +67,9 @@ public class AwardPayPresenter extends MvpActivityPresenter<AwardPayActivity> im
     }
 
     @Override
-    public void getArbPaperApplyOrderInfo() {
+    public void getArbPaperApplyOrderInfo(String arbPaperId) {
         mView.showInitLoadingView();
-        ArbitramentApi.getArbPaperPackage()
+        ArbitramentApi.getArbPaperPackage(arbPaperId)
                 .compose(getProvider().<BaseResponse<GetArbApplyBookOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<GetArbApplyBookOrderResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<GetArbApplyBookOrderResBean>(mView) {

@@ -1,6 +1,6 @@
 package com.hm.arbitrament.business.evidence
 
-import com.hm.arbitrament.business.evidence.view.IApplyRecord
+import com.hm.arbitrament.business.evidence.view.IEvidenceApplyRecord
 import com.hm.iou.base.mvp.BaseContract
 
 /**
@@ -17,7 +17,7 @@ interface EvidenceApplyRecordContract {
         /**
          * 显示申请记录列表
          */
-        fun showApplyList(list: List<IApplyRecord>)
+        fun showApplyList(list: List<IEvidenceApplyRecord>)
 
     }
 
@@ -26,7 +26,7 @@ interface EvidenceApplyRecordContract {
         /**
          * 刷新证据链申请列表
          */
-        fun refreshApplyHistoryList(iouId: String)
+        fun refreshApplyHistoryList(iouId: String, justiceId: String)
 
     }
 

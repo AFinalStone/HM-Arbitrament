@@ -7,7 +7,6 @@ import com.hm.arbitrament.EXTRA_KEY_JUST_ID
 import com.hm.arbitrament.R
 import com.hm.arbitrament.business.evidence.EvidenceApplyDescContract
 import com.hm.arbitrament.business.evidence.presenter.EvidenceApplyDescPresenter
-import com.hm.arbitrament.toEvidenceApplyEmailPage
 import com.hm.iou.base.BaseActivity
 import com.hm.iou.base.utils.RouterUtil
 import com.hm.iou.tools.kt.click
@@ -38,10 +37,7 @@ class EvidenceApplyDescActivity : BaseActivity<EvidenceApplyDescPresenter>(), Ev
         }
 
         btn_ok.click {
-            mIouId?.let {
-                toEvidenceApplyEmailPage(this, it)
-                finish()
-            }
+            mPresenter.checkStatusBeforeApply(mIouId, mJusticeId)
         }
     }
 

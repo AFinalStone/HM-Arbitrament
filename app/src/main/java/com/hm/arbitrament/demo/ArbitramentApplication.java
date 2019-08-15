@@ -28,7 +28,7 @@ public class ArbitramentApplication extends Application {
 //                "http:dev.54jietiao.com");
 //        appLike.initServer("http://re.54jietiao.com", "http://re.54jietiao.com",
 //                "http://re.54jietiao.com");
-        appLike.initServer("http://192.168.1.107:3000", "http://192.168.1.107:3000",
+        appLike.initServer("http://branch.54jietiao.com", "http://192.168.1.107:3000",
                 "http://192.168.1.107:3000");
         initNetwork();
     }

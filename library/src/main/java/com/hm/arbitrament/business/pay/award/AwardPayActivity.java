@@ -11,8 +11,10 @@ import com.hm.arbitrament.business.pay.base.BasePayActivity;
 public class AwardPayActivity extends BasePayActivity<AwardPayPresenter> implements AwardPayContract.View {
 
     public static final String EXTRA_KEY_ORDER_ID = "order_id";
+    public static final String EXTRA_KEY_ARBPAPER_ID = "arbpaper_id";
 
     private String mOrderId;
+    private String mArbPaperId;
 
     @Override
     protected AwardPayPresenter initPresenter() {
@@ -22,21 +24,24 @@ public class AwardPayActivity extends BasePayActivity<AwardPayPresenter> impleme
     @Override
     protected void init(Bundle bundle) {
         mOrderId = getIntent().getStringExtra(EXTRA_KEY_ORDER_ID);
+        mArbPaperId = getIntent().getStringExtra(EXTRA_KEY_ARBPAPER_ID);
         if (bundle != null) {
             mOrderId = bundle.getString(EXTRA_KEY_ORDER_ID);
+            mArbPaperId = bundle.getString(EXTRA_KEY_ARBPAPER_ID);
         }
-        mPresenter.getArbPaperApplyOrderInfo();
+        mPresenter.getArbPaperApplyOrderInfo(mArbPaperId);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_ORDER_ID, mOrderId);
+        outState.putString(EXTRA_KEY_ARBPAPER_ID, mArbPaperId);
     }
 
     @Override
     protected void refresh() {
-        mPresenter.getArbPaperApplyOrderInfo();
+        mPresenter.getArbPaperApplyOrderInfo(mArbPaperId);
     }
 
     @Override

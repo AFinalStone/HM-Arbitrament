@@ -279,8 +279,8 @@ public class ArbitramentApi {
         return getService().createArbApplyOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbPaperPackage() {
-        return getService().getArbPaperPackage().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    public static Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbPaperPackage(String arbPaperId) {
+        return getService().getArbPaperPackage(arbPaperId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     public static Flowable<BaseResponse<String>> createArbPaperOrder(String arbNo, String arbPaperId) {

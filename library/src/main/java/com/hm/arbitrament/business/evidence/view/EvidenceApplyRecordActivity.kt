@@ -40,17 +40,17 @@ class EvidenceApplyRecordActivity : BaseActivity<EvidenceApplyRecordPresenter>()
         rv_evidence_content.layoutManager = LinearLayoutManager(this)
         rv_evidence_content.adapter = mAdapter
         smartrl_evidence_list.setOnRefreshListener {
-            mPresenter.refreshApplyHistoryList(mIouId ?: "")
+            mPresenter.refreshApplyHistoryList(mIouId ?: "", mJusticeId ?: "")
         }
         mAdapter?.setOnItemChildClickListener { adapter, _, position ->
-            val applyRecord = adapter.getItem(position) as? IApplyRecord
+            val applyRecord = adapter.getItem(position) as? IEvidenceApplyRecord
             applyRecord?.let {
 
             }
         }
 
         bottomBar.setOnTitleClickListener {
-            toEvidenceApplyEmailPage(this, mIouId ?: "")
+            toEvidenceApplyEmailPage(this, mIouId ?: "", mJusticeId ?: "")
         }
 
         smartrl_evidence_list.autoRefresh()
@@ -66,7 +66,7 @@ class EvidenceApplyRecordActivity : BaseActivity<EvidenceApplyRecordPresenter>()
         smartrl_evidence_list.finishRefresh()
     }
 
-    override fun showApplyList(list: List<IApplyRecord>) {
+    override fun showApplyList(list: List<IEvidenceApplyRecord>) {
         mAdapter?.setNewData(list)
     }
 }

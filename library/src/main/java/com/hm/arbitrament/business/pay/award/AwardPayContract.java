@@ -14,7 +14,7 @@ public class AwardPayContract {
 
     public interface Presenter extends BaseContract.BasePresenter {
 
-        void getArbPaperApplyOrderInfo();
+        void getArbPaperApplyOrderInfo(String arbPaperId);
 
         /**
          * 进行订单支付

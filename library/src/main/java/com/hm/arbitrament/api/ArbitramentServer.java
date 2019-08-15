@@ -116,7 +116,7 @@ public interface ArbitramentServer {
     Flowable<BaseResponse<CreateArbApplyOrderResBean>> createArbApplyOrder(@Body CreateApplyOrderReqBean reqBean);
 
     @GET("/api/arb/v1/order/getArbPaperPackage")
-    Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbPaperPackage();
+    Flowable<BaseResponse<GetArbApplyBookOrderResBean>> getArbPaperPackage(@Query("arbPaperId") String arbPaperId);
 
     @POST("/api/arb/v1/order/createArbPaperOrder")
     Flowable<BaseResponse<String>> createArbPaperOrder(@Body CreateArbPaperOrderReqBean reqBean);

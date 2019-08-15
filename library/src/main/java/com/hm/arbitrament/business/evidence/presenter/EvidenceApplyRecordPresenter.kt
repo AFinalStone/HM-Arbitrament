@@ -2,9 +2,15 @@ package com.hm.arbitrament.business.evidence.presenter
 
 import android.content.Context
 import android.graphics.Color
+import com.hm.arbitrament.api.ArbitramentApi
+import com.hm.arbitrament.bean.EvidenceApplyHistoryItemBean
+import com.hm.arbitrament.bean.EvidenceStatusEnum
 import com.hm.arbitrament.business.evidence.EvidenceApplyRecordContract
-import com.hm.arbitrament.business.evidence.view.IApplyRecord
+import com.hm.arbitrament.business.evidence.view.IEvidenceApplyRecord
 import com.hm.iou.base.mvp.MvpActivityPresenter
+import com.hm.iou.base.utils.CommSubscriber
+import com.hm.iou.base.utils.RxUtil
+import com.trello.rxlifecycle2.android.ActivityEvent
 
 /**
  * created by hjy on 2019/8/12
@@ -15,57 +21,44 @@ class EvidenceApplyRecordPresenter(context: Context, view: EvidenceApplyRecordCo
         MvpActivityPresenter<EvidenceApplyRecordContract.View>(context, view),
         EvidenceApplyRecordContract.Presenter {
 
-
-
-    override fun refreshApplyHistoryList(iouId: String) {
-        var list = mutableListOf<IApplyRecord>()
-        for (i in 0..10) {
-            list.add(object : IApplyRecord {
-                override fun getApplyTime(): String {
-                    return "2019-12-12 12:23"
-                }
-
-                override fun getApplyEmail(): String {
-                    return "接收邮箱：hjy_0502@163.com"
-                }
-
-                override fun getApplyStatus(): String {
-                    return "申请成功"
-                }
-
-                override fun getApplyStatusTextColor(): Int {
-                    return Color.parseColor("#FFEF5350")
-                }
-            })
-        }
-
-        mView.showApplyList(list)
-        mView.finishRefresh()
-
-        /*
-        ArbitramentApi.getArbPaperList(iouId)
+    override fun refreshApplyHistoryList(iouId: String, justiceId: String) {
+        ArbitramentApi.getEvidenceApplyHistory(iouId, justiceId)
                 .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.handleResponse())
-                .subscribeWith(object : CommSubscriber<List<ArbPaperApplyInfo>>(mView) {
-                    override fun handleResult(dataList: List<ArbPaperApplyInfo>?) {
+                .subscribeWith(object : CommSubscriber<List<EvidenceApplyHistoryItemBean>>(mView) {
+                    override fun handleResult(dataList: List<EvidenceApplyHistoryItemBean>?) {
                         mView.finishRefresh()
-                       // val list = ArrayList<ArbitralAwardListAdapter.IArbitralAwardListItem>()
-                        /*if (dataList != null) {
-                            for (data in dataList) {
-                                list.add(convertData(data))
+                        val list = mutableListOf<IEvidenceApplyRecord>()
+                        dataList?.let {
+                            for (item in dataList) {
+                                list.add(convertData(item))
                             }
                         }
                         mView.showApplyList(list)
-                        if (list.isEmpty()) {
-                            mView.showApplyInputView()
-                        }*/
                     }
 
-                    override fun handleException(throwable: Throwable, s: String, s1: String) {
+                    override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
                         mView.finishRefresh()
                     }
                 })
-                */
+    }
+
+    fun convertData(item: EvidenceApplyHistoryItemBean): IEvidenceApplyRecord {
+        return object : IEvidenceApplyRecord {
+            override fun getApplyTime(): String? = item.applyDateStr
+
+            override fun getApplyEmail(): String? = item.destMailAddr
+
+            override fun getApplyStatus(): String = EvidenceStatusEnum.parse(item.applyStatus).desc
+
+            override fun getApplyStatusTextColor(): Int {
+                return when (EvidenceStatusEnum.parse(item.applyStatus)) {
+                    EvidenceStatusEnum.APPLY_SUCCESS -> Color.parseColor("#ffef5350")
+                    EvidenceStatusEnum.COMPLETE -> Color.parseColor("#ff9b9b9b")
+                    else -> Color.parseColor("#ff2782e2")
+                }
+            }
+        }
     }
 
 }

@@ -24,6 +24,8 @@ interface EvidenceApplyDescContract {
 
     interface Presenter : BaseContract.BasePresenter {
 
+        fun checkStatusBeforeApply(iouId: String?, justiceId: String?)
+
     }
 
 }

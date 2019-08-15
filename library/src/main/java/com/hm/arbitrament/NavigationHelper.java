@@ -343,9 +343,10 @@ public class NavigationHelper {
      * @param context
      * @param orderId
      */
-    public static void toAwardPagePage(Context context, String orderId) {
+    public static void toAwardPagePage(Context context, String orderId, String arbPaperId) {
         Intent intent = new Intent(context, AwardPayActivity.class);
         intent.putExtra(AwardPayActivity.EXTRA_KEY_ORDER_ID, orderId);
+        intent.putExtra(AwardPayActivity.EXTRA_KEY_ARBPAPER_ID, arbPaperId);
         context.startActivity(intent);
     }
 

@@ -15,7 +15,7 @@ interface EvidenceIndexContract {
 
     interface Presenter : BaseContract.BasePresenter {
 
-        fun getEvidenceStatus(iouId: String)
+        fun getEvidenceStatus(iouId: String, justiceId: String)
 
     }
 

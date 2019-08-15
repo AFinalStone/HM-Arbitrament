@@ -4,11 +4,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.hm.arbitrament.R
 
-interface IApplyRecord {
+interface IEvidenceApplyRecord {
 
-    fun getApplyTime(): String
+    fun getApplyTime(): String?
 
-    fun getApplyEmail(): String
+    fun getApplyEmail(): String?
 
     fun getApplyStatus(): String
 
@@ -19,10 +19,9 @@ interface IApplyRecord {
 /**
  * 证据链申请记录adapter
  */
-class EvidenceApplyRecordAdapter constructor() :
-        BaseQuickAdapter<IApplyRecord, BaseViewHolder>(R.layout.arbitrament_item_evidence_record) {
+class EvidenceApplyRecordAdapter: BaseQuickAdapter<IEvidenceApplyRecord, BaseViewHolder>(R.layout.arbitrament_item_evidence_record) {
 
-    override fun convert(helper: BaseViewHolder?, item: IApplyRecord?) {
+    override fun convert(helper: BaseViewHolder?, item: IEvidenceApplyRecord?) {
         helper?.let {
             it.setText(R.id.tv_evidence_time, item?.getApplyTime())
             it.setText(R.id.tv_evidence_email, item?.getApplyEmail())

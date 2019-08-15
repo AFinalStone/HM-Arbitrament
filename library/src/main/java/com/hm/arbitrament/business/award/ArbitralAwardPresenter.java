@@ -140,7 +140,7 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
         createOrder(mArbNo, applyId);
     }
 
-    private void createOrder(String arbApplyNo, String arbPaperId) {
+    private void createOrder(String arbApplyNo, final String arbPaperId) {
         ArbitramentApi.createArbPaperOrder(arbApplyNo, arbPaperId)
                 .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<String>handleResponse())
@@ -148,7 +148,7 @@ public class ArbitralAwardPresenter extends MvpActivityPresenter<ArbitralAwardCo
                     @Override
                     public void handleResult(String orderId) {
                         mView.dismissLoadingView();
-                        NavigationHelper.toAwardPagePage(mContext, orderId);
+                        NavigationHelper.toAwardPagePage(mContext, orderId, arbPaperId);
                     }
 
                     @Override

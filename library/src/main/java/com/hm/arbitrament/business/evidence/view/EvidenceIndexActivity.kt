@@ -29,19 +29,13 @@ class EvidenceIndexActivity : BaseActivity<EvidenceIndexPresenter>(), EvidenceIn
             mIouId = bundle.getValue(EXTRA_KEY_IOU_ID)
             mJusticeId = bundle.getValue(EXTRA_KEY_JUST_ID)
         }
-
-        if (mIouId.isNullOrEmpty()) {
-            finish()
-        } else {
-            mPresenter.getEvidenceStatus(mIouId!!)
-        }
+        mPresenter.getEvidenceStatus(mIouId ?: "", mJusticeId ?: "")
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState?.putValue(EXTRA_KEY_IOU_ID, mIouId)
         outState?.putValue(EXTRA_KEY_JUST_ID, mJusticeId)
-
     }
 
 }
