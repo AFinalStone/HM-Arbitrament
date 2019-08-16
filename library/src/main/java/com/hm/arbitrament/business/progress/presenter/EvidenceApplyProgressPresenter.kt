@@ -7,10 +7,12 @@ import com.hm.arbitrament.api.ArbitramentApi
 import com.hm.arbitrament.bean.EvidenceProgressResBean
 import com.hm.arbitrament.business.progress.EvidenceApplyProgressContract
 import com.hm.arbitrament.business.progress.view.ProgressAdapter
+import com.hm.arbitrament.event.EvidenceResendSuccEvent
 import com.hm.iou.base.mvp.MvpActivityPresenter
 import com.hm.iou.base.utils.CommSubscriber
 import com.hm.iou.base.utils.RxUtil
 import com.trello.rxlifecycle2.android.ActivityEvent
+import org.greenrobot.eventbus.EventBus
 
 /**
  * created by hjy on 2019/8/12
@@ -76,12 +78,11 @@ class EvidenceApplyProgressPresenter(context: Context, view: EvidenceApplyProgre
 
                         mView.showProgressList(list)
 
+                        mView.removeFooterTips()
                         if (data?.nextOperType == 1) {
                             mView.addFooterTips("申请补发", View.OnClickListener {
                                 applyEvidenceAgain()
                             })
-                        } else {
-                            mView.removeFooterTips()
                         }
                     }
 
@@ -103,6 +104,7 @@ class EvidenceApplyProgressPresenter(context: Context, view: EvidenceApplyProgre
                     override fun handleResult(p0: Any?) {
                         mView.dismissLoadingView()
                         mView.toastMessage("申请补发成功")
+                        EventBus.getDefault().post(EvidenceResendSuccEvent())
                         loadProgressData(mEvidenceApplyId)
                     }
 

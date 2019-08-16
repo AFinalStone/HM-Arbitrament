@@ -7,6 +7,7 @@ import com.hm.arbitrament.bean.EvidenceApplyHistoryItemBean
 import com.hm.arbitrament.bean.EvidenceStatusEnum
 import com.hm.arbitrament.business.evidence.EvidenceApplyRecordContract
 import com.hm.arbitrament.business.evidence.view.IEvidenceApplyRecord
+import com.hm.arbitrament.event.EvidenceResendSuccEvent
 import com.hm.arbitrament.event.EvidenceSignSuccEvent
 import com.hm.iou.base.mvp.MvpActivityPresenter
 import com.hm.iou.base.utils.CommSubscriber
@@ -85,6 +86,11 @@ class EvidenceApplyRecordPresenter(context: Context, view: EvidenceApplyRecordCo
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEventSignSucc(event: EvidenceSignSuccEvent) {
+        refreshApplyHistoryList(mIouId, mJusticeId)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEventResendEmailSucc(event: EvidenceResendSuccEvent) {
         refreshApplyHistoryList(mIouId, mJusticeId)
     }
 

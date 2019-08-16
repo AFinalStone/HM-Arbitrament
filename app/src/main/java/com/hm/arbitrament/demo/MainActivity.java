@@ -139,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
         String pwd = MD5.hexdigest("123456".getBytes());
         MobileLoginReqBean reqBean = new MobileLoginReqBean();
 //        reqBean.setMobile("13186975702");
-//        reqBean.setMobile("15967132742");
-        reqBean.setMobile("15267163669");
-        reqBean.setMobile("19941368870");
+        reqBean.setMobile("15967132742");
+//        reqBean.setMobile("15267163669");
+//        reqBean.setMobile("19941368870");
 
         reqBean.setQueryPswd(pwd);
         HttpReqManager.getInstance().getService(LoginService.class)
@@ -175,8 +175,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void evidenceChainIndex(View v) {
         Intent intent = new Intent(this, EvidenceIndexActivity.class);
+ /*
+        19941368870账号
         intent.putExtra(ConstantsKt.EXTRA_KEY_IOU_ID, "438a0d34280e4d09bd66ed3cb585ea83");
-        intent.putExtra(ConstantsKt.EXTRA_KEY_JUST_ID, "190619175505000463");
+        intent.putExtra(ConstantsKt.EXTRA_KEY_JUST_ID, "190619175505000463");*/
+
+        //15967132742账号
+        intent.putExtra(ConstantsKt.EXTRA_KEY_IOU_ID, "4a13beeba79c45aeae70e98cfa3e8699");
+        intent.putExtra(ConstantsKt.EXTRA_KEY_JUST_ID, "190619175035000463");
+
         startActivity(intent);
     }
 
