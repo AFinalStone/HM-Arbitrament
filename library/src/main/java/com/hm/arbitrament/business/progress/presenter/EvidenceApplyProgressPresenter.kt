@@ -103,7 +103,7 @@ class EvidenceApplyProgressPresenter(context: Context, view: EvidenceApplyProgre
                 .subscribeWith(object : CommSubscriber<Any>(mView) {
                     override fun handleResult(p0: Any?) {
                         mView.dismissLoadingView()
-                        mView.toastMessage("申请补发成功")
+                        mView.toastMessage("已成功补发至您约定的邮箱中")
                         EventBus.getDefault().post(EvidenceResendSuccEvent())
                         loadProgressData(mEvidenceApplyId)
                     }

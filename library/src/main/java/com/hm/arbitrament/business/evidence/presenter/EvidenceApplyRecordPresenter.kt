@@ -64,17 +64,17 @@ class EvidenceApplyRecordPresenter(context: Context, view: EvidenceApplyRecordCo
 
     fun convertData(item: EvidenceApplyHistoryItemBean): IEvidenceApplyRecord {
         return object : IEvidenceApplyRecord {
-            override fun getApplyTime(): String? = item.applyDateStr
+            override fun getApplyTime(): String? = item.applyDateStr?.replace("-", ".")
 
-            override fun getApplyEmail(): String? = item.destMailAddr
+            override fun getApplyEmail(): String? = "接收邮箱：${item.destMailAddr}"
 
             override fun getApplyStatus(): String = EvidenceStatusEnum.parse(item.applyStatus).desc
 
             override fun getApplyStatusTextColor(): Int {
                 return when (EvidenceStatusEnum.parse(item.applyStatus)) {
-                    EvidenceStatusEnum.APPLY_SUCCESS -> Color.parseColor("#ffef5350")
-                    EvidenceStatusEnum.COMPLETE -> Color.parseColor("#ff9b9b9b")
-                    else -> Color.parseColor("#ff2782e2")
+                    EvidenceStatusEnum.APPLY_SUCCESS -> Color.parseColor("#ff2782e2")
+                    EvidenceStatusEnum.HAS_PAID -> Color.parseColor("#ffef5350")
+                    else -> Color.parseColor("#ff9b9b9b")
                 }
             }
 
