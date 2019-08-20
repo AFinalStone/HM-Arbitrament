@@ -72,9 +72,9 @@ class EvidenceApplyRecordPresenter(context: Context, view: EvidenceApplyRecordCo
 
             override fun getApplyStatusTextColor(): Int {
                 return when (EvidenceStatusEnum.parse(item.applyStatus)) {
-                    EvidenceStatusEnum.APPLY_SUCCESS -> Color.parseColor("#ff2782e2")
                     EvidenceStatusEnum.HAS_PAID -> Color.parseColor("#ffef5350")
-                    else -> Color.parseColor("#ff9b9b9b")
+                    EvidenceStatusEnum.COMPLETE -> Color.parseColor("#ff9b9b9b")
+                    else -> Color.parseColor("#ff2782e2")
                 }
             }
 
